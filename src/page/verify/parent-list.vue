@@ -191,6 +191,7 @@ export default {
           this.myData = res.data;
 
           //this.pageprops.total = res.data.total;
+          
         }
       })
     }
