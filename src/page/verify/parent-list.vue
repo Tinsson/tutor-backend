@@ -189,6 +189,7 @@ export default {
         this.tableLoading = false;
         if(res) {
           this.myData = res.data;
+          
           //this.pageprops.total = res.data.total;
         }
       })
