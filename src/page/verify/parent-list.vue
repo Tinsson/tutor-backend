@@ -94,6 +94,7 @@ export default {
           title: '操作',
           key: 'operation',
           align: 'center',
+          width: '350',
           render: (h, params) => {
             return h('div', [
               h('Button', {
@@ -168,7 +169,7 @@ export default {
       this.select_arr = selection
     },
     search(data) {
-      this.searchForm = data;
+      Object.assign(this.searchForm, data);
       this.getData();
     },
     refresh() {
@@ -191,7 +192,7 @@ export default {
           this.myData = res.data;
 
           //this.pageprops.total = res.data.total;
-          
+
         }
       })
     }
