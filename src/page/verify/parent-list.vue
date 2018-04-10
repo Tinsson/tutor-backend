@@ -190,7 +190,7 @@ export default {
         if(res) {
           this.myData = res.data;
 
-          //this.pageprops.total = res.data.total
+          //this.pageprops.total = res.data.total;
         }
       })
     }
