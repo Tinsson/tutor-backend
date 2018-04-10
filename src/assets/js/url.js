@@ -9,7 +9,8 @@ const urlList = {
   'forbid':'/backend/user/forbid',//冻结接口
 
   //审核列表
-  'verify-parent-list': '/backend/audit/parlist' //家长审核列表
+  'verify-parent-list': '/backend/audit/parlist', //家长审核列表
+  'verify-tutor-list': '/backend/audit/tutorlist', //家教审核列表
 
 }
 

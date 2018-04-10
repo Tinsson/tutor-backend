@@ -14,6 +14,7 @@ import user from '@/page/user/user' //用户管理
 
 //审核管理
 import verifyParent from '@/page/verify/parent-list' //审核家长
+import verifyTutor from '@/page/verify/tutor-list'  //审核家教
 
 //投诉管理
 import complain from '@/page/complain/complain'
@@ -63,6 +64,10 @@ const router = new Router({
           path: '/verify/parent-list',
           name: 'verifyParent',
           component: verifyParent
+        },{
+          path: '/verify/tutor-list',
+          name: 'verifyTutor',
+          component: verifyTutor
         },{
           path: '/complain/complain',
           name: 'complain',
