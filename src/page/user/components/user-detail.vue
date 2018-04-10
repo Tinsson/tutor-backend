@@ -1,6 +1,6 @@
 <template>
   <div id="userDetail">
-    <Modal v-model="if_show" title="用户详情" width="1200px" class-name="no-auto">
+    <Modal v-model="if_show" title="用户详情12" width="1200px" class-name="no-auto">
       <div class="user-detail-container">
         <div class="left">
           <table-card :columns="cardColumns" :data="cardData" @change="card_change"></table-card>
@@ -11,7 +11,7 @@
         </div>
         <div class="right">
           <Tabs>
-            <TabPane label="个人资料">
+            <TabPane label="个人资料1">
               <div class="tab-container">
                 <div class="input-group">
                   <div class="label">
