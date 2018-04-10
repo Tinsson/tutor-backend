@@ -1,0 +1,11 @@
+.font-12 textarea.ivu-input{
+  font-size:12px;
+}
+
+.ivu-poptip-body{display:flex;}
+div .ivu-poptip-confirm .ivu-poptip-body .ivu-icon{
+  position:relative;
+}
+div .ivu-poptip-confirm .ivu-poptip-body-message {
+  padding-left: 6px;
+}

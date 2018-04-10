@@ -1,0 +1,38 @@
+*, :before, :after {
+  box-sizing: border-box;
+}
+
+body {
+  font-size:12px;
+  min-height:100vh;
+  background-color:#f8f8f8!important;
+}
+
+
+input {
+  border: none;
+  outline: none;
+}
+
+
+
+/*input::-webkit-input-placeholder {
+  color: #ddd;
+  font-size: 28px;
+}*/
+
+input, div {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.background-contain{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.background-cover{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
