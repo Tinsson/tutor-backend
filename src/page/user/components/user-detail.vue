@@ -11,7 +11,7 @@
         </div>
         <div class="right">
           <Tabs>
-            <TabPane label="个人资料1">
+            <TabPane label="个人资料122">
               <div class="tab-container">
                 <div class="input-group">
                   <div class="label">
