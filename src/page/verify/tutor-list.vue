@@ -106,7 +106,7 @@ export default {
                 },
                 on: {
                   click: () => {
-
+                    this.passVerify()
                   }
                 }
               }, '通过'),
@@ -198,6 +198,9 @@ export default {
 
         }
       })
+    },
+    passVerify(){
+
     }
   },
   mounted() {
