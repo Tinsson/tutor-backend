@@ -103,7 +103,7 @@ export default {
                 },
                 on: {
                   click: () => {
-
+                    this.passVerify(params.row.id, 1);
                   }
                 }
               }, '通过'),
@@ -113,7 +113,7 @@ export default {
                 },
                 on: {
                   click: () => {
-
+                    this.passVerify(params.row.id, 0);
                   }
                 }
               }, '不通过')
@@ -193,6 +193,17 @@ export default {
 
           //this.pageprops.total = res.data.total;
 
+        }
+      })
+    },
+    passVerify(id ,status){
+      this.axios.post("set-parent-status", {
+        id,
+        status
+      }).then(d=>{
+        if(d.status === 1){
+          this.$Message.success(d.message);
+          this.getData();
         }
       })
     }
