@@ -36,3 +36,18 @@ input, div {
   background-position: center;
   background-size: cover;
 }
+
+.table_ipt{
+  display: inline-block;
+  width: 100%;
+  height: 32px;
+  line-height: 1.5;
+  padding: 4px 7px;
+  font-size: 12px;
+  border: 1px solid #dddee1;
+  border-radius: 4px;
+  color: #495060;
+  background-color: #fff;
+  background-image: none;
+  position: relative;
+}

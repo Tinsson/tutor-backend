@@ -1,6 +1,6 @@
 <template>
   <div id="income-detail">
-    <title-bar title="投诉列表" @refresh="refresh"></title-bar>
+    <title-bar title="认证支付流水" @refresh="refresh"></title-bar>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
         <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
@@ -16,91 +16,67 @@ export default {
       columns: [
         {
           title: '序号',
-          key: 'id',
+          key: 'nickname',
           align: 'center'
         }, {
           title: '昵称',
           key: 'nickname',
           align: 'center'
-        },{
-          title: '头像',
-          key: 'avatar',
-          align: 'center',
-          render(h, params){
-            return h('img',{
-              style: {
-                width: '50px',
-                height: '50px'
-              },
-              attrs: {
-                src: params.row.portrait
-              }
-            })
-          }
         }, {
-          title: '微信号',
-          key: 'wechat',
-          align: 'center'
-        },{
           title: '手机号',
           key: 'phone',
           align: 'center'
         },{
-          title: '投诉项',
-          key: 'type',
+          title: '姓名',
+          key: 'body_name',
           align: 'center'
         },{
-          title: '投诉备注',
-          key: 'remark',
+          title: '时间',
+          key: 'addtime',
           align: 'center'
         },{
-          title: '截图',
-          key: 'img',
-          align: 'center',
-          render(h, params){
-            return h('img',{
-              style: {
-                width: '50px',
-                height: '50px'
-              },
-              attrs: {
-                src: params.row.img
-              }
-            })
-          }
+          title: '微信订单流水号',
+          key: 'wx_order_sn',
+          align: 'center'
         },{
-          title: '操作',
-          key: 'operation',
-          align: 'center',
-          render: (h, params)=>{
-            let status = params.row.status;
-            if(status === 0){
-              return h('Button', {
-                props: {
-                  type: 'warning'
-                },
-                on: {
-                  click: () => {
-                    this.setStatus(params.row.id);
-                  }
-                }
-              },'待处理')
-            }else{
-              return h('span', '已处理')
-            }
-          }
+          title: '支付金额',
+          key: 'amount',
+          align: 'center'
+        },{
+          title: '支付状态',
+          key: 'status',
+          align: 'center'
+        },{
+          title: '认证状态',
+          key: 'rz_status',
+          align: 'center'
         }
       ],
       myData: [],
       tableLoading: false,
       searchList: [
         {
-          label: '投诉项',
+          label: '用户手机号',
           type: 'input',
-          placeholder: '输入关键词',
-          model: 'keyword'
+          placeholder: '输入手机号',
+          model: 'phone'
         },{
-          label: '生成时间',
+          label: '支付状态',
+          type: 'select',
+          placeholder: '请选择',
+          options: [{
+            label: '取消',
+            value: -1
+          },{
+            label: '成功',
+            value: 1
+          },{
+            label: '失败',
+            value: 2
+          }],
+          model: 'status'
+        },{
+          label: '时间',
           type: 'daterange',
           placeholder: '请选择时间',
           model: 'created_time',
@@ -141,19 +117,9 @@ export default {
       this.fy.size = size;
       this.getData();
     },
-    setStatus(id){
-      this.axios.get('complain-edit',{
-        params: {id}
-      }).then(d=>{
-        if(d){
-          this.$Message.success(d.message);
-          this.getData();
-        }
-      })
-    },
     getData() {
       this.tableLoading = true;
-      this.axios.get('complain-list',{
+      this.axios.get('audit-list',{
         params:this.searchData
       }).then(res=>{
         if(res){

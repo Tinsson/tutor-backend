@@ -52,8 +52,25 @@ export default {
       path:'/config',
       children:[{
         id:'23',
-        name:'大转盘配置',
-        path:'/dial-config'
+        name:'基本配置',
+        path:'/base-config'
+      }]
+    },{
+      id: '12',
+      name: '交易记录',
+      path: '/trade',
+      children: [{
+        id: '13',
+        name: '认证支付流水',
+        path: '/audit-list'
+      },{
+        id: '14',
+        name: '认证退款流水',
+        path: '/ref-list'
+      },{
+        id: '15',
+        name: '购买联系方式流水',
+        path: '/buy-list'
       }]
     },{
       id: '9',

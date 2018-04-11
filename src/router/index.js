@@ -21,13 +21,12 @@ import complain from '@/page/complain/complain'
 
 
 //配置管理
-import globalConfig from '@/page/config/global-config' //全局配置
-import taskNewcomer from '@/page/config/task-newcomer' //新手任务配置
-import taskDaily from '@/page/config/task-daily' //每日任务配置
-import coinConfig from '@/page/config/coin-config' //金币配置
-import dialConfig from '@/page/config/dial-config' //大转盘配置
+import baseConfig from '@/page/config/base-config' //基本配置
 
-// 内容管理
+// 交易记录
+import auditList from '@/page/trade/audit-list'
+import refList from '@/page/trade/refund-list'
+import buyList from '@/page/trade/buy-list'
 
 //对账
 
@@ -73,25 +72,21 @@ const router = new Router({
           name: 'complain',
           component: complain
         },{
-          path: '/config/task-newcomer',
-          name: 'taskNewcomer',
-          component: taskNewcomer
+          path: '/config/base-config',
+          name: 'baseConfig',
+          component: baseConfig
         },{
-          path: '/config/task-daily',
-          name: 'taskDaily',
-          component:taskDaily
+          path: '/trade/audit-list',
+          name: 'auditList',
+          component: auditList
         },{
-          path: '/config/global-config',
-          name: 'globalConfig',
-          component: globalConfig
+          path: '/trade/ref-list',
+          name: 'refList',
+          component: refList
         },{
-          path:'/config/coin-config',
-          name:'coinConfig',
-          component:coinConfig
-        },{
-          path:'/config/dial-config',
-          name:'dialConfig',
-          component:dialConfig
+          path: '/trade/buy-list',
+          name: 'buyList',
+          component: buyList
         }
       ]
     }
