@@ -1,6 +1,6 @@
 <template>
 <div id="user">
-  <title-bar title="用户列表" @refresh="refresh">
+  <title-bar title="家长列表" @refresh="refresh">
 
   </title-bar>
   <search-group :searchList="searchList" @search="search">
@@ -9,12 +9,11 @@
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
 
-  <user-detail ref="userDetail"></user-detail>
+  <user-detail :isParent="true" ref="userDetail"></user-detail>
 
 </div>
 </template>
 <script>
-import msgBtn from './components/user-msg-btn.vue'
 import userDetail from './components/user-detail-new.vue'
 export default {
   name: "user",
@@ -32,55 +31,54 @@ export default {
           title: 'ID',
           key: 'id',
           align: 'center'
-        }, {
-          title: '昵称',
-          key: 'nickname',
+        },{
+          title: '头像',
+          key: 'portrait',
+          align: 'center',
+          render(h, params){
+            return h('img',{
+              style: {
+                width: '50px',
+                height: '50px'
+              },
+              attrs: {
+                src: params.row.portrait
+              }
+            })
+          }
+        },{
+          title: '微信号',
+          key: 'wechat',
           align: 'center'
         },{
           title: 'openid',
           key: 'openid',
           align: 'center'
         },{
-          title: '性别',
-          key: 'gender',
-          align: 'center',
-          render: (h,params)=>{
-            let gender;
-            switch(params.row.gender) {
-              case 1:gender = '男';break;
-              case 2:gender = '女';break;
-            }
-            return h('span',gender)
-          }
-        }, {
-          title: '省',
-          key: 'province',
-          align: 'center'
-        }, {
-          title: '城市',
-          key: 'city',
+          title: '姓名',
+          key: 'body_name',
           align: 'center'
         },{
-          title: '头像',
-          key: 'avatarulr',
-          width: '80',
-          align:'center',
-          render: (h,params)=>{
-            return h('img',{
-              attrs: {
-                src: params.row.avatarulr
-              },
-              style: {
-                width: "45px",
-                height: "45px",
-                marginTop: "5px"
-              }
-            })
-          }
-        }, {
-          title: '登录时间',
-          key: 'created_at',
+          title: '手机',
+          key: 'phone',
           align: 'center'
+        }, {
+          title: '认证状态',
+          key: 'certime',
+          align: 'center'
+        }, {
+          title: '是否预约',
+          key: 'is_order',
+          align: 'center',
+          render(h, params){
+            let text = '';
+            if(params.row.is_order === 1){
+              text = '预约';
+            }else{
+              text = '非预约'
+            }
+            return h('span', text);
+          }
         }, {
           title: '操作',
           key: 'operation',
@@ -93,7 +91,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$refs.userDetail.show(params.row.openid)
+                    this.$refs.userDetail.show(params.row.id)
                   }
                 }
               }, '查看')
@@ -105,31 +103,47 @@ export default {
       myData: [], //表格数据
 
       searchList: [{   //搜索列表配置
-        label: '检索',
+        label: '姓名',
         type: 'input',
-        placeholder: '输入关键词',
-        model: 'keyword'
+        placeholder: '输入姓名',
+        model: 'body_name'
       },{
-        label: '性别',
+        label: '手机号',
+        type: 'input',
+        placeholder: '请输入手机号',
+        model: 'phone'
+      },{
+        label: '城市',
+        type: 'input',
+        placeholder: '请输入筛选城市',
+        model: 'city'
+      },{
+        label: '认证状态',
         type: 'select',
         placeholder: '请选择',
         options: [{
-          label: '全部',
-          value: '',
+          label: '未审核',
+          value: 0,
         },{
-          label: '男',
+          label: '不通过',
           value: 1
         },{
-          label: '女',
+          label: '通过',
           value: 2
         }],
-        model: 'sex'
+        model: 'certime'
       },{
-        label: '注册时间',
-        type: 'daterange',
-        placeholder: '请选择注册时间',
-        model: 'register_time',
-        start_end: ['start_time','end_time']
+        label: '预约状态',
+        type: 'select',
+        placeholder: '请选择',
+        options: [{
+          label: '不接受预约',
+          value: 0,
+        },{
+          label: '接受预约',
+          value: 1
+        }],
+        model: 'is_order'
       }],
 
       pageprops: { //分页配置
@@ -176,7 +190,7 @@ export default {
     },
     getData () {
       this.tableLoading = true;
-      this.axios.get(`user-list`,{
+      this.axios.get(`parent-list`,{
         params: this.searchData
       }).then(res => {
         this.tableLoading = false;
@@ -191,7 +205,6 @@ export default {
     this.getData();
   },
   components: {
-    msgBtn,
     userDetail
   }
 }

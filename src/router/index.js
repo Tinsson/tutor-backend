@@ -10,7 +10,8 @@ import login from '@/page/login' //登录页面
 import defaultPage from '@/page/default-page' //默认模块
 
 // 用户
-import user from '@/page/user/user' //用户管理
+import userParent from '@/page/user/parent-list' //家长列表
+import userTutor from '@/page/user/tutor-list'  //家教列表
 
 //审核管理
 import verifyParent from '@/page/verify/parent-list' //审核家长
@@ -56,9 +57,13 @@ const router = new Router({
           name: 'defaultPage',
           component: defaultPage
         }, {
-          path: '/user/users',
-          name: 'user',
-          component: user
+          path: '/user/parent-list',
+          name: 'userParent',
+          component: userParent
+        },{
+          path: '/user/tutor-list',
+          name: 'userTutor',
+          component: userTutor
         },{
           path: '/verify/parent-list',
           name: 'verifyParent',

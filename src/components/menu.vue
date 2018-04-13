@@ -30,8 +30,12 @@ export default {
       path: '/user',
       children: [{
         id: '2',
-        name: '用户列表',
-        path: '/users'
+        name: '家长列表',
+        path: '/parent-list'
+      },{
+        id: '3',
+        name: '家教列表',
+        path: '/tutor-list'
       }]
     },{
       id: '3',
