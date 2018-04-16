@@ -82,10 +82,20 @@ export default {
           title: '姓名',
           key: 'body_name',
           align: 'center'
-        }, {
-          title: '实名认证状态',
-          key: 'status',
-          align: 'center'
+        },{
+          title: '身份证审核',
+          key: 'idcard_v',
+          align: 'center',
+          render(h, params){
+            return h('span', params.row.auth.identify);
+          }
+        },{
+          title: '微信审核',
+          key: 'wechat_v',
+          align: 'center',
+          render(h, params){
+            return h('span', params.row.auth.identify);
+          }
         },{
           title: '地址',
           key: 'geo_name',
