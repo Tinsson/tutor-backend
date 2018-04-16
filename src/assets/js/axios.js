@@ -43,7 +43,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 // axios.defaults.headers.common['token'] = 'Bearer ' + res.token
 axios.defaults.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949';
 
-axios.defaults.headers.common['hash'] = 'pdJQYMAdPfAbHScyPMESnf6fZj0YtsVZ6O2dSkFSLRqOnZSCUrQ0UdmuFFAy9MCuJ/Og4ujHdRSIXvoBMNBkY+U4so7wnr+CXD6lLcWhftPIgZ3b9rGcHfqZvwqlTUB+Gfjl/ZeU6eDEx7sKS2jdndJNzAc16/1uk/f28axWYKY='
+axios.defaults.headers.common['hash'] = 'NhEtQ0tyvNB7vhvFnn7M4xUv2+yrDYjwLENQqXnA8ZvmOcoObY2TAiV7EePXvJmnTuVVQztXdtsaoVz2pQYvyytA0qxTDrT1SytWUWZX7Z0A3Dn6xdIKzgXJAq5cErAbPGQcS17mbbiSBn7U0BrZa9N/d23t361lb1o9J6SbBe0='
 
 axios.defaults.timeout = 60000
 
