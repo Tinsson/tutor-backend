@@ -8,6 +8,7 @@ const urlList = {
   'parent-panel': '/backend/user/learn-panel', //家长面板
   'tutor-list': '/backend/user/tutor-list', //家教面板
   'tutor-panel': '/backend/user/tutor-panel', //家教面板
+  'contact-refund': '/backend/user/contact-refund', //购买退款
 
   //审核列表
   'verify-parent-list': '/backend/audit/parlist', //家长审核列表
@@ -24,6 +25,7 @@ const urlList = {
   'audit-list': '/backend/trad/audlist', //获取认证支付流水
   'ref-list': '/backend/trad/reflist',  //获取认证退款流水
   'buy-list': '/backend/trad/buylist',  //获取购买联系方式
+  'buy-refund': '/backend/trad/refund-log', //购买退款流水
 
   //投诉记录
   'complain-list': '/backend/user/complain-list', //投诉列表

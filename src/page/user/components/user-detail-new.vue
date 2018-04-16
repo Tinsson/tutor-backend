@@ -25,8 +25,8 @@
                 <!--<DatePicker type="daterange" v-model="register_time" confirm :clearable="false" :editable="false" @on-ok="search" @on-clear="clear"></DatePicker>
                 <span>共{{pageprops.total}}条</span>-->
               </div>
-              <div class="count-box" v-show="type === 1 || type === 2">
-                <Select v-model="buyType" v-show="type === 1" style="width: 150px">
+              <div class="count-box" v-show="type === 1 || type === 3">
+                <Select v-model="buyType" v-show="type === 1" style="width: 150px;marginRight: 30px" @on-change="choseClass">
                   <Option :value="1">全部</Option>
                   <Option :value="2">我购买的</Option>
                   <Option :value="3">购买我的</Option>
@@ -68,8 +68,8 @@
           </Card>
         </Col>
       </Row>
-
     </Modal>
+    <big-pic ref="bigPic" :maxWidth="500"></big-pic>
   </div>
 </template>
 
@@ -80,7 +80,7 @@ export default {
     isParent: Boolean,
     default: ()=> true
   },
-  data: () => ({
+  data(){return {
     buyType: 1,
     columns1: [{
       title: '序号',
@@ -128,58 +128,119 @@ export default {
     }, {
       title: '购买',
       key: 'buy',
-      align: 'center'
+      align: 'center',
+      render: (h, params)=>{
+        let text = '';
+        if(params.row.buy === 1){
+          text = '购买的'
+        }else{
+          text = '被购买的'
+        }
+        return h('span', text);
+      }
+    },{
+      title: '操作',
+      key: 'opt',
+      align: 'center',
+      width: '90',
+      render: (h, params)=>{
+        return h('Button', {
+          props: {
+            type: 'success'
+          },
+          on:{
+            click: ()=>{
+              this.refundMoney(params.row);
+            }
+          }
+        }, '退款');
+      }
     }],
     columns2: [{
-      title: '发送时间',
-      key: 'created_at',
+      title: '用户ID',
+      key: 'uid',
       align: 'center'
     }, {
-      title: '红包金额',
-      key: 'bonus_money',
+      title: '地址名称',
+      key: 'geo_name',
       align: 'center'
     }, {
-      title: '红包状态',
+      title: '创建时间',
+      key: 'create_at',
+      align: 'center'
+    }, {
+      title: '是否默认地址',
       key: 'status',
-      align: 'center'
-    }, {
-      title: '手续费',
-      key: 'service_money',
-      align: 'center'
-    }, {
-      title: '领取金额',
-      key: 'receive_money',
-      align: 'center'
-    }, {
-      title: '退款金额',
-      key: 'refund_money',
-      align: 'center'
+      align: 'center',
+      render(h,params){
+        return h('span', params.row.status === 1?'是':'否')
+      }
     }],
     columns3: [{
-      title: '领取时间',
-      key: 'created_at',
+      title: '投诉人微信',
+      key: 'to_wechat',
+      align: 'center'
+    },{
+      title: '投诉人手机号',
+      key: 'to_phone',
+      align: 'center'
+    },{
+      title: '头像',
+      key: 'portrait',
+      align: 'center',
+      render: (h, params)=>{
+        return h('img',{
+          style: {
+            width: '50px',
+            height: '50px'
+          },
+          attrs: {
+            src: params.row.portrait
+          }
+        })
+      }
+    }, {
+      title: '投诉项',
+      key: 'type',
       align: 'center'
     }, {
-      title: '红包金额',
-      key: 'receive_money',
+      title: '备注',
+      key: 'remark',
       align: 'center'
     }, {
-      title: '内容',
-      key: 'bonus_password',
-      align: 'center'
+      title: '投诉图',
+      key: 'img',
+      align: 'center',
+      render: (h, params)=>{
+        if(params.row.img !== ''){
+          return h('img',{
+            style: {
+              width: '50px',
+              height: '60px'
+            },
+            attrs: {
+              src: params.row.img
+            },
+            on: {
+              click: ()=>{
+                this.$refs['bigPic'].show(params.row.img);
+              }
+            }
+          })
+        }else{
+          return h('span', '无')
+        }
+      }
     }, {
-      title: '发包人',
-      key: 'send_user',
-      align: 'center'
-    }, {
-      title: '余额',
-      key: 'balance',
+      title: '投诉时间',
+      key: 'create_at',
       align: 'center'
     }],
     if_show: false,
     tableLoading: false,
     myData: [],
 
+    img_src: '',
     type: 1,
     pageprops: { //分页配置
       showSizer: true,
@@ -191,7 +252,8 @@ export default {
     },
     searchForm: {}, //搜索框属性
     my_search: {
-      uid: ''
+      uid: '',
+      class: ''
     },
     register_time: [],
     start_time: '',
@@ -200,7 +262,7 @@ export default {
     list: [],
     btnType: ['warning', 'info', 'info'],
     freeze:false,
-  }),
+  }},
 
   computed: {
     searchData() {
@@ -209,6 +271,7 @@ export default {
         /*start_time: this.start_time,
         end_time: this.end_time,*/
         uid: this.my_search.uid,
+        class: this.buyType,
 
         ...this.fy,
       }
@@ -265,9 +328,11 @@ export default {
     },
     pageChange(page) {
       this.fy.page = page;
+      this.show()
     },
     pageSizeChange(size) {
       this.fy.size = size;
+      this.show()
     },
     changeType(type) {
       this.fy = {
@@ -288,10 +353,40 @@ export default {
       this.show();
       this.register_time = []
     },
+    choseClass(sign){
+      this.show();
+    },
+    refundMoney(row){
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确认退款吗？</p>',
+        onOk: () => {
+          this.$axios.post('contact-refund',{
+            uid: row.uid,
+            to_uid: row.to_uid,
+            editor: ''
+          }).then(d=>{
+            if(d.status === 1){
+              this.$Message.success(d.message);
+              this.show();
+            }
+          })
+        }
+      });
+    },
     show(row) {
-      console.log(this.isParent);
       if (row) {
         this.my_search.uid = row;
+        this.buyType = 1;
+        this.btnType.forEach((item, index, arr) => {
+          if (index == (0)) {
+            arr[index] = 'warning'
+          } else {
+            arr[index] = 'info'
+          }
+        });
+        this.type = 1;
+        this.clear();
       }
       let url = '';
       this.tableLoading = true;
@@ -314,7 +409,6 @@ export default {
       })
     },
   }
-
 }
 </script>
 
@@ -376,7 +470,7 @@ export default {
     flex-direction: row;
     padding-bottom: 15px;
     .count-text{
-      padding: 5px 20px 0 30px;
+      padding: 5px 20px 0 0;
     }
   }
 </style>

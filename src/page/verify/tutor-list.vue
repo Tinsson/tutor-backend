@@ -8,13 +8,17 @@
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
-
+  <edu-info ref="eduModel"></edu-info>
 </div>
 </template>
 <script>
+import eduInfo from './components/edu-info'
 
 export default {
   name: "user",
+  components: {
+    eduInfo
+  },
   data (){
     return {
       select_arr: [], //选择的用户列表
@@ -82,10 +86,48 @@ export default {
           title: '姓名',
           key: 'body_name',
           align: 'center'
-        }, {
-          title: '实名认证状态',
+        },{
+          title: '学历',
+          key: 'edu',
+          align: 'center',
+          render: (h, params)=>{
+            return h('span',{
+              style: {
+                color: '#2db7f5',
+                cursor: 'pointer'
+              },
+              on: {
+                click: ()=>{
+                  this.$refs['eduModel'].show(params.row);
+                }
+              }
+            },'查看')
+          }
+        }/*,{
+          title: '认证状态',
           key: 'status',
           align: 'center'
+        }*/,{
+          title: '身份证审核',
+          key: 'idcard_v',
+          align: 'center',
+          render(h, params){
+            return h('span', params.row.auth.identify);
+          }
+        },{
+          title: '微信审核',
+          key: 'wechat_v',
+          align: 'center',
+          render(h, params){
+            return h('span', params.row.auth.identify);
+          }
+        },{
+          title: '学历审核',
+          key: 'edu',
+          align: 'center',
+          render(h, params){
+            return h('span', params.row.auth.education);
+          }
         },{
           title: '地址',
           key: 'geo_name',
@@ -94,33 +136,88 @@ export default {
           title: '操作',
           key: 'operation',
           align: 'center',
-          width: '200',
+          width: '250',
           render: (h, params) => {
             return h('div', [
-              h('Button', {
+              h('Dropdown', {
                 style:{
                   marginRight: '10px'
                 },
+                attrs:{
+                  trigger: 'click'
+                }
+              }, [h('Button',{
                 props: {
                   type: 'success'
-                },
-                on: {
-                  click: () => {
-                    this.passVerify(params.row.id, 1);
-                  }
                 }
-              }, '通过'),
-              h('Button', {
+              }, ['微信审核 ',h('Icon',{
                 props: {
-                  type: 'error'
-                },
-                on: {
-                  click: () => {
-                    this.passVerify(params.row.id, 0);
-                  }
+                  type: 'arrow-down-b'
                 }
-              }, '不通过')
-            ])
+              })]),h('DropdownMenu',{
+                slot: 'list'
+              },[
+                h('DropdownItem',[h('Button', {
+                  props: {
+                    type: 'info'
+                  },
+                  on: {
+                    click: () => {
+                      this.passVerify(params.row.id, 1, 3);
+                    }
+                  }
+                }, '通过')]),
+                h('DropdownItem',[h('Button', {
+                  props: {
+                    type: 'error'
+                  },
+                  on: {
+                    click: () => {
+                      this.passVerify(params.row.id, 0, 3);
+                    }
+                  }
+                }, '不通过')])
+              ])]),
+              h('Dropdown', {
+                style:{
+                  marginRight: '10px'
+                },
+                attrs:{
+                  trigger: 'click'
+                }
+              }, [h('Button',{
+                props: {
+                  type: 'primary'
+                }
+              }, ['学历审核 ',h('Icon',{
+                props: {
+                  type: 'arrow-down-b'
+                }
+              })]),h('DropdownMenu',{
+                slot: 'list'
+              },[
+                h('DropdownItem',[h('Button', {
+                  props: {
+                    type: 'info'
+                  },
+                  on: {
+                    click: () => {
+                      this.passVerify(params.row.id, 1, 2);
+                    }
+                  }
+                }, '通过')]),
+                h('DropdownItem',[h('Button', {
+                  props: {
+                    type: 'error'
+                  },
+                  on: {
+                    click: () => {
+                      this.passVerify(params.row.id, 0, 2);
+                    }
+                  }
+                }, '不通过')])
+              ])])
+            ]);
           }
         }
       ], //列配置数据
@@ -199,10 +296,11 @@ export default {
         }
       })
     },
-    passVerify(id ,status){
-      this.axios.post("set-parent-status", {
-        id,
-        status
+    passVerify(uid ,status, type){
+      this.axios.post("set-tutor-status", {
+        uid,
+        status,
+        type
       }).then(d=>{
         if(d.status === 1){
           this.$Message.success(d.message);

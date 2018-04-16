@@ -75,6 +75,10 @@ export default {
         id: '15',
         name: '购买联系方式流水',
         path: '/buy-list'
+      },{
+        id: '16',
+        name: '退款记录',
+        path: '/buy-refund'
       }]
     },{
       id: '9',

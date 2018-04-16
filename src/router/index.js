@@ -28,6 +28,7 @@ import baseConfig from '@/page/config/base-config' //基本配置
 import auditList from '@/page/trade/audit-list'
 import refList from '@/page/trade/refund-list'
 import buyList from '@/page/trade/buy-list'
+import buyRefund from '@/page/trade/buy-refund'
 
 //对账
 
@@ -92,6 +93,10 @@ const router = new Router({
           path: '/trade/buy-list',
           name: 'buyList',
           component: buyList
+        },{
+          path: '/trade/buy-refund',
+          name: 'buyRefund',
+          component: buyRefund
         }
       ]
     }

@@ -5,6 +5,7 @@
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
         <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
+    <big-pic ref="bigPic" :maxWidth="500"></big-pic>
   </div>
 </template>
 <script>
@@ -13,6 +14,7 @@ export default {
   data() {
     return {
       all_price: '',
+      img_src: '',
       columns: [
         {
           title: '序号',
@@ -57,14 +59,19 @@ export default {
           title: '截图',
           key: 'img',
           align: 'center',
-          render(h, params){
+          render:(h, params)=>{
             return h('img',{
               style: {
                 width: '50px',
-                height: '50px'
+                height: '80px'
               },
               attrs: {
                 src: params.row.img
+              },
+              on: {
+                click: ()=>{
+                  this.$refs['bigPic'].show(params.row.img);
+                }
               }
             })
           }

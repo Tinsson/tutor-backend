@@ -94,29 +94,48 @@ export default {
           title: '操作',
           key: 'operation',
           align: 'center',
-          width: '350',
+          width: '200',
           render: (h, params) => {
             return h('div', [
-              h('Button', {
+              h('Dropdown', {
+                style:{
+                  marginRight: '10px'
+                },
+                attrs:{
+                  trigger: 'click'
+                }
+              }, [h('Button',{
                 props: {
                   type: 'success'
-                },
-                on: {
-                  click: () => {
-                    this.passVerify(params.row.id, 1);
-                  }
                 }
-              }, '通过'),
-              h('Button', {
+              }, ['微信审核 ',h('Icon',{
                 props: {
-                  type: 'error'
-                },
-                on: {
-                  click: () => {
-                    this.passVerify(params.row.id, 0);
-                  }
+                  type: 'arrow-down-b'
                 }
-              }, '不通过')
+              })]),h('DropdownMenu',{
+                slot: 'list'
+              },[
+                h('DropdownItem',[h('Button', {
+                  props: {
+                    type: 'info'
+                  },
+                  on: {
+                    click: () => {
+                      this.passVerify(params.row.id, 1);
+                    }
+                  }
+                }, '通过')]),
+                h('DropdownItem',[h('Button', {
+                  props: {
+                    type: 'error'
+                  },
+                  on: {
+                    click: () => {
+                      this.passVerify(params.row.id, 0);
+                    }
+                  }
+                }, '不通过')])
+              ])])
             ])
           }
         }
