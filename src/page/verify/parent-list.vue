@@ -94,7 +94,7 @@ export default {
           key: 'wechat_v',
           align: 'center',
           render(h, params){
-            return h('span', params.row.auth.identify);
+            return h('span', params.row.auth.wechat);
           }
         },{
           title: '地址',
