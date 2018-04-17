@@ -9,9 +9,14 @@ let myvue = new Vue()
 axios.interceptors.request.use(config => {
   config.data = qs.stringify(config.data)
   let url = config.url.split('?')[0];
+  let token = localStorage.getItem('token');
+  let path = localStorage.getItem('cur_path');
   let params = config.url.split('?')[1]?config.url.split('?')[1]:'';
   if(urlList[url]) {
     config.url = params == '' ? urlList[url]: urlList[url] + '?' + params
+  }
+  if (token) {
+    config.headers['token'] = token;
   }
   // config.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949';
   return config
@@ -41,7 +46,7 @@ axios.interceptors.response.use(response => {
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 // axios.defaults.headers.common['token'] = 'Bearer ' + res.token
-axios.defaults.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949';
+//axios.defaults.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949';
 
 axios.defaults.headers.common['hash'] = 'NhEtQ0tyvNB7vhvFnn7M4xUv2+yrDYjwLENQqXnA8ZvmOcoObY2TAiV7EePXvJmnTuVVQztXdtsaoVz2pQYvyytA0qxTDrT1SytWUWZX7Z0A3Dn6xdIKzgXJAq5cErAbPGQcS17mbbiSBn7U0BrZa9N/d23t361lb1o9J6SbBe0='
 

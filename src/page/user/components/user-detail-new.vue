@@ -58,8 +58,10 @@
                 <TabPane label="个性化资料" name="name2">
                   <div class="tab-box">
                     <h2 class="tab-title">需求范围:</h2>
-                    <p class="tab-info" style="padding-top: 10px">年级段: {{myData.learn_range || myData.teach_range.join('，')}}</p>
-                    <p class="tab-info">科目: {{myData.learn_subject || myData.teach_subject.join('，')}}</p>
+                    <p class="tab-info" v-if="('learn_range' in myData)" style="padding-top: 10px">年级段: {{myData.learn_range }}</p>
+                    <p class="tab-info" v-if="('teach_range' in myData)" style="padding-top: 10px">年级段: {{myData.teach_range.join('，')}}</p>
+                    <p class="tab-info" v-if="('learn_subject' in myData)">科目: {{myData.learn_subject}}</p>
+                    <p class="tab-info" v-if="('teach_subject' in myData)">科目：{{myData.teach_subject.join('，')}}</p>
                     <p class="tab-info">教学特点: {{myData.tags}}</p>
                   </div>
                 </TabPane>

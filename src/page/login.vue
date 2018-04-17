@@ -51,14 +51,19 @@
             return false;
           }
           const data = {
-              username: this.username,
-              password: this.password
+              admin_name: this.username,
+              admin_password: this.password
           }
           this.btnInfo = '登录中...'
-          setTimeout(()=>{
-            sessionStorage.setItem('user_id','123123123')
+          this.axios.post('login-in', data).then(d=>{
+            localStorage.setItem('token', d.data.token);
             this.$router.push('/home')
-          },1000)
+            //console.log(d);
+          })
+          // setTimeout(()=>{
+          //   sessionStorage.setItem('user_id','123123123')
+          //   this.$router.push('/home')
+          // },1000)
       },
       setFirstView(){
           // this.$post('Menuauth/listLeftAuthGet').then((d)=>{

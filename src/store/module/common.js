@@ -1,6 +1,6 @@
 import axios from '@/assets/js/axios'
 const state = {
-  cur_path :sessionStorage.getItem('cur_path'),
+  cur_path :localStorage.getItem('cur_path'),
   table_loading: false
 }
 

@@ -40,8 +40,8 @@ const router = new Router({
       name: 'root',
       redirect: function(path) {
         console.log(path);
-        return sessionStorage.getItem('user_id')
-          ? '/home'
+        return localStorage.getItem('token')
+          ? localStorage.getItem('cur_path')
           : '/login'
       }
     }, {
@@ -104,11 +104,13 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to.hash)
-  if (!sessionStorage.getItem('user_id') && to.path != '/login') {
+  //console.log(to.hash)
+
+  if (!localStorage.getItem('token') && to.path != '/login') {
     router.push('/login')
   }
-  sessionStorage.setItem('cur_path', to.path)
+
+  localStorage.setItem('cur_path', to.path)
   store.commit('SET_CUR_PATH', to.path)
   next(() => {
     console.log(123123123);

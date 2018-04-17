@@ -3,6 +3,9 @@ const urlList = {
   //图片上传
   'upload-img': '/product/upload',
 
+  //账户登陆
+  'login-in': '/backend/admin/login',
+
   //用户管理
   'parent-list': '/backend/user/learn-list', //家长列表
   'parent-panel': '/backend/user/learn-panel', //家长面板
