@@ -3,7 +3,7 @@
   <div class="home-content">
     <my-menu></my-menu>
     <div class="layout-header">
-      <p class="login-out">
+      <p class="login-out" @click="LogOut">
         <Icon type="power"></Icon>
         退出登录
       </p>
@@ -25,6 +25,10 @@ export default {
   }),
   methods: {
     Login() {
+      this.$router.push('/login')
+    },
+    LogOut(){
+      localStorage.clear();
       this.$router.push('/login')
     }
   },

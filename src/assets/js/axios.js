@@ -17,6 +17,10 @@ axios.interceptors.request.use(config => {
   }
   if (token) {
     config.headers['token'] = token;
+  }else{
+    if(path !== '/login'){
+      router.push({path: '/login'});
+    }
   }
   // config.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949';
   return config
@@ -27,7 +31,7 @@ axios.interceptors.request.use(config => {
 
 // http response 拦截
 axios.interceptors.response.use(response => {
-  if (response.data.status == 0 && response.data.code == '登录失效') {
+  if (response.data.status == 0 && response.data.code == 20004) {
     myvue.$Message.error('登录失效')
     router.push('/login')
     //清空session信息

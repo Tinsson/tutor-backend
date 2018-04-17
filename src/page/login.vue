@@ -54,10 +54,14 @@
               admin_name: this.username,
               admin_password: this.password
           }
-          this.btnInfo = '登录中...'
+          this.btnInfo = '登录中...';
           this.axios.post('login-in', data).then(d=>{
-            localStorage.setItem('token', d.data.token);
-            this.$router.push('/home')
+            if(d === ''){
+              this.btnInfo = '登录';
+            }else{
+              localStorage.setItem('token', d.data.token);
+              this.$router.push('/home')
+            }
             //console.log(d);
           })
           // setTimeout(()=>{
