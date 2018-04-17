@@ -363,7 +363,7 @@ export default {
         title: '提示',
         content: '<p>确认退款吗？</p>',
         onOk: () => {
-          this.$axios.post('contact-refund',{
+          this.axios.post('contact-refund',{
             uid: row.uid,
             to_uid: row.to_uid,
             editor: ''
