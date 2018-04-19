@@ -52,6 +52,21 @@ export default {
           key: 'to_nickname',
           align: 'center'
         },{
+          title: '投诉人头像',
+          key: 'avatar',
+          align: 'center',
+          render(h, params){
+            return h('img',{
+              style: {
+                width: '50px',
+                height: '50px'
+              },
+              attrs: {
+                src: params.row.to_portrait
+              }
+            })
+          }
+        },{
           title: '被投诉人微信号',
           key: 'to_wechat',
           align: 'center'
