@@ -12,6 +12,7 @@ const urlList = {
   'tutor-list': '/backend/user/tutor-list', //家教面板
   'tutor-panel': '/backend/user/tutor-panel', //家教面板
   'contact-refund': '/backend/user/contact-refund', //购买退款
+  'trans-role': '/backend/user/edit-role', //切换身份
 
   //审核列表
   'verify-parent-list': '/backend/audit/parlist', //家长审核列表

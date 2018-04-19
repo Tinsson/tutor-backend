@@ -21,11 +21,11 @@ export default {
           key: 'id',
           align: 'center'
         }, {
-          title: '昵称',
+          title: '投诉人昵称',
           key: 'nickname',
           align: 'center'
         },{
-          title: '头像',
+          title: '投诉人头像',
           key: 'avatar',
           align: 'center',
           render(h, params){
@@ -40,12 +40,24 @@ export default {
             })
           }
         }, {
-          title: '微信号',
+          title: '投诉人微信号',
           key: 'wechat',
           align: 'center'
         },{
-          title: '手机号',
+          title: '投诉人手机号',
           key: 'phone',
+          align: 'center'
+        },{
+          title: '被投诉人姓名',
+          key: 'to_nickname',
+          align: 'center'
+        },{
+          title: '被投诉人微信号',
+          key: 'to_wechat',
+          align: 'center'
+        },{
+          title: '被投诉人手机号',
+          key: 'to_phone',
           align: 'center'
         },{
           title: '投诉项',
@@ -60,20 +72,24 @@ export default {
           key: 'img',
           align: 'center',
           render:(h, params)=>{
-            return h('img',{
-              style: {
-                width: '50px',
-                height: '80px'
-              },
-              attrs: {
-                src: params.row.img
-              },
-              on: {
-                click: ()=>{
-                  this.$refs['bigPic'].show(params.row.img);
+            if(params.row.img === ""){
+              return h('span', '暂无');
+            }else{
+              return h('img',{
+                style: {
+                  width: '50px',
+                  height: '80px'
+                },
+                attrs: {
+                  src: params.row.img
+                },
+                on: {
+                  click: ()=>{
+                    this.$refs['bigPic'].show(params.row.img);
+                  }
                 }
-              }
-            })
+              })
+            }
           }
         },{
           title: '操作',

@@ -89,12 +89,25 @@ export default {
                 props: {
                   type: 'info'
                 },
+                style: {
+                  'marginRight': '5px'
+                },
                 on: {
                   click: () => {
                     this.$refs.userDetail.show(params.row.id)
                   }
                 }
-              }, '查看')
+              }, '查看'),
+              h('Button',{
+                props: {
+                  type: 'warning'
+                },
+                on: {
+                  click: ()=>{
+                    this.transRole(1, params.row.id);
+                  }
+                }
+              }, '更改身份')
             ])
           }
         }
@@ -197,6 +210,17 @@ export default {
         if(res) {
           this.myData = res.data.list;
           this.pageprops.total = res.data.total;
+        }
+      })
+    },
+    transRole(role, uid){
+      this.axios.post('trans-role',{
+        role,
+        uid
+      }).then(d=>{
+        if(d){
+          this.$Message.success(d.message);
+          this.getData();
         }
       })
     }
