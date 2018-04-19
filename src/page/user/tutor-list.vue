@@ -214,15 +214,21 @@ export default {
       })
     },
     transRole(role, uid){
-      this.axios.post('trans-role',{
-        role,
-        uid
-      }).then(d=>{
-        if(d){
-          this.$Message.success(d.message);
-          this.getData();
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确认切换身份吗？</p>',
+        onOk: () => {
+          this.axios.post('trans-role',{
+            role,
+            uid
+          }).then(d=>{
+            if(d){
+              this.$Message.success(d.message);
+              this.getData();
+            }
+          })
         }
-      })
+      });
     }
   },
   mounted() {
