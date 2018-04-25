@@ -169,7 +169,7 @@ export default {
                   this.prize_edit = e.target.value;
                 },
                 blur: ()=>{
-                  this.pos_data.map(val=>{
+                  this.compl_data.map(val=>{
                     val.edit = false;
                     return val;
                   });
@@ -186,6 +186,21 @@ export default {
               }
             }, params.row.namecn);
           }
+        }
+      },{
+        title: '操作',
+        align: 'center',
+        render: (h, params)=>{
+          return h('Button', {
+            props:{
+              type: 'error'
+            },
+            on: {
+              click: ()=>{
+                this.handleDelCompl(params.row.id)
+              }
+            }
+          },删除)
         }
       }],
       compl_data: [],
@@ -230,6 +245,14 @@ methods: {
         }
         return val;
       });
+    },
+    handleDelCompl(id){
+      this.axios.get('del-complain',{
+        id
+      }).then(d=>{
+        this.$Message.success(d.message);
+        this.getData();
+      })
     },
     savePrize(val, id){
       this.axios.get('set-conf-amount',{

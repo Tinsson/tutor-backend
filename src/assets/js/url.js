@@ -24,6 +24,7 @@ const urlList = {
   'get-conf-list': '/backend/config/getlist',  //获取配置列表
   'set-conf-amount': '/backend/config/setamount', //设置金额
   'set-complain': '/backend/config/setcompl',   //设置投诉项
+  'del-complain': '/backend/config/del-config',   //删除投诉项
 
   //交易记录
   'audit-list': '/backend/trad/audlist', //获取认证支付流水
