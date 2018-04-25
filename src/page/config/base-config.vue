@@ -200,7 +200,7 @@ export default {
                 this.handleDelCompl(params.row.id)
               }
             }
-          },删除)
+          },'删除')
         }
       }],
       compl_data: [],
