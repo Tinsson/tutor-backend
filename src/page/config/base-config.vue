@@ -247,7 +247,7 @@ methods: {
       });
     },
     handleDelCompl(id){
-      this.axios.get('del-complain',{
+      this.axios.post('del-complain',{
         id
       }).then(d=>{
         this.$Message.success(d.message);

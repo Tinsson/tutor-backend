@@ -157,7 +157,7 @@ export default {
         label: '姓名',
         type: 'input',
         placeholder: '请输入姓名',
-        model: 'keyword'
+        model: 'name'
       },{
         label: '时间',
         type: 'daterange',
@@ -198,7 +198,7 @@ export default {
       this.select_arr = selection
     },
     search(data) {
-      Object.assign(this.searchForm, data);
+      this.my_search = data;
       this.getData();
     },
     refresh() {
