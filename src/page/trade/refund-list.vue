@@ -16,7 +16,7 @@ export default {
       columns: [
         {
           title: '序号',
-          key: 'nickname',
+          key: 'id',
           align: 'center'
         }, {
           title: '昵称',
