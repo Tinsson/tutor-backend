@@ -1,6 +1,6 @@
 <template>
 <div id="user">
-  <title-bar title="家长列表" @refresh="refresh">
+  <title-bar title="用户列表" @refresh="refresh">
 
   </title-bar>
   <search-group :searchList="searchList" @search="search">
@@ -9,7 +9,7 @@
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
 
-  <user-detail :isParent="true" ref="userDetail"></user-detail>
+  <user-detail ref="userDetail" :role="user_role"></user-detail>
 
 </div>
 </template>
@@ -23,11 +23,11 @@ export default {
       // 高级筛选
       senior_search: false,  //高级检索模态框是否显示
       tableLoading: false, //表格是否加载
-
+      user_role: 1,
       // user_detail_show: false,
 
       columns: [
-        {
+        /*{
           title: 'ID',
           key: 'id',
           align: 'center'
@@ -47,14 +47,10 @@ export default {
             })
           }
         },{
-          title: '微信号',
-          key: 'wechat',
-          align: 'center'
-        },{
           title: 'openid',
           key: 'openid',
           align: 'center'
-        },{
+        },*/{
           title: '姓名',
           key: 'body_name',
           align: 'center'
@@ -63,6 +59,27 @@ export default {
           key: 'phone',
           align: 'center'
         }, {
+          title: '微信号',
+          key: 'wechat',
+          align: 'center'
+        },{
+          title: '客户类型',
+          key: 'role',
+          align: 'center',
+          render: (h, params)=>{
+            let text = '';
+            if(params.row.role === 1){
+              text = '家长';
+            }else{
+              text = '家教'
+            }
+            return h('span', text);
+          }
+        },{
+          title: '城市',
+          key: 'city',
+          align: 'center'
+        },{
           title: '认证状态',
           key: 'certime',
           align: 'center'
@@ -73,9 +90,9 @@ export default {
           render(h, params){
             let text = '';
             if(params.row.is_order === 1){
-              text = '预约';
+              text = '是';
             }else{
-              text = '非预约'
+              text = '否'
             }
             return h('span', text);
           }
@@ -94,20 +111,11 @@ export default {
                 },
                 on: {
                   click: () => {
+                    this.user_role = params.row.role;
                     this.$refs.userDetail.show(params.row.id)
                   }
                 }
-              }, '查看'),
-              h('Button',{
-                props: {
-                  type: 'warning'
-                },
-                on: {
-                  click: ()=>{
-                    this.transRole(2, params.row.id);
-                  }
-                }
-              }, '更改身份')
+              }, '查看')
             ])
           }
         }
@@ -115,7 +123,19 @@ export default {
 
       myData: [], //表格数据
 
-      searchList: [{   //搜索列表配置
+      searchList: [{
+        label: '客户类型',
+        type: 'select',
+        placeholder: '请选择类型',
+        model: 'role',
+        options: [{
+          label: '家长',
+          value: 1
+        },{
+          label: '家教',
+          value: 2
+        }]
+      },{   //搜索列表配置
         label: '姓名',
         type: 'input',
         placeholder: '输入姓名',
@@ -146,14 +166,14 @@ export default {
         }],
         model: 'certime'
       },{
-        label: '预约状态',
+        label: '是否预约',
         type: 'select',
         placeholder: '请选择',
         options: [{
-          label: '不接受预约',
+          label: '否',
           value: 0,
         },{
-          label: '接受预约',
+          label: '是',
           value: 1
         }],
         model: 'is_order'

@@ -134,9 +134,10 @@ export default {
       searchList: [
         {
           label: '投诉项',
-          type: 'input',
+          type: 'select',
           placeholder: '输入关键词',
-          model: 'keyword'
+          options: [],
+          model: 'type'
         },{
           label: '生成时间',
           type: 'daterange',
@@ -189,6 +190,9 @@ export default {
         }
       })
     },
+    getCates(){
+
+    },
     getData() {
       this.tableLoading = true;
       this.axios.get('complain-list',{
@@ -203,6 +207,7 @@ export default {
     },
   },
   mounted() {
+    this.getCates();
     this.getData();
   }
 }

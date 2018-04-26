@@ -9,7 +9,7 @@
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
 
-  <user-detail ref="userDetail"></user-detail>
+  <user-detail ref="userDetail" :role="1"></user-detail>
 
 </div>
 </template>
@@ -27,7 +27,7 @@ export default {
       // user_detail_show: false,
 
       columns: [
-        {
+        /*{
           title: 'ID',
           key: 'id',
           align: 'center'
@@ -47,14 +47,10 @@ export default {
             })
           }
         },{
-          title: '微信号',
-          key: 'wechat',
-          align: 'center'
-        },{
           title: 'openid',
           key: 'openid',
           align: 'center'
-        },{
+        },*/{
           title: '姓名',
           key: 'body_name',
           align: 'center'
@@ -63,6 +59,14 @@ export default {
           key: 'phone',
           align: 'center'
         }, {
+          title: '微信号',
+          key: 'wechat',
+          align: 'center'
+        },{
+          title: '城市',
+          key: 'city',
+          align: 'center'
+        },{
           title: '认证状态',
           key: 'certime',
           align: 'center'
@@ -73,9 +77,9 @@ export default {
           render(h, params){
             let text = '';
             if(params.row.is_order === 1){
-              text = '预约';
+              text = '是';
             }else{
-              text = '非预约'
+              text = '否'
             }
             return h('span', text);
           }
@@ -97,17 +101,7 @@ export default {
                     this.$refs.userDetail.show(params.row.id)
                   }
                 }
-              }, '查看'),
-              h('Button',{
-                props: {
-                  type: 'warning'
-                },
-                on: {
-                  click: ()=>{
-                    this.transRole(1, params.row.id);
-                  }
-                }
-              }, '更改身份')
+              }, '查看')
             ])
           }
         }
@@ -146,14 +140,14 @@ export default {
         }],
         model: 'certime'
       },{
-        label: '预约状态',
+        label: '是否预约',
         type: 'select',
         placeholder: '请选择',
         options: [{
-          label: '不接受预约',
+          label: '否',
           value: 0,
         },{
-          label: '接受预约',
+          label: '是',
           value: 1
         }],
         model: 'is_order'
