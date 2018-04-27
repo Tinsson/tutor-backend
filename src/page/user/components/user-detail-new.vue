@@ -148,7 +148,8 @@
           <div class="wx-qrcode">
             <p class="label">微信二维码</p>
             <div class="pic-box">
-              <img class="qr-pic" :src="wxQrcode" alt="">
+              <img v-if="wxQrcode !== ''" class="qr-pic" :src="wxQrcode" alt="">
+              <span v-if="wxQrcode === ''">暂无</span>
             </div>
             <div v-show="IsEdit" class="btn-box">
               <Upload class="upload-btn" :before-upload="HandleQrcode" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
@@ -221,6 +222,7 @@
 </template>
 
 <script>
+  import {copyObj} from '@/utils/common'
 export default {
   name: 'user-detail',
   props: {
@@ -254,7 +256,8 @@ export default {
       teach_range_id: '',
       learn_subject_id: '',
       teach_subject_id: '',
-      wx_qrcode: '',
+      qrcode: '',
+      long_qrcode: '',
       tags_arr: [],
       remark: ''
     },
@@ -399,7 +402,7 @@ export default {
     freeze: false,
     contact: [],
     btnType: ['warning', 'info', 'info'],
-    wx_qrcode: '',
+    long_qrcode: '',
     need_list: {
       tags: [],
       teach_range: [],
@@ -417,6 +420,12 @@ export default {
     })
   },
 
+  watch: {
+    myData(){
+      console.log(this.myData.teach_range)
+    }
+  },
+
   computed: {
     searchData() {
       return {
@@ -429,9 +438,9 @@ export default {
     },
     wxQrcode(){
       if(this.IsEdit){
-        return this.EditData.wx_qrcode;
+        return this.EditData.long_qrcode;
       }else{
-        return this.wx_qrcode;
+        return this.long_qrcode;
       }
     },
     sexTxt(){
@@ -461,14 +470,15 @@ export default {
 
     HandleQrcode(file){
       this.$uploadPic(file, 'qrcode').then(res=>{
-
-      })
+        this.EditData.long_qrcode = res.base64;
+        this.EditData.qrcode = res.short_pic;
+      });
       return false;
     },
 
     editStart(){
       let info = this.myData;
-      this.EditData.wx_qrcode = info.protrait;
+      this.EditData.qrcode = info.qrcode;
       Object.keys(this.EditData).forEach(label=>{
         let value = info[label];
         if(label in info){
@@ -504,7 +514,23 @@ export default {
       let tags = this.EditData.tags_arr.map(val=>{
         return this.need_list.tags[val]
       }).join(",");
-      console.log(tags);
+      let params = copyObj(this.EditData);
+      params.tags = tags;
+      params.uid = this.my_search.uid;
+      if(params.role === 1){
+        params.range = params.learn_range_id;
+        params.subject = params.learn_subject_id;
+      }else if(params.role === 2){
+        params.range = params.teach_range_id.join(',');
+        params.subject = params.teach_subject_id.join(',');
+      }
+      this.axios.post('edit-user', params).then(d=>{
+        if(d.status === 1){
+          this.$Message.success(d.message);
+          this.editCancel();
+          this.show()
+        }
+      })
     },
 
     editCancel(){
@@ -616,28 +642,25 @@ export default {
       })
     },
     show(row, city, role) {
-
       if (row) {
         this.my_search.uid = row;
         this.buyType = 1;
         this.city = city;
         this.type = 1;
         this.clear();
+        if(role === 1){
+          this.url = 'parent-panel'
+        }else{
+          this.url = 'tutor-panel'
+        }
       }
-      let url = '';
       this.tableLoading = true;
-      if(role === 1){
-        url = 'parent-panel'
-      }else{
-        url = 'tutor-panel'
-      }
-      this.axios.get(url, {
+      this.axios.get(this.url, {
         params: this.searchData
       }).then(res => {
         if (res.status == 1) {
           let info = res.data.list;
-          let wx_qrcode = info.portrait;
-          this.wx_qrcode = wx_qrcode;
+          this.long_qrcode = info.qrcode;
 
           this.tableLoading = false;
           this.myData = info;

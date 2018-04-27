@@ -53,11 +53,13 @@ function uploadPic(file, type){
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function (f) {
-      console.log(this.result);
       that.axios.post('upload-img',{pic: this.result, type}).then(res=>{
         console.log(res);
         if(res.status === 1){
-          resolve(res)
+          resolve({
+            base64: this.result,
+            short_pic: res.data.list
+          })
         }
       })
     };

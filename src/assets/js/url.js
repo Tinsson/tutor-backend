@@ -15,6 +15,7 @@ const urlList = {
   'contact-refund': '/backend/user/contact-refund', //购买退款
   'trans-role': '/backend/user/edit-role', //切换身份
   'need-config': '/backend/user/need-config', //需求配置
+  'edit-user': '/backend/user/edit-user', //编辑基本信息
 
   //审核列表
   'verify-parent-list': '/backend/audit/parlist', //家长审核列表
