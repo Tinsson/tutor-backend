@@ -17,69 +17,19 @@ export default {
       img_src: '',
       columns: [
         {
-          title: '序号',
-          key: 'id',
-          align: 'center'
-        }, {
-          title: '投诉人昵称',
-          key: 'nickname',
-          align: 'center'
-        },{
-          title: '投诉人头像',
-          key: 'avatar',
-          align: 'center',
-          render(h, params){
-            return h('img',{
-              style: {
-                width: '50px',
-                height: '50px'
-              },
-              attrs: {
-                src: params.row.portrait
-              }
-            })
-          }
-        }, {
-          title: '投诉人微信号',
-          key: 'wechat',
-          align: 'center'
-        },{
-          title: '投诉人手机号',
+          title: '投诉人手机',
           key: 'phone',
           align: 'center'
         },{
-          title: '被投诉人姓名',
-          key: 'to_nickname',
-          align: 'center'
-        },{
-          title: '投诉人头像',
-          key: 'avatar',
-          align: 'center',
-          render(h, params){
-            return h('img',{
-              style: {
-                width: '50px',
-                height: '50px'
-              },
-              attrs: {
-                src: params.row.to_portrait
-              }
-            })
-          }
-        },{
-          title: '被投诉人微信号',
-          key: 'to_wechat',
-          align: 'center'
-        },{
-          title: '被投诉人手机号',
+          title: '被投诉人手机',
           key: 'to_phone',
           align: 'center'
         },{
-          title: '投诉项',
+          title: '投诉原因',
           key: 'type',
           align: 'center'
         },{
-          title: '投诉备注',
+          title: '备注',
           key: 'remark',
           align: 'center'
         },{

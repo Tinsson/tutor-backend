@@ -15,31 +15,19 @@ export default {
       all_price: '',
       columns: [
         {
-          title: '序号',
-          key: 'id',
+          title: '微信订单流水号',
+          key: 'wx_order_sn',
           align: 'center'
-        }, {
-          title: '昵称',
-          key: 'nickname',
+        },{
+          title: '姓名',
+          key: 'body_name',
           align: 'center'
         }, {
           title: '手机号',
           key: 'phone',
           align: 'center'
         },{
-          title: '姓名',
-          key: 'body_name',
-          align: 'center'
-        },{
-          title: '时间',
-          key: 'addtime',
-          align: 'center'
-        },{
-          title: '微信订单流水号',
-          key: 'wx_order_sn',
-          align: 'center'
-        },{
-          title: '支付金额',
+          title: '金额',
           key: 'amount',
           align: 'center'
         },{
@@ -49,6 +37,10 @@ export default {
         },{
           title: '认证状态',
           key: 'rz_status',
+          align: 'center'
+        },{
+          title: '时间',
+          key: 'addtime',
           align: 'center'
         }
       ],

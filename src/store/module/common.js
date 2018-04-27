@@ -1,7 +1,10 @@
 import axios from '@/assets/js/axios'
 const state = {
   cur_path :localStorage.getItem('cur_path'),
-  table_loading: false
+  table_loading: false,
+  tags: [],
+  teach_range: [],
+  teach_subject: []
 }
 
 const actions = {
@@ -22,6 +25,11 @@ const mutations = {
   },
   TOGGLE_TBALE_LOADING(state,status) {
     state.table_loading = status
+  },
+  CONFIG_SET(state, list){
+    state.tags = list.tags;
+    state.teach_range = list.teach_range;
+    state.teach_subject = list.teach_subject;
   }
 }
 export default {

@@ -15,6 +15,7 @@
 </template>
 <script>
 import userDetail from './components/user-detail-new.vue'
+
 export default {
   name: "user",
   data (){
@@ -58,10 +59,6 @@ export default {
           title: '手机',
           key: 'phone',
           align: 'center'
-        }, {
-          title: '微信号',
-          key: 'wechat',
-          align: 'center'
         },{
           title: '客户类型',
           key: 'role',
@@ -70,7 +67,7 @@ export default {
             let text = '';
             if(params.row.role === 1){
               text = '家长';
-            }else{
+            }else if(params.row.role === 2){
               text = '家教'
             }
             return h('span', text);
@@ -111,8 +108,9 @@ export default {
                 },
                 on: {
                   click: () => {
+                    //this.user_role = params.row.role;
                     this.user_role = params.row.role;
-                    this.$refs.userDetail.show(params.row.id)
+                    this.$refs.userDetail.show(params.row.id, params.row.city, this.user_role)
                   }
                 }
               }, '查看')
@@ -221,9 +219,17 @@ export default {
       this.fy.size = size;
       this.getData();
     },
+    getNeedConf(){
+      this.axios.get('need-config').then((res)=>{
+        if(res.status === 1){
+          let list = res.data.list;
+          this.$store.commit('CONFIG_SET', list);
+        }
+      })
+    },
     getData () {
       this.tableLoading = true;
-      this.axios.get(`parent-list`,{
+      this.axios.get(`user-list`,{
         params: this.searchData
       }).then(res => {
         this.tableLoading = false;
@@ -252,6 +258,7 @@ export default {
     }
   },
   mounted() {
+    //this.getNeedConf();
     this.getData();
   },
   components: {

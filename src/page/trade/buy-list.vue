@@ -15,34 +15,19 @@ export default {
       all_price: '',
       columns: [
         {
-          title: '购买人角色',
-          key: 'role',
-          align: 'center',
-          render: (h, params)=>{
-            return h('span', params.row.role === 1?'家长':'家教')
-          }
-        }, {
-          title: '购买人昵称',
-          key: 'body_name',
-          align: 'center'
-        }, {
-          title: '购买人微信号',
-          key: 'wechat',
-          align: 'center'
-        },{
-          title: '购买人手机号',
-          key: 'phone',
-          align: 'center'
-        },{
-          title: '购买人姓名',
-          key: 'body_name',
-          align: 'center'
-        },{
-          title: '微信订单流水号',
+          title: '微信订单号',
           key: 'wx_order_sn',
           align: 'center'
         },{
-          title: '支付金额',
+          title: '姓名',
+          key: 'body_name',
+          align: 'center'
+        },{
+          title: '手机号',
+          key: 'phone',
+          align: 'center'
+        },{
+          title: '金额',
           key: 'amount',
           align: 'center'
         },{
@@ -50,12 +35,13 @@ export default {
           key: 'status',
           align: 'center'
         },{
-          title: '被购买者姓名',
-          key: 'be_body_name',
+          title: '购买微信号',
+          key: 'be_wechat',
           align: 'center'
         },{
-          title: '被购买者手机号',
-          key: 'be_phone'
+          title: '时间',
+          key: 'create_at',
+          align: 'center'
         }
       ],
       myData: [],

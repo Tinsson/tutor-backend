@@ -15,11 +15,11 @@ export default {
       all_price: '',
       columns: [
         {
-          title: '序号',
-          key: 'uid',
+          title: '微信订单号',
+          key: 'order_sn',
           align: 'center'
-        }, {
-          title: '昵称',
+        },{
+          title: '姓名',
           key: 'body_name',
           align: 'center'
         }, {
@@ -27,28 +27,20 @@ export default {
           key: 'phone',
           align: 'center'
         },{
-          title: '微信号',
-          key: 'wechat',
-          align: 'center'
-        },{
-          title: '姓名',
-          key: 'body_name',
-          align: 'center'
-        },{
-          title: '时间',
-          key: 'create_at',
-          align: 'center'
-        },{
-          title: '微信订单流水号',
-          key: 'order_sn',
-          align: 'center'
-        },{
-          title: '支付金额',
+          title: '退款金额',
           key: 'money',
+          align: 'center'
+        },{
+          title: '退款状态',
+          key: 'status',
           align: 'center'
         },{
           title: '操作人',
           key: 'editor',
+          align: 'center'
+        },{
+          title: '时间',
+          key: 'create_at',
           align: 'center'
         }
       ],

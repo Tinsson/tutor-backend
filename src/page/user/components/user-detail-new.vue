@@ -1,22 +1,8 @@
 <template lang="html">
   <div class="user-detail">
-    <Modal v-model="if_show" title="用户详情" width="1200" cancel-text>
+    <Modal v-model="if_show" @on-cancel="hidePanel" title="用户面板" width="1200" cancel-text>
       <Row :gutter='5'>
-        <Col span="17">
-          <div class="user_tag">
-              <img class="user_img" :src="myData.portrait">
-              <div class="money_msg">
-                <div>
-                  <span>姓名: {{myData.head_name}}</span>
-                  <span>手机号:  {{myData.phone}} </span>
-                </div>
-                <div style="marginTop: 5px">
-                  <span style="marginRight:50px">微信号:  {{myData.wechat}}</span>
-                  <span>是否预约:  {{myData.is_order === 1?'是':'否'}}</span>
-                </div>
-                <div style="fontSize: 16px;marginTop:5px">需求：{{myData.remark == ''?'无':myData.remark}}</div>
-              </div>
-          </div>
+        <Col span="16">
           <div class="info-area">
             <ul>
               <li class="single-line">
@@ -24,58 +10,57 @@
                   <Col span="6">
                     <p class="label">姓名</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{EditData.body_name}}</span>
+                      <span v-show="!IsEdit">{{myData.body_name}}</span>
                       <Input v-show="IsEdit" v-model="EditData.body_name" :style="{width: IptWidth}"></Input>
                     </p>
                   </Col>
                   <Col span="6">
                     <p class="label">身份证</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{EditData.idcard}}</span>
-                      <Input v-show="IsEdit" v-model="EditData.idcard" :style="{width: IptWidth}"></Input>
-                    </p>
-                  </Col>
-                  <Col span="6">
-                    <p class="label">学历</p>
-                    <p class="value">
-                      <span v-show="!IsEdit">{{EditData.idcard}}</span>
-                      <Input v-show="IsEdit" v-model="EditData.idcard" :style="{width: IptWidth}"></Input>
+                      <span v-show="!IsEdit">{{myData.idcard}}</span>
+                      <Input v-show="IsEdit" v-model="EditData.idcard" :style="{width: IptWidth}"/>
                     </p>
                   </Col>
                   <Col span="6">
                     <p class="label">手机号</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{EditData.phone}}</span>
-                      <Input v-show="IsEdit" v-model="EditData.phone" :style="{width: IptWidth}"></Input>
+                      <span v-show="!IsEdit">{{myData.phone}}</span>
+                      <Input v-show="IsEdit" v-model="EditData.phone" :style="{width: IptWidth}"/>
                     </p>
                   </Col>
-                </Row>
-              </li>
-              <li class="single-line">
-                <Row>
                   <Col span="6">
                     <p class="label">客户类型</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{EditData.role}}</span>
+                      <span v-show="!IsEdit">{{myData.role === 1?'家长':'家教'}}</span>
                       <Select v-show="IsEdit" v-model="EditData.role" :style="{width: IptWidth}">
                         <Option :value="1">家长</Option>
                         <Option :value="2">家教</Option>
                       </Select>
                     </p>
                   </Col>
+                </Row>
+              </li>
+              <li class="single-line" v-if="role === 2">
+                <Row>
                   <Col span="6">
-                    <p class="label">年级段</p>
-                    <p class="value" v-if="role === 1">
-                      <span v-show="!IsEdit">{{myData.learn_range}}</span>
-                      <Select v-model="EditData.learn_range" :style="{width: IptWidth}">
-                        <Option v-for="item in range_list" :value="item.id" :key="item.id">{{ item.label }}</Option>
-                      </Select>
+                    <p class="label">学校</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.school}}</span>
+                      <Input v-show="IsEdit" v-model="EditData.school" :style="{width: IptWidth}"></Input>
                     </p>
-                    <p class="value" v-if="role === 2">
-                      <span v-show="!IsEdit">{{myData.teach_range.join('，')}}</span>
-                      <Select v-model="EditData.teach_range" :style="{width: IptWidth}">
-                        <Option v-for="item in range_list" :value="item.id" :key="item.id">{{ item.label }}</Option>
-                      </Select>
+                  </Col>
+                  <Col span="6">
+                    <p class="label">学历</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.diploma}}</span>
+                      <Input v-show="IsEdit" v-model="EditData.diploma" :style="{width: IptWidth}"></Input>
+                    </p>
+                  </Col>
+                  <Col span="6">
+                    <p class="label">专业</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.professional}}</span>
+                      <Input v-show="IsEdit" v-model="EditData.professional" :style="{width: IptWidth}"/>
                     </p>
                   </Col>
                 </Row>
@@ -83,9 +68,59 @@
               <li class="single-line">
                 <Row>
                   <Col span="6">
+                    <p class="label">年级段</p>
+                    <p class="value" v-if="role === 1">
+                      <span v-show="!IsEdit">{{myData.learn_range}}</span>
+                      <Select v-show="IsEdit" v-model="EditData.learn_range_id" :style="{width: IptWidth}">
+                        <Option v-for="(item, index) in need_list.teach_range" :value="index" :key="index">{{ item }}</Option>
+                      </Select>
+                    </p>
+                    <p class="value" v-if="role === 2">
+                      <span v-show="!IsEdit">{{myData.teach_range.join(',')}}</span>
+                      <Select v-show="IsEdit" multiple v-model="EditData.teach_range_id" :style="{width: IptWidth}">
+                        <Option v-for="(item, index) in need_list.teach_range" :value="index" :key="index">{{ item }}</Option>
+                      </Select>
+                    </p>
+                  </Col>
+                  <Col span="6">
+                    <p class="label">科目</p>
+                    <p v-if="role === 1" class="value">
+                      <span v-show="!IsEdit">{{myData.learn_subject}}</span>
+                      <Select v-show="IsEdit" v-model="EditData.learn_subject_id" :style="{width: IptWidth}">
+                        <Option v-for="(item, index) in need_list.teach_subject" :value="index" :key="index">{{ item }}</Option>
+                      </Select>
+                    </p>
+                    <p v-if="role === 2" class="value">
+                      <span v-show="!IsEdit">{{myData.teach_subject.join(',')}}</span>
+                      <Select v-show="IsEdit" multiple v-model="EditData.teach_subject_id" :style="{width: IptWidth}">
+                        <Option v-for="(item, index) in need_list.teach_subject" :value="index" :key="index">{{ item }}</Option>
+                      </Select>
+                    </p>
+                  </Col>
+                  <Col span="6">
+                    <p class="label">教学特点</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.tags}}</span>
+                      <Select v-show="IsEdit" multiple v-model="EditData.tags_arr" :style="{width: IptWidth}">
+                        <Option v-for="(item, index) in need_list.tags" :value="index" :key="index">{{ item }}</Option>
+                      </Select>
+                    </p>
+                  </Col>
+                  <Col span="6">
+                    <p class="label">需求备注</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.remark}}</span>
+                      <Input v-show="IsEdit" v-model="EditData.remark" :style="{width: IptWidth}"/>
+                    </p>
+                  </Col>
+                </Row>
+              </li>
+              <li class="single-line fix-line">
+                <Row>
+                  <Col span="6">
                     <p class="label">生日</p>
                     <p class="value">
-                      <span>{{myData.birth}}</span>
+                      <span>{{myData.birthday}}</span>
                     </p>
                   </Col>
                   <Col span="6">
@@ -97,45 +132,42 @@
                   <Col span="6">
                     <p class="label">性别</p>
                     <p class="value">
-                      <span>{{myData.idcard}}</span>
+                      <span>{{sexTxt}}</span>
+                    </p>
+                  </Col>
+                  <Col span="6">
+                    <p class="label">城市</p>
+                    <p class="value">
+                      <span>{{city}}</span>
                     </p>
                   </Col>
                 </Row>
               </li>
             </ul>
           </div>
-          <table-container title="地址管理">
-            <Table :columns="columns2" :data="address" border :loading="tableLoading"></Table>
-          </table-container>
-          <!--<Row>
-            <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-              <div slot="btn">
-                <Button @click="changeType(1)" :type="btnType[0]">购买记录</Button>
-                <Button @click="changeType(2)" :type="btnType[1]">地址管理</Button>
-                &lt;!&ndash;<Button @click="changeType(3)" :type="btnType[2]">投诉记录</Button>&ndash;&gt;
-                &lt;!&ndash;<DatePicker type="daterange" v-model="register_time" confirm :clearable="false" :editable="false" @on-ok="search" @on-clear="clear"></DatePicker>
-                <span>共{{pageprops.total}}条</span>&ndash;&gt;
-              </div>
-              <div class="count-box" v-show="type === 1 || type === 3">
-                <Select v-model="buyType" v-show="type === 1" style="width: 150px;marginRight: 30px" @on-change="choseClass">
-                  <Option :value="1">全部</Option>
-                  <Option :value="2">我购买的</Option>
-                  <Option :value="3">购买我的</Option>
-                </Select>
-                <p class="count-text">总计：{{myData.total}}</p>
-              </div>
-              <Table :columns="columns1" :data="list" border :loading="tableLoading"></Table>
-            </table-container>
-          </Row>-->
+          <div class="wx-qrcode">
+            <p class="label">微信二维码</p>
+            <div class="pic-box">
+              <img class="qr-pic" :src="wxQrcode" alt="">
+            </div>
+            <div v-show="IsEdit" class="btn-box">
+              <Upload class="upload-btn" :before-upload="HandleQrcode" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
+                <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
+              </Upload>
+            </div>
+          </div>
         </Col>
-        <Col span="7">
+        <Col span="8">
           <Card>
             <div class="msg">
-              <Tabs value="name1">
+              <Tabs>
                 <TabPane label="基本信息" name="name1">
                   <div class="tab-box half">
                     <div class="inner-wrap">
-                      <div class="half-box all">
+                      <div class="half-box first">
+                        <img class="user_img" :src="myData.portrait">
+                      </div>
+                      <div class="half-box first">
                         <h2 class="tab-title">注册:</h2>
                         <p class="tab-info">{{myData.addtime}}</p>
                       </div>
@@ -161,19 +193,12 @@
                 <TabPane label="购买记录" name="name2">
                   <div class="tab-box record">
                     <div class="record-box">
-                      <Table :columns="columns1" :data="contact" border :loading="tableLoading"></Table>
+                      <Table :columns="columns1" :data="contact" border></Table>
                     </div>
                   </div>
                 </TabPane>
-                <TabPane label="个性化资料" name="name3">
-                  <div class="tab-box">
-                    <h2 class="tab-title">需求范围:</h2>
-                    <p class="tab-info" v-if="('learn_range' in myData)" style="padding-top: 10px">年级段: {{myData.learn_range }}</p>
-                    <p class="tab-info" v-if="('teach_range' in myData)" style="padding-top: 10px">年级段: {{myData.teach_range.join('，')}}</p>
-                    <p class="tab-info" v-if="('learn_subject' in myData)">科目: {{myData.learn_subject}}</p>
-                    <p class="tab-info" v-if="('teach_subject' in myData)">科目：{{myData.teach_subject.join('，')}}</p>
-                    <p class="tab-info">教学特点: {{myData.tags}}</p>
-                  </div>
+                <TabPane label="地址管理" name="name3">
+                  <Table :columns="columns2" :data="address" border></Table>
                 </TabPane>
               </Tabs>
             </div>
@@ -183,7 +208,7 @@
       <div slot="footer" class="footer-box">
         <div class="left-box">
           <Button type="info" v-show="!IsEdit" @click="editStart">修改</Button>
-          <Button type="warning" @click="editCancel">取消</Button>
+          <Button type="warning" v-show="IsEdit" @click="editCancel">取消</Button>
           <Button type="primary" v-show="IsEdit" @click="editSave">保存</Button>
         </div>
         <div class="right-box">
@@ -208,6 +233,7 @@ export default {
     }
   },
   data(){return {
+    city: '',
     IsEdit: false,
     buyType: 1,
     IptWidth: '160px',
@@ -218,51 +244,21 @@ export default {
     EditData: {
       body_name: '',
       idcard: '',
-      age: '',
-      sex: '',
-      birth: '',
-      type: '',
-      edu: '',
+      phone: '',
+      role: '',
+      school: '',
+      diploma: '',
+      professional: '',
       wechat_qrcode: '',
-      learn_range: '',
-      teach_range: '',
+      learn_range_id: '',
+      teach_range_id: '',
+      learn_subject_id: '',
+      teach_subject_id: '',
+      wx_qrcode: '',
+      tags_arr: [],
+      remark: ''
     },
-    columns1: [/*{
-      title: '序号',
-      key: 'id',
-      align: 'center'
-    }, {
-      title: '用户ID',
-      key: 'uid',
-      align: 'center'
-    }, {
-      title: '联系人用户ID',
-      key: 'to_uid',
-      align: 'center'
-    }, {
-      title: '时间',
-      key: 'create_at',
-      align: 'center'
-    },{
-      title: '头像',
-      key: 'money',
-      align: 'center',
-      render(h, params){
-        return h('img',{
-          style: {
-            width: '50px',
-            height: '50px'
-          },
-          attrs: {
-            src: params.row.portrait
-          }
-        })
-      }
-    }, {
-      title: '姓名',
-      key: 'head_name',
-      align: 'center'
-    },*/ {
+    columns1: [{
       title: '联系方式',
       key: 'phone',
       align: 'center'
@@ -297,35 +293,10 @@ export default {
       key: 'status',
       width: '65',
       align: 'center'
-    },/*{
-      title: '操作',
-      key: 'opt',
-      align: 'center',
-      width: '90',
-      render: (h, params)=>{
-        return h('Button', {
-          props: {
-            type: 'success'
-          },
-          on:{
-            click: ()=>{
-              this.refundMoney(params.row);
-            }
-          }
-        }, '退款');
-      }
-    }*/],
+    },],
     columns2: [{
-      title: '用户ID',
-      key: 'uid',
-      align: 'center'
-    }, {
       title: '地址名称',
       key: 'geo_name',
-      align: 'center'
-    }, {
-      title: '创建时间',
-      key: 'create_at',
       align: 'center'
     }, {
       title: '是否默认地址',
@@ -334,6 +305,10 @@ export default {
       render(h,params){
         return h('span', params.row.status === 1?'是':'否')
       }
+    }, {
+      title: '创建时间',
+      key: 'create_at',
+      align: 'center'
     }],
     address: [],
     columns3: [{
@@ -398,7 +373,10 @@ export default {
     }],
     if_show: false,
     tableLoading: false,
-    myData: [],
+    myData: {
+      teach_subject: [],
+      teach_range: []
+    },
 
     img_src: '',
     type: 1,
@@ -421,27 +399,51 @@ export default {
     freeze: false,
     contact: [],
     btnType: ['warning', 'info', 'info'],
-    freeze:false,
+    wx_qrcode: '',
+    need_list: {
+      tags: [],
+      teach_range: [],
+      teach_subject: []
+    }
   }},
+
+  created(){
+
+    this.axios.get('need-config').then((res)=>{
+      if(res.status === 1){
+        let list = res.data.list;
+        Object.assign(this.need_list, list);
+      }
+    })
+  },
 
   computed: {
     searchData() {
       return {
         type: this.type,
-        /*start_time: this.start_time,
-        end_time: this.end_time,*/
         uid: this.my_search.uid,
         class: this.buyType,
 
         ...this.fy,
       }
     },
-  },
-/*  watch: {
-    searchData: function() {
-      this.show()
+    wxQrcode(){
+      if(this.IsEdit){
+        return this.EditData.wx_qrcode;
+      }else{
+        return this.wx_qrcode;
+      }
     },
-  },*/
+    sexTxt(){
+      if(this.myData.sex === 1){
+        return '男'
+      }else if(this.myData.sex === 2){
+        return '女'
+      }else{
+        return ''
+      }
+    }
+  },
   methods: {
     getTime(date, type) {
       // type:0 起始时间
@@ -457,12 +459,52 @@ export default {
       return time;
     },
 
+    HandleQrcode(file){
+      this.$uploadPic(file, 'qrcode').then(res=>{
+
+      })
+      return false;
+    },
+
     editStart(){
+      let info = this.myData;
+      this.EditData.wx_qrcode = info.protrait;
+      Object.keys(this.EditData).forEach(label=>{
+        let value = info[label];
+        if(label in info){
+          if(label === 'learn_range_id' || label === "learn_subject_id"){
+            value = parseInt(value);
+          }
+          if(label === 'teach_range_id' || label === "teach_subject_id"){
+            if(info[label] !== ""){
+              value = info[label].split(',').map(val=>{
+                return parseInt(val);
+              })
+            }else{
+              value = []
+            }
+          }
+          this.$set(this.EditData, label, value);
+        }
+        if(label === 'tags_arr'){
+          if(info.tags === ""){
+            value = []
+          }else{
+            value = info.tags.split(',').map(val=>{
+              return this.need_list.tags.indexOf(val);
+            });
+          }
+          this.$set(this.EditData, label, value);
+        }
+      });
       this.IsEdit = true;
     },
 
     editSave(){
-
+      let tags = this.EditData.tags_arr.map(val=>{
+        return this.need_list.tags[val]
+      }).join(",");
+      console.log(tags);
     },
 
     editCancel(){
@@ -531,13 +573,6 @@ export default {
         size: 10
       }
 
-      this.btnType.forEach((item, index, arr) => {
-        if (index == (type-1)) {
-          arr[index] = 'warning'
-        } else {
-          arr[index] = 'info'
-        }
-      })
       this.type = type
 
       this.clear()
@@ -565,23 +600,33 @@ export default {
         }
       });
     },
-    show(row) {
+    hidePanel(){
+      this.IsEdit = false;
+      Object.keys(this.EditData).forEach(val=>{
+        if(val === "tags_arr"){
+          this.EditData[val] = []
+        }else{
+          if(this.role === 2){
+            if(val === 'teach_range_id' || val === "teach_subject_id"){
+              this.EditData[val] = []
+            }
+          }
+          this.EditData[val] = ""
+        }
+      })
+    },
+    show(row, city, role) {
+
       if (row) {
         this.my_search.uid = row;
         this.buyType = 1;
-        this.btnType.forEach((item, index, arr) => {
-          if (index == (0)) {
-            arr[index] = 'warning'
-          } else {
-            arr[index] = 'info'
-          }
-        });
+        this.city = city;
         this.type = 1;
         this.clear();
       }
       let url = '';
       this.tableLoading = true;
-      if(this.isParent){
+      if(role === 1){
         url = 'parent-panel'
       }else{
         url = 'tutor-panel'
@@ -590,12 +635,15 @@ export default {
         params: this.searchData
       }).then(res => {
         if (res.status == 1) {
+          let info = res.data.list;
+          let wx_qrcode = info.portrait;
+          this.wx_qrcode = wx_qrcode;
+
           this.tableLoading = false;
-          this.myData = res.data.list;
-          this.list = res.data.list.list;
-          this.pageprops.total = res.data.list.total;
+          this.myData = info;
+          this.contact = info.contact.list;
+          this.address = info.address;
           this.if_show = true;
-          this.freeze = res.data.list.status;
         }
       })
     },
@@ -604,16 +652,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.user_img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+}
 .user_tag {
     display: flex;
     justify-content: left;
     margin-bottom: 5px;
-    .user_img {
-        width: 80px;
-        height: 80px;
-        margin-right: 40px;
-        border-radius: 50%;
-    }
     .money_msg {
         display: inline-block;
         span {
@@ -643,6 +690,9 @@ export default {
     .half-box{
       width: 50%;
       padding-bottom: 20px;
+      &.first{
+        padding: 0;
+      }
       &.all{
         width: 100%;
       }
@@ -668,8 +718,11 @@ export default {
   .single-line{
     padding-top: 10px;
     border-bottom: 1px solid #eee;
+    &.fix-line{
+
+    }
     .label{
-      font-size: 18px;
+      font-size: 16px;
       line-height: 25px;
     }
     .cross{
@@ -697,5 +750,23 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .wx-qrcode{
+    padding-top: 10px;
+    padding-left: 30px;
+    .label{
+      font-size: 16px;
+      line-height: 25px;
+    }
+    .pic-box{
+      padding-top: 10px;
+      .qr-pic{
+        width: 180px;
+      }
+    }
+    .btn-box{
+      padding-top: 20px;
+    }
   }
 </style>

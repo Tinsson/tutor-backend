@@ -47,7 +47,25 @@ function copyObj(obj,emptyObj={}) {
   return emptyObj;
 }
 
+function uploadPic(file, type){
+  let that = this;
+  return new Promise((resolve)=>{
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function (f) {
+      console.log(this.result);
+      that.axios.post('upload-img',{pic: this.result, type}).then(res=>{
+        console.log(res);
+        if(res.status === 1){
+          resolve(res)
+        }
+      })
+    };
+  })
+}
+
 export {
   compareObject,
-  copyObj
+  copyObj,
+  uploadPic
 }

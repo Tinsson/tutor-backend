@@ -1,18 +1,20 @@
 const urlList = {
 
   //图片上传
-  'upload-img': '/product/upload',
+  'upload-img': '/backend/user/upload-pic',
 
   //账户登陆
   'login-in': '/backend/admin/login',
 
   //用户管理
+  'user-list': '/backend/user/user-list',  //混合列表
   'parent-list': '/backend/user/learn-list', //家长列表
   'parent-panel': '/backend/user/learn-panel', //家长面板
   'tutor-list': '/backend/user/tutor-list', //家教面板
   'tutor-panel': '/backend/user/tutor-panel', //家教面板
   'contact-refund': '/backend/user/contact-refund', //购买退款
   'trans-role': '/backend/user/edit-role', //切换身份
+  'need-config': '/backend/user/need-config', //需求配置
 
   //审核列表
   'verify-parent-list': '/backend/audit/parlist', //家长审核列表
