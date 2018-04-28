@@ -17,6 +17,7 @@ const urlList = {
   'need-config': '/backend/user/need-config', //需求配置
   'edit-user': '/backend/user/edit-user', //编辑基本信息
 
+
   //审核列表
   'verify-parent-list': '/backend/audit/parlist', //家长审核列表
   'set-parent-status': '/backend/audit/setpar',  //设置家长状态
@@ -37,6 +38,7 @@ const urlList = {
   'ref-list': '/backend/trad/reflist',  //获取认证退款流水
   'buy-list': '/backend/trad/buylist',  //获取购买联系方式
   'buy-refund': '/backend/trad/refund-log', //购买退款流水
+  'contact-list': '/backend/trad/contact-list', //解锁记录
 
   //投诉记录
   'complain-list': '/backend/user/complain-list', //投诉列表

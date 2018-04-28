@@ -26,6 +26,7 @@ import complain from '@/page/complain/complain'
 import baseConfig from '@/page/config/base-config' //基本配置
 
 // 交易记录
+import contactList from '@/page/trade/contact-list'
 import auditList from '@/page/trade/audit-list'
 import refList from '@/page/trade/refund-list'
 import buyList from '@/page/trade/buy-list'
@@ -90,6 +91,10 @@ const router = new Router({
           path: '/config/base-config',
           name: 'baseConfig',
           component: baseConfig
+        },{
+          path: '/trade/contact-list',
+          name: 'contactList',
+          component: contactList
         },{
           path: '/trade/audit-list',
           name: 'auditList',

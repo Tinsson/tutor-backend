@@ -60,6 +60,10 @@ export default {
       name: '交易记录',
       path: '/trade',
       children: [{
+        id: '12',
+        name: '解锁记录',
+        path: '/contact-list'
+      },{
         id: '13',
         name: '认证支付流水',
         path: '/audit-list'
