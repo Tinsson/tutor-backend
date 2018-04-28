@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="user-detail">
-    <Modal v-model="if_show" @on-cancel="hidePanel" title="用户面板" width="1200" cancel-text>
+    <Modal v-model="if_show" @on-cancel="hidePanel" :title="`用户面板（${myData.nickname}）`" width="1200" cancel-text>
       <Row :gutter='5'>
         <Col span="16">
           <div class="info-area">
@@ -76,7 +76,7 @@
                       </Select>
                     </p>
                     <p class="value" v-if="role === 2">
-                      <span v-show="!IsEdit">{{myData.teach_range.join(',')}}</span>
+                      <span v-show="!IsEdit">{{myData.teach_range !== undefined?myData.teach_range.join(','):''}}</span>
                       <Select v-show="IsEdit" multiple v-model="EditData.teach_range_id" :style="{width: IptWidth}">
                         <Option v-for="(item, index) in need_list.teach_range" :value="index" :key="index">{{ item }}</Option>
                       </Select>
@@ -91,7 +91,7 @@
                       </Select>
                     </p>
                     <p v-if="role === 2" class="value">
-                      <span v-show="!IsEdit">{{myData.teach_subject.join(',')}}</span>
+                      <span v-show="!IsEdit">{{myData.teach_subject !== undefined?myData.teach_subject.join(','): ''}}</span>
                       <Select v-show="IsEdit" multiple v-model="EditData.teach_subject_id" :style="{width: IptWidth}">
                         <Option v-for="(item, index) in need_list.teach_subject" :value="index" :key="index">{{ item }}</Option>
                       </Select>
@@ -421,7 +421,8 @@ export default {
   },
 
   watch: {
-    myData(){
+    myData(val){
+      console.log(val);
       console.log(this.myData.teach_range)
     }
   },
@@ -481,7 +482,7 @@ export default {
       this.EditData.qrcode = info.qrcode;
       Object.keys(this.EditData).forEach(label=>{
         let value = info[label];
-        if(label in info){
+        if(label in info && value !== undefined){
           if(label === 'learn_range_id' || label === "learn_subject_id"){
             value = parseInt(value);
           }

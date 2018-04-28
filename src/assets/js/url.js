@@ -22,6 +22,9 @@ const urlList = {
   'set-parent-status': '/backend/audit/setpar',  //设置家长状态
   'verify-tutor-list': '/backend/audit/tutorlist', //家教审核列表
   'set-tutor-status': '/backend/audit/settut',   //设置审核状态
+  'verify-wechat-list': '/backend/audit/wechat-audit', //微信审核列表
+  'verify-edu-list': '/backend/audit/edu-audit',  //学历审核列表
+  'verify-audit': '/backend/audit/set-audit',  //审核微信学历
 
   //配置管理
   'get-conf-list': '/backend/config/getlist',  //获取配置列表

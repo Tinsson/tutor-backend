@@ -16,10 +16,11 @@ import userTutor from '@/page/user/tutor-list'  //家教列表
 //审核管理
 import verifyParent from '@/page/verify/parent-list' //审核家长
 import verifyTutor from '@/page/verify/tutor-list'  //审核家教
+import verifyWechat from '@/page/verify/wechat-list' //微信审核
+import verifyEdu from '@/page/verify/edu-list' //学历审核
 
 //投诉管理
 import complain from '@/page/complain/complain'
-
 
 //配置管理
 import baseConfig from '@/page/config/base-config' //基本配置
@@ -73,6 +74,14 @@ const router = new Router({
           path: '/verify/tutor-list',
           name: 'verifyTutor',
           component: verifyTutor
+        },{
+          path: '/verify/wechat-list',
+          name: 'verifyWechat',
+          component: verifyWechat
+        },{
+          path: '/verify/edu-list',
+          name: 'verifyEdu',
+          component: verifyEdu
         },{
           path: '/complain/complain',
           name: 'complain',

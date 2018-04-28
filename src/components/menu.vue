@@ -39,12 +39,12 @@ export default {
       path: '/verify',
       children: [{
         id: '4',
-        name: '家长审核列表',
-        path: '/parent-list'
+        name: '微信审核列表',
+        path: '/wechat-list'
       },{
         id:'11',
-        name: '家教审核列表',
-        path:'/tutor-list'
+        name: '学历审核列表',
+        path:'/edu-list'
       }]
     },{
       id:'20',
