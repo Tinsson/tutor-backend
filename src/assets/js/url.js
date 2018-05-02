@@ -44,6 +44,13 @@ const urlList = {
   'complain-list': '/backend/user/complain-list', //投诉列表
   'complain-edit': '/backend/user/edit-complain', //投诉编辑
 
+  //助教列表
+  'city-list': '/backend/assistant/city',   //城市列表
+  'assis-list': '/backend/assistant/search', //家教列表
+  'assis-add': '/backend/assistant/add',  //添加助教
+  'assis-edit': '/backend/assistant/edit', //编辑助教
+  'assis-del': '/backend/assistant/del', //删除助教
+
 }
 
 export default urlList;

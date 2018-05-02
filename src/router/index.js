@@ -32,6 +32,9 @@ import refList from '@/page/trade/refund-list'
 import buyList from '@/page/trade/buy-list'
 import buyRefund from '@/page/trade/buy-refund'
 
+//助教管理
+import assisList from '@/page/assistant/assis-list'
+
 //对账
 
 const router = new Router({
@@ -111,6 +114,10 @@ const router = new Router({
           path: '/trade/buy-refund',
           name: 'buyRefund',
           component: buyRefund
+        },{
+          path: '/assistant/assis-list',
+          name: 'assisList',
+          component: assisList
         }
       ]
     }

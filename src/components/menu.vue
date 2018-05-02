@@ -89,6 +89,15 @@ export default {
         name: '投诉列表',
         path: '/complain'
       }]
+    },{
+      id: '10',
+      name: '助教管理',
+      path: '/assistant',
+      children: [{
+        id: '11',
+        name: '助教列表',
+        path: '/assis-list'
+      }]
     }]
   }),
   computed: {
