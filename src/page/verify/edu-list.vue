@@ -93,7 +93,7 @@ export default {
                   click: () => {
                     //this.user_role = params.row.role;
                     this.user_role = params.row.role;
-                    this.$refs.userDetail.show(params.row.id, params.row.city, this.user_role)
+                    this.$refs.userDetail.show(params.row.uid, params.row.city, this.user_role)
                   }
                 }
               }, '查看')
@@ -114,7 +114,7 @@ export default {
               },
               on: {
                 click: () => {
-                  this.passVerify(params.row.id, 1, params.row.role);
+                  this.passVerify(params.row.uid, 1, params.row.role);
                 }
               }
             }, '通过'),
@@ -124,7 +124,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.passVerify(params.row.id, 0, params.row.role);
+                    this.passVerify(params.row.uid, 0, params.row.role);
                   }
                 }
               }, '不通过')]

@@ -78,7 +78,7 @@ export default {
                   click: () => {
                     //this.user_role = params.row.role;
                     this.user_role = params.row.role;
-                    this.$refs.userDetail.show(params.row.id, params.row.city, this.user_role)
+                    this.$refs.userDetail.show(params.row.uid, params.row.city, this.user_role)
                   }
                 }
               }, '查看')
@@ -99,7 +99,7 @@ export default {
               },
               on: {
                 click: () => {
-                  this.passVerify(params.row.id, 1, params.row.role);
+                  this.passVerify(params.row.uid, 1, params.row.role);
                 }
               }
             }, '通过'),
@@ -109,7 +109,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.passVerify(params.row.id, 0, params.row.role);
+                    this.passVerify(params.row.uid, 0, params.row.role);
                   }
                 }
               }, '不通过')])
@@ -190,7 +190,7 @@ export default {
         }
       })
     },
-    passVerify(id ,status, role){
+    passVerify(uid ,status, role){
       let text = "";
       if(status === 0){
         text = '确认该用户微信审核不通过？'
@@ -202,7 +202,7 @@ export default {
         content: `<p>${text}</p>`,
         onOk: () => {
           this.axios.post("verify-audit", {
-            uid: id,
+            uid,
             type: 3,
             status,
             role
