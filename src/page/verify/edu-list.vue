@@ -114,7 +114,7 @@ export default {
               },
               on: {
                 click: () => {
-                  this.passVerify(params.row.uid, 1, params.row.role);
+                  this.passVerify(params.row.uid, 1, 2);
                 }
               }
             }, '通过'),
@@ -124,7 +124,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.passVerify(params.row.uid, 0, params.row.role);
+                    this.passVerify(params.row.uid, 0, 2);
                   }
                 }
               }, '不通过')]
