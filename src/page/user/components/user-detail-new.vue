@@ -154,7 +154,7 @@
             </ul>
           </div>
           <Row>
-            <Col span="12">
+            <Col span="8">
               <div class="wx-qrcode">
                 <p class="label">微信二维码</p>
                 <div class="pic-box">
@@ -165,6 +165,23 @@
                   <Upload class="upload-btn" :before-upload="HandleQrcode" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
                     <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
                   </Upload>
+                </div>
+              </div>
+            </Col>
+            <Col span="8">
+              <div class="wx-qrcode">
+                <p class="label">微信号</p>
+                <div class="pic-box">
+                  <span>{{myData.wechat}}</span>
+                </div>
+              </div>
+            </Col>
+            <Col span="8">
+              <div class="wx-qrcode" v-if="role == 2">
+                <p class="label">学历认证图</p>
+                <div class="pic-box">
+                  <img v-if="myData.xl_url !== ''" class="qr-pic" :src="myData.xl_url" alt="">
+                  <span v-if="myData.xl_url === ''">暂无</span>
                 </div>
               </div>
             </Col>
@@ -203,10 +220,17 @@
                     </div>
                   </div>
                 </TabPane>
-                <TabPane label="购买记录" name="name2">
+                <TabPane label="联系记录" name="name2">
                   <div class="tab-box record">
                     <div class="record-box">
                       <Table :columns="columns1" :data="contact" border></Table>
+                    </div>
+                  </div>
+                </TabPane>
+                <TabPane label="收藏列表" name="name4">
+                  <div class="tab-box record">
+                    <div class="record-box">
+                      <Table :columns="followCol" :data="followData" border></Table>
                     </div>
                   </div>
                 </TabPane>
@@ -278,7 +302,7 @@ export default {
       key: 'phone',
       align: 'center'
     }, {
-      title: '购买',
+      title: '联系情况',
       key: 'buy',
       width: '65',
       align: 'center',
@@ -286,10 +310,10 @@ export default {
         let text = '',
             color = '';
         if(params.row.buy === 1){
-          text = '购买的';
+          text = '我联系的';
           color = 'red';
         }else{
-          text = '被购买的';
+          text = '联系我的';
           color = 'green'
         }
         return h('span',{
@@ -299,16 +323,11 @@ export default {
         }, text);
       }
     },{
-      title: '价格',
-      key: 'money',
+      title: '姓名',
+      key: 'head_name',
       width: '65',
       align: 'center'
-    },{
-      title:  '状态',
-      key: 'status',
-      width: '65',
-      align: 'center'
-    },],
+    }],
     columns2: [{
       title: '地址名称',
       key: 'geo_name',
@@ -386,6 +405,20 @@ export default {
       key: 'create_at',
       align: 'center'
     }],
+    followCol: [{
+      title: '姓名',
+      key: 'to_name',
+      align: 'center'
+    },{
+      title: '手机号',
+      key: 'phone',
+      align: 'center'
+    },{
+      title: '创建时间',
+      key: 'create_at',
+      align: 'center'
+    }],
+    followData: [],
     if_show: false,
     tableLoading: false,
     myData: {
@@ -688,6 +721,7 @@ export default {
           this.myData = info;
           this.contact = info.contact.list;
           this.address = info.address;
+          this.followData = info.favorite;
           this.if_show = true;
         }
       })

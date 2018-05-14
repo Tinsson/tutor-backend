@@ -1,12 +1,38 @@
 <template lang="html">
   <div class="user-detail">
-    <Modal v-model="if_show" @on-cancel="hidePanel" :title="modelTitle" width="500" cancel-text>
-      <Form :model="infoForm" :label-width="100" inline>
+    <Modal v-model="if_show" @on-cancel="hidePanel" :title="modelTitle" width="550" cancel-text>
+      <Form :model="infoForm" :label-width="100">
         <FormItem label="姓名：">
           <Input :style="{width: iptWidth}" v-model="infoForm.name" />
         </FormItem>
-        <FormItem label="城市：">
-          <Cascader :style="{width: iptWidth}" :data="cityData" v-model="infoForm.city"></Cascader>
+        <FormItem label="是否全国：">
+          <div>
+            <i-switch v-model="infoForm.isAll">
+              <span slot="open">是</span>
+              <span slot="close">否</span>
+            </i-switch>
+          </div>
+        </FormItem>
+        <FormItem label="省/直辖市：" v-if="!infoForm.isAll">
+          <div class="city-box">
+            <div>
+              <Tag v-for="(item, index) in privinceTags" type="dot" :key="index" :name="item.name" :color="item.color" closable @on-close="rmPrivince">{{item.name}}</Tag>
+            </div>
+            <Select style="width: 80px" @on-change="getPrivince">
+              <Option v-for="item in cityData" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </div>
+          <p>若小标点为红色表示包括全部省/直辖市</p>
+        </FormItem>
+        <FormItem label="城市：" v-if="privinceTags.length > 0">
+          <div class="city-box">
+            <div>
+              <Tag v-for="(item, index) in cityVal" :key="index" :name="item" color="green" closable @on-close="rmCity">{{item}}</Tag>
+            </div>
+            <Cascader style="width: 120px" :data="cityArr" v-model="infoForm.city" @on-change="getCity">
+              <Button icon="ios-plus-empty" type="dashed" size="small">添加城市</Button>
+            </Cascader>
+          </div>
         </FormItem>
         <FormItem label="在职状态：">
           <Select :style="{width: iptWidth}" v-model="infoForm.status">
@@ -39,21 +65,26 @@
   },
   data(){
     return {
-    iptWidth: '200px',
-    modelTitle: '新增助教',
-    img_show: false,
-    is_edit: false,
-    if_show: false,
-    edit_id: '',
-    infoForm: {
-      name: '',
-      city: [],
-      status: '',
-      qrcode: '',
-      long_qrcode: '',
-    },
-    cityData: []
-  }},
+      iptWidth: '250px',
+      modelTitle: '新增助教',
+      img_show: false,
+      is_edit: false,
+      if_show: false,
+      edit_id: '',
+      infoForm: {
+        name: '',
+        isAll: false,
+        city: [],
+        status: '',
+        qrcode: '',
+        long_qrcode: '',
+      },
+      cityVal: [],
+      cityData: [],
+      privince: [],
+      privinceTags: []
+    }
+  },
 
   created(){
     this.axios.get('city-list').then(d=>{
@@ -66,7 +97,15 @@
   },
 
   computed: {
-
+    cityArr(){
+      let newArr = [];
+      this.cityData.forEach(val=>{
+        if(this.privince.indexOf(val.value) > -1){
+          newArr.push(val);
+        }
+      });
+      return newArr;
+    }
   },
   methods: {
 
@@ -85,6 +124,8 @@
       Object.keys(this.infoForm).forEach(label=>{
         if(label === 'city'){
           this.infoForm.city = [];
+        }else if(label === 'isAll'){
+          this.infoForm.isAll = false;
         }else{
           this.infoForm[label] = ''
         }
@@ -124,6 +165,64 @@
       })
     },
 
+    getPrivince(val){
+      if(val == ""){
+        return;
+      }
+      this.privinceTags.push({
+        color: 'red',
+        name: val
+      });
+      this.privince.push(val);
+
+    },
+
+    rmPrivince(e, name){
+      let tagIndex = '';
+      this.privinceTags.forEach((val, index)=>{
+        if(val.name == name){
+          tagIndex = index
+        }
+      });
+      const index = this.privince.indexOf(name);
+      this.privince.splice(index, 1);
+      this.privinceTags.splice(tagIndex, 1);
+    },
+
+    getCity(val){
+      if(this.cityVal.indexOf(val.join('/')) > -1){
+        return;
+      }
+      this.privinceTags.map((vval, index)=>{
+        if(vval.name == val[0]){
+          vval.color = 'blue'
+        }
+        return vval;
+      });
+      this.cityVal.push(val.join('/'));
+      this.infoForm.city = [];
+    },
+
+    rmCity(e, name){
+      const index = this.cityVal.indexOf(name);
+      this.cityVal.splice(index, 1);
+      let privince = name.split('/')[0],
+          p_status = true;
+      this.cityVal.forEach(val=>{
+        if(val.indexOf(privince) > -1){
+          p_status = false
+        }
+      });
+      if(p_status){
+        this.privinceTags.map((val, index)=>{
+          if(val.name == privince){
+            val.color = 'red'
+          }
+          return val;
+        });
+      }
+    },
+
     show(row) {
       if(row){
         this.is_edit = true;
@@ -151,5 +250,10 @@
     width: 200px;
     display: block;
     margin-bottom: 10px;
+  }
+  .city-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 </style>
