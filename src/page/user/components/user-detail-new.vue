@@ -661,7 +661,7 @@ export default {
       }).then(res => {
         if (res.status == 1) {
           let info = res.data.list;
-          this.long_qrcode = info.qrcode;
+          this.long_qrcode = info.long_qrcode;
 
           this.tableLoading = false;
           this.myData = info;
