@@ -32,7 +32,7 @@
                     <p class="label">客户类型</p>
                     <p class="value">
                       <span v-show="!IsEdit">{{myData.role === 1?'家长':'家教'}}</span>
-                      <Select v-show="IsEdit" v-model="EditData.role" :style="{width: IptWidth}">
+                      <Select v-show="IsEdit" v-model="EditData.role" :style="{width: IptWidth}" @on-change="RoleChange">
                         <Option :value="1">家长</Option>
                         <Option :value="2">家教</Option>
                       </Select>
@@ -524,11 +524,13 @@ export default {
     },
 
     editSave(){
-      let tags = this.EditData.tags_arr.map(val=>{
+      /*let tags = this.EditData.tags_arr.map(val=>{
         return this.need_list.tags[val]
-      }).join(",");
+      }).join(",");*/
+      console.log(this.EditData);
       let params = copyObj(this.EditData);
-      params.tags = tags;
+      console.log(params);
+      //params.tags = tags;
       params.uid = this.my_search.uid;
       if(params.role === 1){
         params.range = params.learn_range_id;
@@ -541,13 +543,20 @@ export default {
         if(d.status === 1){
           this.$Message.success(d.message);
           this.editCancel();
-          this.show()
+          //this.show();
+          this.IsEdit = false;
+          this.if_show = false;
+          this.$emit('save-over');
         }
       })
     },
 
     editCancel(){
       this.IsEdit = false;
+    },
+
+    RoleChange(type){
+      this.role = type;
     },
 
     transRole(){

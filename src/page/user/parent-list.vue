@@ -9,7 +9,7 @@
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
 
-  <user-detail ref="userDetail" :role="user_role"></user-detail>
+  <user-detail ref="userDetail" @save-over="getData" :role="user_role"></user-detail>
 
 </div>
 </template>
