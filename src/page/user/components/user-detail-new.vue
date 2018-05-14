@@ -146,7 +146,7 @@
                   <Col span="6">
                     <p class="label">城市</p>
                     <p class="value">
-                      <span>{{city}}</span>
+                      <span>{{myData.city}}</span>
                     </p>
                   </Col>
                 </Row>
