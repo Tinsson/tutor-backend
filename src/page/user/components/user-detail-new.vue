@@ -98,6 +98,14 @@
                     </p>
                   </Col>
                   <Col span="6">
+                    <p class="label">来源渠道</p>
+                    <p class="value">{{myData.resource}}</p>
+                  </Col>
+                  <Col span="6">
+                    <p class="label">所属助教</p>
+                    <p class="value">{{myData.assistant}}</p>
+                  </Col>
+                  <!--<Col span="6">
                     <p class="label">教学特点</p>
                     <p class="value">
                       <span v-show="!IsEdit">{{myData.tags}}</span>
@@ -112,7 +120,7 @@
                       <span v-show="!IsEdit">{{myData.remark}}</span>
                       <Input v-show="IsEdit" v-model="EditData.remark" :style="{width: IptWidth}"/>
                     </p>
-                  </Col>
+                  </Col>-->
                 </Row>
               </li>
               <li class="single-line fix-line">
@@ -145,18 +153,22 @@
               </li>
             </ul>
           </div>
-          <div class="wx-qrcode">
-            <p class="label">微信二维码</p>
-            <div class="pic-box">
-              <img v-if="wxQrcode !== ''" class="qr-pic" :src="wxQrcode" alt="">
-              <span v-if="wxQrcode === ''">暂无</span>
-            </div>
-            <div v-show="IsEdit" class="btn-box">
-              <Upload class="upload-btn" :before-upload="HandleQrcode" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
-                <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
-              </Upload>
-            </div>
-          </div>
+          <Row>
+            <Col span="12">
+              <div class="wx-qrcode">
+                <p class="label">微信二维码</p>
+                <div class="pic-box">
+                  <img v-if="wxQrcode !== ''" class="qr-pic" :src="wxQrcode" alt="">
+                  <span v-if="wxQrcode === ''">暂无</span>
+                </div>
+                <div v-show="IsEdit" class="btn-box">
+                  <Upload class="upload-btn" :before-upload="HandleQrcode" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
+                    <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
+                  </Upload>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </Col>
         <Col span="8">
           <Card>

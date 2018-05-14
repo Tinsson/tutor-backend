@@ -28,30 +28,7 @@ export default {
       // user_detail_show: false,
 
       columns: [
-        /*{
-          title: 'ID',
-          key: 'id',
-          align: 'center'
-        },{
-          title: '头像',
-          key: 'portrait',
-          align: 'center',
-          render(h, params){
-            return h('img',{
-              style: {
-                width: '50px',
-                height: '50px'
-              },
-              attrs: {
-                src: params.row.portrait
-              }
-            })
-          }
-        },{
-          title: 'openid',
-          key: 'openid',
-          align: 'center'
-        },*/{
+        {
           title: '姓名',
           key: 'body_name',
           align: 'center'
@@ -94,6 +71,14 @@ export default {
             return h('span', text);
           }
         }, {
+          title: '来源渠道',
+          key: 'resource',
+          align: 'center'
+        },{
+          title: '所属助教',
+          key: 'assistant',
+          align: 'center'
+        },{
           title: '操作',
           key: 'operation',
           align: 'center',
@@ -108,7 +93,6 @@ export default {
                 },
                 on: {
                   click: () => {
-                    //this.user_role = params.row.role;
                     this.user_role = params.row.role;
                     this.$refs.userDetail.show(params.row.id, params.row.city, this.user_role)
                   }
