@@ -42,6 +42,10 @@ export default {
         name: '微信审核列表',
         path: '/wechat-list'
       },{
+        id: '5',
+        name: '二维码审核列表',
+        path: '/qrcode-list'
+      },{
         id:'11',
         name: '学历审核列表',
         path:'/edu-list'

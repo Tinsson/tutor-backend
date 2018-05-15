@@ -17,6 +17,7 @@ import userTutor from '@/page/user/tutor-list'  //家教列表
 import verifyParent from '@/page/verify/parent-list' //审核家长
 import verifyTutor from '@/page/verify/tutor-list'  //审核家教
 import verifyWechat from '@/page/verify/wechat-list' //微信审核
+import verifyQrcode from '@/page/verify/qrcode-list' //二维码审核
 import verifyEdu from '@/page/verify/edu-list' //学历审核
 
 //投诉管理
@@ -86,6 +87,10 @@ const router = new Router({
           path: '/verify/wechat-list',
           name: 'verifyWechat',
           component: verifyWechat
+        },{
+          path: '/verify/qrcode-list',
+          name: 'verifyQrcode',
+          component: verifyQrcode
         },{
           path: '/verify/edu-list',
           name: 'verifyEdu',

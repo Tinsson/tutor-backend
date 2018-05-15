@@ -1,6 +1,6 @@
 <template>
 <div id="user">
-  <title-bar title="微信审核列表" @refresh="refresh"/>
+  <title-bar title="二维码审核列表" @refresh="refresh"/>
   <table-card :columns="cardColumns" :data="cardData" card_style="width:30%;" container_style="justify-content: between;" @change="cardChange"></table-card>
   <search-group :searchList="searchList" @search="search">
   </search-group>
@@ -61,10 +61,6 @@ export default {
           key: 'phone',
           align: 'center'
         },{
-          title: '微信号',
-          key: 'wechat',
-          align: 'center'
-        },{
           title: '用户信息',
           align: 'center',
           render: (h, params)=>{
@@ -83,43 +79,6 @@ export default {
                 }
               }, '查看')
             ])
-          }
-        },{
-          title: '微信号审核',
-          key: 'operation',
-          align: 'center',
-          width: '200',
-          render: (h, params) => {
-            let btnArr = [],
-                status = params.row.wechat_status;
-            if(status == -1 || status == 0 || status == 1){
-              btnArr.push(h('Button', {
-                props: {
-                  type: 'info'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.passVerify(params.row.uid, 1, params.row.role, 3);
-                  }
-                }
-              }, '通过'));
-            }
-            if(status == -1 || status == 0 || status > 1){
-              btnArr.push(h('Button', {
-                props: {
-                  type: 'error'
-                },
-                on: {
-                  click: () => {
-                    this.passVerify(params.row.uid, 0, params.row.role, 3);
-                  }
-                }
-              }, '不通过'))
-            }
-            return h('div',btnArr);
           }
         },{
           title: '微信二维码审核',
@@ -227,7 +186,7 @@ export default {
     },
     getData () {
       this.tableLoading = true;
-      this.axios.get(`verify-wechat-list`,{ params: this.searchData}).then(res => {
+      this.axios.get(`verify-qrcode`,{ params: this.searchData}).then(res => {
         this.tableLoading = false;
         if(res) {
           this.myData = res.data.list;
