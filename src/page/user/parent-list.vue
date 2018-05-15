@@ -6,8 +6,11 @@
   <search-group :searchList="searchList" @search="search">
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-    <div slot="btn">
-      来源：
+    <div class="resource-box" slot="btn">
+      <span>来源：</span>
+      <Select v-model="my_search.resource_id" style="width: 150px" clearable filterable remote :remote-method="getResource">
+        <Option v-for="item in resourceArr" :value="item.id" :key="item.id">{{ item.name }}</Option>
+      </Select>
     </div>
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
@@ -176,6 +179,14 @@ export default {
         model: 'is_remark'
       }],
 
+      resourceArr: [{
+        value: 1,
+        label: '宁波大学'
+      },{
+        value: 2,
+        label: '宁波工程学院'
+      }],
+
       pageprops: { //分页配置
         showSizer:true,
         total:0,
@@ -185,7 +196,9 @@ export default {
         size: 10
       },
       searchForm: {}, //搜索框属性
-      my_search: {} //固定搜索用户
+      my_search: {
+        resource_id: ''
+      } //固定搜索用户
     }
   },
   computed: {
@@ -254,6 +267,17 @@ export default {
           })
         }
       });
+    },
+    getResource(query){
+      this.axios.get('get-resource',{
+        params: {
+          resource: query
+        }
+      }).then(d=>{
+        if(d.status == 1){
+          this.resourceArr = d.data.list;
+        }
+      })
     }
   },
   mounted() {
@@ -294,5 +318,10 @@ export default {
   .avatar-img{
     width: 120px;
     height: 120px;
+  }
+  .resource-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 </style>
