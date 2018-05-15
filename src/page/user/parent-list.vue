@@ -159,6 +159,18 @@ export default {
           value: 1
         }],
         model: 'is_order'
+      },{
+        label: '是否备注',
+        type: 'select',
+        placeholder: '请选择',
+        options: [{
+          label: '是',
+          value: 1
+        },{
+          label: '否',
+          value: 0
+        }],
+        model: 'is_remark'
       }],
 
       pageprops: { //分页配置
