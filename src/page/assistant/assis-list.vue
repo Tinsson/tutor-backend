@@ -36,6 +36,10 @@
             key: 'name',
             align: 'center'
           },{
+            title: '助教手机',
+            key: 'phone',
+            align: 'center'
+          },{
             title: '二维码',
             key: 'phone',
             align: 'center',
@@ -54,7 +58,7 @@
             }
           },{
             title: '城市',
-            key: 'city',
+            key: 'citys',
             align: 'center'
           },{
             title: '助教id',

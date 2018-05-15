@@ -5,6 +5,9 @@
         <FormItem label="姓名：">
           <Input :style="{width: iptWidth}" v-model="infoForm.name" />
         </FormItem>
+        <FormItem label="手机号：">
+          <Input :style="{width: iptWidth}" v-model="infoForm.phone" />
+        </FormItem>
         <FormItem label="是否全国：">
           <div>
             <i-switch v-model="infoForm.isAll">
@@ -16,15 +19,15 @@
         <FormItem label="省/直辖市：" v-if="!infoForm.isAll">
           <div class="city-box">
             <div>
-              <Tag v-for="(item, index) in privinceTags" type="dot" :key="index" :name="item.name" :color="item.color" closable @on-close="rmPrivince">{{item.name}}</Tag>
+              <Tag v-for="(item, index) in provinceTags" type="dot" :key="index" :name="item.name" :color="item.color" closable @on-close="rmProvince">{{item.name}}</Tag>
             </div>
-            <Select style="width: 80px" @on-change="getPrivince">
+            <Select style="width: 80px" @on-change="getProvince">
               <Option v-for="item in cityData" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </div>
           <p>若小标点为红色表示包括全部省/直辖市</p>
         </FormItem>
-        <FormItem label="城市：" v-if="privinceTags.length > 0">
+        <FormItem label="城市：" v-if="provinceTags.length > 0 && !infoForm.isAll">
           <div class="city-box">
             <div>
               <Tag v-for="(item, index) in cityVal" :key="index" :name="item" color="green" closable @on-close="rmCity">{{item}}</Tag>
@@ -43,6 +46,12 @@
         <FormItem label="二维码：">
           <img v-if="is_edit || img_show" class="qrcode-pic" :src="infoForm.long_qrcode" alt="">
           <Upload class="upload-btn" :before-upload="HandleQrcode" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
+            <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
+          </Upload>
+        </FormItem>
+        <FormItem label="头像: ">
+          <img v-if="is_edit || assis_show" class="qrcode-pic" :src="infoForm.long_assistant" alt="">
+          <Upload class="upload-btn" :before-upload="HandleAssistant" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
             <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
           </Upload>
         </FormItem>
@@ -68,21 +77,25 @@
       iptWidth: '250px',
       modelTitle: '新增助教',
       img_show: false,
+      assis_show: false,
       is_edit: false,
       if_show: false,
       edit_id: '',
       infoForm: {
         name: '',
+        phone: '',
         isAll: false,
         city: [],
         status: '',
         qrcode: '',
         long_qrcode: '',
+        assistant: '',
+        long_assistant: ''
       },
       cityVal: [],
       cityData: [],
-      privince: [],
-      privinceTags: []
+      province: [],
+      provinceTags: []
     }
   },
 
@@ -100,7 +113,7 @@
     cityArr(){
       let newArr = [];
       this.cityData.forEach(val=>{
-        if(this.privince.indexOf(val.value) > -1){
+        if(this.province.indexOf(val.value) > -1){
           newArr.push(val);
         }
       });
@@ -118,6 +131,15 @@
       return false;
     },
 
+    HandleAssistant(file){
+      this.$uploadPic(file, 'assistant').then(res=>{
+        this.assis_show = true;
+        this.infoForm.long_assistant = res.base64;
+        this.infoForm.assistant = res.short_pic;
+      });
+      return false;
+    },
+
     hidePanel(){
       this.if_show = false;
       this.img_show = false;
@@ -131,9 +153,8 @@
         }
       });
       this.cityVal = [];
-      this.cityData = [];
-      this.privince = [];
-      this.privinceTags = [];
+      this.province = [];
+      this.provinceTags = [];
     },
 
     submitData(){
@@ -146,9 +167,11 @@
       }else{
         url = 'assis-add';
       }
-      params.city = params.city.join(',');
+      //params.city = params.city.join(',');
       if(params.name === ''){
         error_msg = '姓名不能为空！';
+      }else if(params.phone === ''){
+        error_msg = '手机号不能为空！';
       }else if(params.status === ''){
         error_msg = '请选择在职状态！';
       }else if(params.qrcode === ''){
@@ -158,11 +181,22 @@
         this.$Message.error(error_msg);
         return;
       }
-      params.isAll = params.isAll?1:0;
-      params.privince = this.privince.join(',');
-      params.city = this.cityVal.join(',');
+      params.is_country = params.isAll?1:0;
+      let p_arr = [],
+          c_arr = [];
+      this.provinceTags.forEach(val=>{
+        if(val.color == 'red'){
+          p_arr.push(val.name)
+        }
+      });
+      this.cityVal.forEach(val=>{
+        c_arr.push(val.split('/')[1]);
+      });
+      params.province = p_arr.join(',');
+      params.city = c_arr.join(',');
+
       console.log(params);
-      return;
+
       this.axios.post(url, params).then(d=>{
         if(d.status === 1){
           this.if_show = false;
@@ -172,35 +206,35 @@
       })
     },
 
-    getPrivince(val){
+    getProvince(val){
       if(val == ""){
         return;
       }
-      this.privinceTags.push({
+      this.provinceTags.push({
         color: 'red',
         name: val
       });
-      this.privince.push(val);
+      this.province.push(val);
 
     },
 
-    rmPrivince(e, name){
+    rmProvince(e, name){
       let tagIndex = '';
-      this.privinceTags.forEach((val, index)=>{
+      this.provinceTags.forEach((val, index)=>{
         if(val.name == name){
           tagIndex = index
         }
       });
-      const index = this.privince.indexOf(name);
-      this.privince.splice(index, 1);
-      this.privinceTags.splice(tagIndex, 1);
+      const index = this.province.indexOf(name);
+      this.province.splice(index, 1);
+      this.provinceTags.splice(tagIndex, 1);
     },
 
     getCity(val){
       if(this.cityVal.indexOf(val.join('/')) > -1){
         return;
       }
-      this.privinceTags.map((vval, index)=>{
+      this.provinceTags.map((vval, index)=>{
         if(vval.name == val[0]){
           vval.color = 'blue'
         }
@@ -213,16 +247,16 @@
     rmCity(e, name){
       const index = this.cityVal.indexOf(name);
       this.cityVal.splice(index, 1);
-      let privince = name.split('/')[0],
+      let province = name.split('/')[0],
           p_status = true;
       this.cityVal.forEach(val=>{
-        if(val.indexOf(privince) > -1){
+        if(val.indexOf(province) > -1){
           p_status = false
         }
       });
       if(p_status){
-        this.privinceTags.map((val, index)=>{
-          if(val.name == privince){
+        this.provinceTags.map((val, index)=>{
+          if(val.name == province){
             val.color = 'red'
           }
           return val;
@@ -237,10 +271,49 @@
         Object.keys(this.infoForm).forEach(label=>{
           if(label === 'city'){
             this.infoForm.city = row.city.split(',');
+          }else if(label === 'isAll'){
+            this.infoForm.isAll = row.is_country == 1?true:false;
+          }else if(label === 'province'){
+
           }else{
             this.infoForm[label] = row[label]
           }
         });
+
+        if(row.province !== ''){
+          this.provinceTags = [];
+          this.province = [];
+          row.province.split(',').forEach(val=>{
+            this.provinceTags.push({
+              color: 'red',
+              name: val
+            });
+            this.province.push(val);
+          })
+        }
+
+        if(row.city !== ''){
+          this.cityVal = [];
+          row.city.split(',').forEach(val=>{
+            this.cityData.forEach(pVal=>{
+              pVal.children.forEach(cVal=>{
+                if(val == cVal.value){
+                  this.cityVal.push(`${pVal.value}/${val}`);
+                  if(this.province.indexOf(pVal.value) == -1){
+                    this.province.push(pVal.value);
+                    this.provinceTags.push({
+                      color: 'blue',
+                      name: pVal.value
+                    })
+                  }
+                }
+              })
+            })
+          })
+        }
+
+
+        console.log(this.province);
         this.modelTitle = '编辑助教';
       }else{
         this.is_edit = false;
