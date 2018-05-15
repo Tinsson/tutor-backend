@@ -179,13 +179,7 @@ export default {
         model: 'is_remark'
       }],
 
-      resourceArr: [{
-        value: 1,
-        label: '宁波大学'
-      },{
-        value: 2,
-        label: '宁波工程学院'
-      }],
+      resourceArr: [],
 
       pageprops: { //分页配置
         showSizer:true,
