@@ -546,7 +546,7 @@ export default {
             value = parseInt(value);
           }
           if(label === 'teach_range_id' || label === "teach_subject_id"){
-            if(info[label] !== ""){
+            if(info[label] !== "" && info[label] !== undefined){
               value = info[label].split(',').map(val=>{
                 return parseInt(val);
               })
@@ -556,7 +556,7 @@ export default {
           }
           this.$set(this.EditData, label, value);
         }
-        if(label === 'tags_arr'){
+        /*if(label === 'tags_arr'){
           if(info.tags === ""){
             value = []
           }else{
@@ -565,7 +565,7 @@ export default {
             });
           }
           this.$set(this.EditData, label, value);
-        }
+        }*/
       });
       this.IsEdit = true;
     },

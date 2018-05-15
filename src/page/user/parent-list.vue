@@ -6,6 +6,9 @@
   <search-group :searchList="searchList" @search="search">
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
+    <div slot="btn">
+      来源：
+    </div>
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
 
