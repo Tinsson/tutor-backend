@@ -218,6 +218,18 @@
                         <p class="tab-info">{{myData.wechat_auth_time}}</p>
                       </div>
                     </div>
+                    <div class="remark-box">
+                      <h2 class="tab-title">备注：</h2>
+                      <div class="content-box">
+                        <p class="content-txt" v-if="!remark_status">{{myData.remark?myData.remark:'暂无'}}</p>
+                        <Input type="textarea" style="width: 260px;" v-model="remark" v-if="remark_status" />
+                        <div class="remark-btn">
+                          <Button type="primary" v-if="!remark_status" @click="remarkEdit">修改</Button>
+                          <Button type="success" v-if="remark_status" @click="remarkSave">保存</Button>
+                          <Button type="error" v-if="remark_status" @click="remarkCancel">取消</Button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </TabPane>
                 <TabPane label="联系记录" name="name2">
@@ -452,7 +464,9 @@ export default {
       tags: [],
       teach_range: [],
       teach_subject: []
-    }
+    },
+    remark_status: false,
+    remark: ''
   }},
 
   created(){
@@ -694,7 +708,25 @@ export default {
           }
           this.EditData[val] = ""
         }
+      });
+      this.remark_status = false;
+    },
+    remarkEdit(){
+      this.remark = this.myData.remark;
+      this.remark_status = true;
+    },
+    remarkSave(){
+      this.axios.post('edit-remark', {
+        uid: this.my_search.uid,
+        remark: this.remark
+      }).then(d=>{
+        this.$Message.success(d.message);
+        this.remark_status = false;
+        this.show();
       })
+    },
+    remarkCancel(){
+      this.remark_status = false;
     },
     show(row, city, role) {
       if (row) {
@@ -846,6 +878,19 @@ export default {
     }
     .btn-box{
       padding-top: 20px;
+    }
+  }
+  .remark-box{
+    display: flex;
+    flex-direction: row;
+    .tab-title{
+      font-size: 16px;
+    }
+    .content-txt{
+      padding-top: 2px;
+    }
+    .remark-btn{
+      padding-top: 10px;
     }
   }
 </style>

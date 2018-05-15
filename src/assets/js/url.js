@@ -16,6 +16,7 @@ const urlList = {
   'trans-role': '/backend/user/edit-role', //切换身份
   'need-config': '/backend/user/need-config', //需求配置
   'edit-user': '/backend/user/edit-user', //编辑基本信息
+  'edit-remark': '/backend/user/edit-remark', //保存备注
 
 
   //审核列表

@@ -63,7 +63,7 @@ export default {
         id: '12',
         name: '解锁记录',
         path: '/contact-list'
-      },{
+      }/*,{
         id: '13',
         name: '认证支付流水',
         path: '/audit-list'
@@ -79,7 +79,7 @@ export default {
         id: '16',
         name: '退款记录',
         path: '/buy-refund'
-      }]
+      }*/]
     },{
       id: '9',
       name: '投诉管理',
@@ -97,6 +97,19 @@ export default {
         id: '11',
         name: '助教列表',
         path: '/assis-list'
+      }]
+    },{
+      id: '12',
+      name: '统计管理',
+      path: '/statis',
+      children: [{
+        id: '13',
+        name: '统计首页',
+        path: '/index'
+      },{
+        id: '14',
+        name: '统计详情',
+        path: '/detail'
       }]
     }]
   }),

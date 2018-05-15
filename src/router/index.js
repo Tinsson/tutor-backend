@@ -35,6 +35,10 @@ import buyRefund from '@/page/trade/buy-refund'
 //助教管理
 import assisList from '@/page/assistant/assis-list'
 
+//统计管理
+import statsIndex from '@/page/statis/index'
+import statsDetail from '@/page/statis/detail'
+
 //对账
 
 const router = new Router({
@@ -118,6 +122,14 @@ const router = new Router({
           path: '/assistant/assis-list',
           name: 'assisList',
           component: assisList
+        },{
+          path: '/statis/index',
+          name: 'statsIndex',
+          component: statsIndex
+        },{
+          path: '/statis/detail',
+          name: 'statsDetail',
+          component: statsDetail
         }
       ]
     }

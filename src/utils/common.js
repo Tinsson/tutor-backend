@@ -34,7 +34,7 @@ function compareObject(o1, o2) {
 //深度拷贝对象
 function copyObj(obj,emptyObj={}) {
   for (let key in obj) {
-    if(typeof obj[key] === 'object') {
+    if(typeof obj[key] === 'object' && obj[key] !== null) {
       if(obj[key].length === undefined ){
         emptyObj[key] = copyObj(obj[key])
       }else{

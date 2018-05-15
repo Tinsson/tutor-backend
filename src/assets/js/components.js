@@ -4,6 +4,7 @@ import tableContainer from '@/components/table-container'
 import tableCard from '@/components/table-card'
 import myUpload from '@/components/my-upload'
 import bigPic from '@/components/big-pic'
+import timeSearch from '@/components/time-search'
 
 const components = {
   install: function(Vue){
@@ -13,6 +14,7 @@ const components = {
     Vue.component('tableCard',tableCard)
     Vue.component('myUpload',myUpload)
     Vue.component('bigPic', bigPic)
+    Vue.component('timeSearch', timeSearch)
   }
 }
 

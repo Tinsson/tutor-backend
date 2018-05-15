@@ -130,6 +130,10 @@
           this.infoForm[label] = ''
         }
       });
+      this.cityVal = [];
+      this.cityData = [];
+      this.privince = [];
+      this.privinceTags = [];
     },
 
     submitData(){
@@ -145,8 +149,6 @@
       params.city = params.city.join(',');
       if(params.name === ''){
         error_msg = '姓名不能为空！';
-      }else if(params.city === ''){
-        error_msg = '请选择城市！';
       }else if(params.status === ''){
         error_msg = '请选择在职状态！';
       }else if(params.qrcode === ''){
@@ -156,6 +158,11 @@
         this.$Message.error(error_msg);
         return;
       }
+      params.isAll = params.isAll?1:0;
+      params.privince = this.privince.join(',');
+      params.city = this.cityVal.join(',');
+      console.log(params);
+      return;
       this.axios.post(url, params).then(d=>{
         if(d.status === 1){
           this.if_show = false;
