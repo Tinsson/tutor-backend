@@ -60,7 +60,7 @@ export default {
           key: 'city',
           align: 'center'
         },{
-          title: '认证状态',
+          title: '审核状态',
           key: 'certime',
           align: 'center'
         }, {
@@ -139,17 +139,20 @@ export default {
         placeholder: '请输入筛选城市',
         model: 'city'
       },{
-        label: '认证状态',
+        label: '审核状态',
         type: 'select',
         placeholder: '请选择',
         options: [{
-          label: '未审核',
-          value: 0,
+          label: '未认证',
+          value: -1,
         },{
-          label: '不通过',
+          label: '审核中',
+          value: 0
+        },{
+          label: '认证失败',
           value: 1
         },{
-          label: '通过',
+          label: '认证成功',
           value: 2
         }],
         model: 'certime'
