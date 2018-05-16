@@ -65,6 +65,10 @@ export default {
           key: 'wechat',
           align: 'center'
         },{
+          title: '备注',
+          key: 'remark',
+          align: 'center'
+        },{
           title: '用户信息',
           align: 'center',
           render: (h, params)=>{
