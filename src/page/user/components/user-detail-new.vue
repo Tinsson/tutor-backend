@@ -900,5 +900,8 @@ export default {
     .remark-btn{
       padding-top: 10px;
     }
+    .content-box{
+      width: 300px;
+    }
   }
 </style>

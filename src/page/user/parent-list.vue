@@ -138,6 +138,11 @@ export default {
         placeholder: '请输入手机号',
         model: 'phone'
       },{
+        label: '微信昵称',
+        type: 'input',
+        placeholder: '请输入微信昵称',
+        model: 'nickname'
+      },{
         label: '城市',
         type: 'input',
         placeholder: '请输入筛选城市',
