@@ -1,12 +1,12 @@
 <template>
 <div id="user">
   <title-bar title="用户列表" @refresh="refresh">
-
   </title-bar>
   <search-group :searchList="searchList" @search="search">
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <div class="resource-box" slot="btn">
+      <span class="total">总计：<span class="num">{{pageprops.total}}</span></span>
       <span>来源：</span>
       <Select v-model="my_search.resource_id" style="width: 150px" clearable filterable remote :remote-method="getResource">
         <Option v-for="item in resourceArr" :value="item.id" :key="item.id">{{ item.name }}</Option>
@@ -83,6 +83,10 @@ export default {
         }, {
           title: '来源渠道',
           key: 'resource',
+          align: 'center'
+        },{
+          title: '客户等级',
+          key: 'level',
           align: 'center'
         },{
           title: '备注',
@@ -333,5 +337,11 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    .total{
+      padding-right: 25px;
+      .num{
+        color: red;
+      }
+    }
   }
 </style>

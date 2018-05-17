@@ -40,6 +40,17 @@
                   </Col>
                 </Row>
               </li>
+              <li class="single-line">
+                <Row>
+                  <Col span="6">
+                    <p class="label">客户等级</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.level}}</span>
+                      <Input v-show="IsEdit" v-model="EditData.level" :style="{width: IptWidth}"></Input>
+                    </p>
+                  </Col>
+                </Row>
+              </li>
               <li class="single-line" v-if="role === 2">
                 <Row>
                   <Col span="6">
@@ -306,6 +317,7 @@ export default {
       role: '',
       school: '',
       diploma: '',
+      level: '',
       professional: '',
       wechat_qrcode: '',
       learn_range_id: '',
