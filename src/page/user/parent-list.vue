@@ -43,6 +43,10 @@ export default {
           key: 'phone',
           align: 'center'
         },{
+          title: '微信昵称',
+          key: 'nickname',
+          align: 'center'
+        },{
           title: '客户类型',
           key: 'role',
           align: 'center',
