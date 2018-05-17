@@ -61,10 +61,6 @@
             key: 'citys',
             align: 'center'
           },{
-            title: '助教id',
-            key: 'aid',
-            align: 'center'
-          },{
             title: '就职状态',
             key: 'role',
             align: 'center',
