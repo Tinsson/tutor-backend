@@ -81,6 +81,10 @@ export default {
           key: 'resource',
           align: 'center'
         },{
+          title: '备注',
+          key: 'remark',
+          align: 'center'
+        },{
           title: '所属助教',
           key: 'assistant',
           align: 'center'
