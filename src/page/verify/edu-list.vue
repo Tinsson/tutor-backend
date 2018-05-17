@@ -26,7 +26,7 @@ export default {
       select_arr: [], //选择的用户列表
       // 高级筛选
       senior_search: false,  //高级检索模态框是否显示
-      user_role: 1,
+      user_role: 2,
       tableLoading: false, //表格是否加载
 
       // user_detail_show: false,
@@ -92,7 +92,7 @@ export default {
                 on: {
                   click: () => {
                     //this.user_role = params.row.role;
-                    this.user_role = params.row.role;
+                    this.user_role = 2;
                     this.$refs.userDetail.show(params.row.uid, params.row.city, this.user_role)
                   }
                 }
