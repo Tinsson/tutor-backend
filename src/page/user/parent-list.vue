@@ -2,7 +2,7 @@
 <div id="user">
   <title-bar title="用户列表" @refresh="refresh">
   </title-bar>
-  <search-group :searchList="searchList" @search="search">
+  <search-group ref="search-box" :searchList="searchList" @search="search">
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <div class="resource-box" slot="btn">
@@ -234,7 +234,9 @@ export default {
       this.getData();
     },
     refresh() {
-      console.log('刷新')
+      this.$refs['search-box'].reset_search();
+      this.getData();
+      //console.log('刷新');
     },
     pageChange(page) {
       this.fy.page = page;

@@ -3,7 +3,7 @@
     <div class="title">
       {{title}}
     </div>
-    <Button type="info" icon="refresh" size="large" @click="refresh">刷新</Button>
+    <Button type="info" icon="refresh" size="large" @click="refresh">重置刷新</Button>
   </div>
 </template>
 <script>
