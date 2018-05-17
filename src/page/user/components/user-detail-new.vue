@@ -217,6 +217,14 @@
                         <h2 class="tab-title">通过时间:</h2>
                         <p class="tab-info">{{myData.wechat_auth_time}}</p>
                       </div>
+                      <div class="half-box">
+                        <h2 class="tab-title">设备:</h2>
+                        <p class="tab-info">{{myData.device}}</p>
+                      </div>
+                      <div class="half-box">
+                        <h2 class="tab-title">最近登录时间:</h2>
+                        <p class="tab-info">{{myData.logintime}}</p>
+                      </div>
                     </div>
                     <div class="remark-box">
                       <h2 class="tab-title">备注：</h2>
