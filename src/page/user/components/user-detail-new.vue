@@ -658,7 +658,7 @@ export default {
           this.editCancel();
           //this.show();
           this.IsEdit = false;
-          this.if_show = false;
+          //this.if_show = false;
           this.$emit('save-over');
         }
       })
