@@ -187,7 +187,8 @@
               <div class="wx-qrcode">
                 <p class="label">微信号</p>
                 <div class="pic-box">
-                  <span>{{myData.wechat}}</span>
+                  <span v-show="!IsEdit">{{myData.wechat}}</span>
+                  <Input v-show="IsEdit" v-model="EditData.wechat" :style="{width: IptWidth}"></Input>
                 </div>
               </div>
             </Col>
@@ -195,8 +196,13 @@
               <div class="wx-qrcode" v-if="role == 2">
                 <p class="label">学历认证图</p>
                 <div class="pic-box">
-                  <img v-if="myData.xl_url !== ''" class="qr-pic" :src="myData.xl_url" alt="">
-                  <span v-if="myData.xl_url === ''">暂无</span>
+                  <img v-if="eduAuth !== ''" class="qr-pic" :src="eduAuth" alt="">
+                  <span v-if="eduAuth === ''">暂无</span>
+                </div>
+                <div v-show="IsEdit" class="btn-box">
+                  <Upload class="upload-btn" :before-upload="HandleEdu" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
+                    <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
+                  </Upload>
                 </div>
               </div>
             </Col>
@@ -323,6 +329,7 @@ export default {
       diploma: '',
       level: '',
       professional: '',
+      wechat: '',
       wechat_qrcode: '',
       learn_range_id: '',
       teach_range_id: [],
@@ -490,7 +497,8 @@ export default {
       teach_subject: []
     },
     remark_status: false,
-    remark: ''
+    remark: '',
+    edu_pic: ''
   }},
 
   created(){
@@ -527,6 +535,13 @@ export default {
         return this.long_qrcode;
       }
     },
+    eduAuth(){
+      if(this.IsEdit){
+        return this.edu_pic;
+      }else{
+        return this.myData.xl_url;
+      }
+    },
     sexTxt(){
       if(this.myData.sex === 1){
         return '男'
@@ -557,6 +572,18 @@ export default {
         this.EditData.long_qrcode = res.base64;
         this.EditData.qrcode = res.short_pic;
       });
+      return false;
+    },
+
+    HandleEdu(file){
+      let reader = new FileReader(),
+          that = this;
+      this.edu_file = file;
+      reader.readAsDataURL(file);
+      reader.onload = function(e){
+        let res = e.target.result;
+        that.edu_pic = res;
+      };
       return false;
     },
 
@@ -599,7 +626,8 @@ export default {
         return this.need_list.tags[val]
       }).join(",");*/
       console.log(this.EditData);
-      let params = copyObj(this.EditData);
+      let params = copyObj(this.EditData),
+          formData = new FormData();
       console.log(params);
       //params.tags = tags;
       params.uid = this.my_search.uid;
@@ -610,7 +638,21 @@ export default {
         params.range = params.teach_range_id.join(',');
         params.subject = params.teach_subject_id.join(',');
       }
-      this.axios.post('edit-user', params).then(d=>{
+      Object.keys(params).forEach(label=>{
+        formData.append(label, params[label]);
+      });
+
+      if(this.edu_file){
+        formData.append('file', this.edu_file);
+      }
+
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+
+      this.axios.post('edit-user', formData, config).then(d=>{
         if(d.status === 1){
           this.$Message.success(d.message);
           this.editCancel();
@@ -779,6 +821,8 @@ export default {
           this.address = info.address;
           this.followData = info.favorite;
           this.if_show = true;
+          this.edu_pic = this.myData.xl_url;
+          this.role = info.role;
         }
       })
     },
