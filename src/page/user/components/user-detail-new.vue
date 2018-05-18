@@ -46,7 +46,11 @@
                     <p class="label">客户等级</p>
                     <p class="value">
                       <span v-show="!IsEdit">{{myData.level}}</span>
-                      <Input v-show="IsEdit" v-model="EditData.level" :style="{width: IptWidth}"></Input>
+                      <Select v-show="IsEdit" v-model="EditData.level" :style="{width: IptWidth}">
+                        <Option value="A">A</Option>
+                        <Option value="B">B</Option>
+                        <Option value="C">C</Option>
+                      </Select>
                     </p>
                   </Col>
                 </Row>
