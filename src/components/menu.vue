@@ -52,12 +52,16 @@ export default {
       }]
     },{
       id:'20',
-      name:'管理配置',
+      name:'配置管理',
       path:'/config',
       children:[{
         id:'23',
         name:'基本配置',
         path:'/base-config'
+      },{
+        id: '24',
+        name: '渠道配置',
+        path: '/resource-config'
       }]
     },{
       id: '12',

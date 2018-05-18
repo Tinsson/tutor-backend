@@ -1,6 +1,6 @@
 <template>
 <div id="user">
-  <title-bar title="用户列表" @refresh="refresh">
+  <title-bar title="用户列表" has_refresh="1" @refresh="refresh">
   </title-bar>
   <search-group ref="search-box" :searchList="searchList" @search="search">
   </search-group>
@@ -197,6 +197,21 @@ export default {
           value: 0
         }],
         model: 'is_remark'
+      },{
+        label: '客户等级',
+        type: 'select',
+        placeholder: '请选择',
+        options: [{
+          label: 'A',
+          value: 'A'
+        },{
+          label: 'B',
+          value: 'B'
+        },{
+          label: 'C',
+          value: 'C'
+        }],
+        model: 'level'
       }],
 
       resourceArr: [],

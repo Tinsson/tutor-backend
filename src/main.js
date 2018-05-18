@@ -13,7 +13,7 @@ Vue.use(iview)
 import components from '@/assets/js/components'
 import VueAxios from 'vue-axios'
 import axios from '@/assets/js/axios'
-import { uploadPic } from '@/utils/common.js'
+import { uploadPic, copyObj } from '@/utils/common.js'
 
 // import '@/mockjs'
 
@@ -23,7 +23,8 @@ Vue.config.productionTip = false
 
 Vue.use(components);
 
-Vue.prototype.$uploadPic = uploadPic
+Vue.prototype.$uploadPic = uploadPic;
+Vue.prototype.$copyObj = copyObj;
 
 
 /* eslint-disable no-new */

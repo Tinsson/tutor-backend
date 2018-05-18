@@ -3,13 +3,13 @@
     <div class="title">
       {{title}}
     </div>
-    <Button type="info" icon="refresh" size="large" @click="refresh">重置刷新</Button>
+    <Button v-show="has_refresh" type="info" icon="refresh" size="large" @click="refresh">重置刷新</Button>
   </div>
 </template>
 <script>
 export default {
   name: "titleBar",
-  props: ['title'],
+  props: ['title', 'has_refresh'],
   data: () => ({
 
   }),

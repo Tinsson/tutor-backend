@@ -35,6 +35,9 @@ const urlList = {
   'set-conf-amount': '/backend/config/setamount', //设置金额
   'set-complain': '/backend/config/setcompl',   //设置投诉项
   'del-complain': '/backend/config/del-config',   //删除投诉项
+  'get-resource-list': '/backend/resource/resource-list', //来源渠道列表
+  'add-resource': '/backend/resource/create-resource', //创建来源渠道
+  'edit-resource': '/backend/resource/edit-resource', //编辑来源渠道
 
   //交易记录
   'audit-list': '/backend/trad/audlist', //获取认证支付流水
