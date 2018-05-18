@@ -656,8 +656,7 @@ export default {
         if(d.status === 1){
           this.$Message.success(d.message);
           this.editCancel();
-          //this.show();
-          this.IsEdit = false;
+          this.show();
           //this.if_show = false;
           this.$emit('save-over');
         }
