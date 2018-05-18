@@ -26,6 +26,7 @@ import complain from '@/page/complain/complain'
 //配置管理
 import baseConfig from '@/page/config/base-config' //基本配置
 import resourceConfig from '@/page/config/resource-config' //渠道配置
+import tagConfig from '@/page/config/tag-config' //标签配置
 
 // 交易记录
 import contactList from '@/page/trade/contact-list'
@@ -108,6 +109,10 @@ const router = new Router({
           path: '/config/resource-config',
           name: 'resourceConfig',
           component: resourceConfig
+        },{
+          path: '/config/tag-config',
+          name: 'tagConfig',
+          component: tagConfig
         },{
           path: '/trade/contact-list',
           name: 'contactList',

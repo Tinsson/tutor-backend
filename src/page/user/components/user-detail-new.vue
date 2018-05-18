@@ -10,7 +10,7 @@
                   <Col span="6">
                     <p class="label">姓名</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{myData.body_name}}</span>
+                      <span class="copy-txt copy-name" :data-clipboard-text="myData.body_name" @click="copyTxt($event)" v-show="!IsEdit">{{myData.body_name}}</span>
                       <Input v-show="IsEdit" v-model="EditData.body_name" :style="{width: IptWidth}"></Input>
                     </p>
                   </Col>
@@ -24,7 +24,7 @@
                   <Col span="6">
                     <p class="label">手机号</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{myData.phone}}</span>
+                      <span class="copy-txt copy-phone" :data-clipboard-text="myData.phone" @click="copyTxt($event)" v-show="!IsEdit">{{myData.phone}}</span>
                       <Input v-show="IsEdit" v-model="EditData.phone" :style="{width: IptWidth}"/>
                     </p>
                   </Col>
@@ -60,7 +60,7 @@
                   <Col span="6">
                     <p class="label">学校</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{myData.school}}</span>
+                      <span v-show="!IsEdit" class="copy-txt copy-school" :data-clipboard-text="myData.school" @click="copyTxt($event)">{{myData.school}}</span>
                       <Input v-show="IsEdit" v-model="EditData.school" :style="{width: IptWidth}"></Input>
                     </p>
                   </Col>
@@ -187,7 +187,7 @@
               <div class="wx-qrcode">
                 <p class="label">微信号</p>
                 <div class="pic-box">
-                  <span v-show="!IsEdit">{{myData.wechat}}</span>
+                  <span v-show="!IsEdit" class="copy-txt copy-wechat" :data-clipboard-text="myData.wechat" @click="copyTxt($event)">{{myData.wechat}}</span>
                   <Input v-show="IsEdit" v-model="EditData.wechat" :style="{width: IptWidth}"></Input>
                 </div>
               </div>
@@ -300,6 +300,8 @@
 
 <script>
   import {copyObj} from '@/utils/common'
+  import ClipBoard from 'clipboard'
+
 export default {
   name: 'user-detail',
   props: {
@@ -793,6 +795,23 @@ export default {
     remarkCancel(){
       this.remark_status = false;
     },
+    copyTxt(e){
+      let clip = new ClipBoard(`.${e.target.classList[1]}`);
+      let word = this.$copyWords;
+      let that = this;
+      let rand = Math.random();
+      if(rand > 0.01){
+        word = '复制成功！！！';
+      }
+      clip.on('success', e=>{
+        that.$Message.success(word);
+        clip.destroy();
+      })
+      clip.on('error', e=>{
+        that.$Message.error('不支持复制，垃圾电脑，毁我青春！');
+        clip.destroy();
+      })
+    },
     show(row, city, role) {
       if (row) {
         this.my_search.uid = row;
@@ -830,6 +849,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .copy-txt{
+    color: dodgerblue;
+    cursor: pointer;
+  }
 .user_img {
   width: 65px;
   height: 65px;

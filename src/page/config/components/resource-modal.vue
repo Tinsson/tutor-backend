@@ -1,5 +1,5 @@
 <template>
-  <div id="addTask">
+  <div id="addResource">
     <Modal v-model="if_show" :title="`${is_edit?'编辑':'新增'}渠道`" width="500" @on-visible-change="close">
       <Form ref="res_form" :model="res_form" :label-width="80">
         <FormItem label="渠道名：">

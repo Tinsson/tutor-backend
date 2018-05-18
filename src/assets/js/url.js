@@ -38,6 +38,10 @@ const urlList = {
   'get-resource-list': '/backend/resource/resource-list', //来源渠道列表
   'add-resource': '/backend/resource/create-resource', //创建来源渠道
   'edit-resource': '/backend/resource/edit-resource', //编辑来源渠道
+  'tag-list': '/backend/remark/list', //标签列表
+  'add-tag': '/backend/remark/add',  //添加标签
+  'del-tag': '/backend/remark/del', //删除标签
+  'edit-tag': '/backend/remark/edit', //修改标签
 
   //交易记录
   'audit-list': '/backend/trad/audlist', //获取认证支付流水

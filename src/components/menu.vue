@@ -62,6 +62,10 @@ export default {
         id: '24',
         name: '渠道配置',
         path: '/resource-config'
+      },{
+        id: '25',
+        name: '标签配置',
+        path: '/tag-config'
       }]
     },{
       id: '12',
