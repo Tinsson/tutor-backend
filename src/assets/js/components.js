@@ -5,6 +5,7 @@ import tableCard from '@/components/table-card'
 import myUpload from '@/components/my-upload'
 import bigPic from '@/components/big-pic'
 import timeSearch from '@/components/time-search'
+import remarkModal from '@/components/remark-modal'
 
 const components = {
   install: function(Vue){
@@ -15,6 +16,7 @@ const components = {
     Vue.component('myUpload',myUpload)
     Vue.component('bigPic', bigPic)
     Vue.component('timeSearch', timeSearch)
+    Vue.component('remarkModal', remarkModal)
   }
 }
 

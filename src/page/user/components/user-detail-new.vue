@@ -250,8 +250,12 @@
                     <div class="remark-box">
                       <h2 class="tab-title">备注：</h2>
                       <div class="content-box">
-                        <p class="content-txt" v-if="!remark_status">{{myData.remark?myData.remark:'暂无'}}</p>
-                        <Input type="textarea" style="width: 260px;" v-model="remark" v-if="remark_status" />
+                        <p class="content-txt" v-if="myData.remark || myData.quick_remark">
+                          <Tag type="border" v-for="(item, index) in quickRemark" :key="index" color="blue">{{item}}</Tag>
+                          <Tag type="border" color="red" v-if="myData.remark">{{myData.remark}}</Tag>
+                        </p>
+                        <p class="content-txt" v-else>暂无</p>
+                        <!--<Input type="textarea" style="width: 260px;" v-model="remark" v-if="remark_status" />-->
                         <div class="remark-btn">
                           <Button type="primary" v-if="!remark_status" @click="remarkEdit">修改</Button>
                           <Button type="success" v-if="remark_status" @click="remarkSave">保存</Button>
@@ -294,6 +298,7 @@
         </div>
       </div>
     </Modal>
+    <remark-modal ref="remark_modal" @subOver="show"></remark-modal>
     <big-pic ref="bigPic" :maxWidth="500"></big-pic>
   </div>
 </template>
@@ -552,6 +557,13 @@ export default {
       }else{
         return ''
       }
+    },
+    quickRemark(){
+      let tags = []
+      if(this.myData.quick_remark){
+        tags = this.myData.quick_remark.split(',');
+      }
+      return tags;
     }
   },
   methods: {
@@ -779,8 +791,18 @@ export default {
       this.remark_status = false;
     },
     remarkEdit(){
-      this.remark = this.myData.remark;
-      this.remark_status = true;
+      let quick_remark = [];
+      if(this.myData.quick_remark){
+        quick_remark = this.myData.quick_remark.split(',');
+      }
+      let remark_data = {
+        quick_remark,
+        remark: this.myData.remark,
+        uid: this.my_search.uid
+      };
+      this.$refs['remark_modal'].show(this.role, remark_data);
+      //this.remark = this.myData.remark;
+      //this.remark_status = true;
     },
     remarkSave(){
       this.axios.post('edit-remark', {
