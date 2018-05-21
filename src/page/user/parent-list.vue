@@ -91,7 +91,51 @@ export default {
         },{
           title: '备注',
           key: 'remark',
-          align: 'center'
+          width: 150,
+          align: 'center',
+          render: (h, params)=>{
+            let q_remark = params.row.quick_remark,
+                remark = params.row.remark;
+            let TagArr = [];
+            if(q_remark){
+              q_remark.split(',').forEach(val=>{
+                TagArr.push(h('Tooltip',{
+                  props: {
+                    placement: 'top'
+                  }
+                }, [h('Tag',{
+                  props: {
+                    type: 'border',
+                    color: 'blue'
+                  }
+                }, val), h('div',{
+                  slot: 'content',
+                  style: {
+                    whiteSpace: 'normal'
+                  }
+                }, val)]));
+              });
+            }
+            if(remark){
+
+              TagArr.push(h('Tooltip',{
+                props: {
+                  placement: 'top'
+                }
+              }, [h('Tag',{
+                props: {
+                  type: 'border',
+                  color: 'red'
+                }
+              }, remark), h('div',{
+                slot: 'content',
+                style: {
+                  whiteSpace: 'normal'
+                }
+              }, remark)]));
+            }
+            return h('div', TagArr);
+          }
         },{
           title: '所属助教',
           key: 'assistant',

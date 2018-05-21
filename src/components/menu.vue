@@ -133,7 +133,46 @@ export default {
       return ['/'+this.$store.state.common.cur_path.split('/')[1]]
     }
   },
+  created(){
+    this.initMenu();
+    this.addAuth();
+  },
   methods: {
+    initMenu(){
+      let admin_role = localStorage.getItem('admin_role'),
+          menu = localStorage.getItem('menu');
+      if(admin_role != 1){
+        if(menu){
+          menu = JSON.parse(menu);
+          this.arr = menu;
+        }else{
+          this.arr = [];
+        }
+      }
+    },
+    addAuth(){
+      let is_auth = localStorage.getItem('is_auth');
+      if(is_auth === '1'){
+        this.arr.push({
+          id: '13',
+          name: '权限管理',
+          path: '/authority',
+          children: [{
+            id: '14',
+            name: '权限列表',
+            path: '/auth'
+          },{
+            id: '15',
+            name: '账号列表',
+            path: '/admin'
+          },{
+            id: '16',
+            name: '角色列表',
+            path: '/role'
+          }]
+        });
+      }
+    },
     goRoute(path) {
       this.$router.push(path);
     }

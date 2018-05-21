@@ -78,6 +78,12 @@
                       <Input v-show="IsEdit" v-model="EditData.professional" :style="{width: IptWidth}"/>
                     </p>
                   </Col>
+                  <Col span="6">
+                    <p class="label">入学情况</p>
+                    <p class="value">
+                      <span>{{myData.edu_now}}</span>
+                    </p>
+                  </Col>
                 </Row>
               </li>
               <li class="single-line">

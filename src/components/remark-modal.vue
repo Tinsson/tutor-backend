@@ -35,7 +35,7 @@
     },
     methods: {
       initData(role){
-        this.axios.get('/backend/remark/user',{
+        this.axios.get('user-remark',{
           params: {
             role
           }

@@ -42,7 +42,10 @@ import assisList from '@/page/assistant/assis-list'
 import statsIndex from '@/page/statis/index'
 import statsDetail from '@/page/statis/detail'
 
-//对账
+//权限管理
+import auth from '@/page/authority/auth'
+import role from '@/page/authority/role'
+import admin from '@/page/authority/admin'
 
 const router = new Router({
   // mode: 'history',
@@ -145,6 +148,18 @@ const router = new Router({
           path: '/statis/detail',
           name: 'statsDetail',
           component: statsDetail
+        },{
+          path: '/authority/auth',
+          name: 'auth',
+          component: auth
+        },{
+          path: '/authority/role',
+          name: 'role',
+          component: role
+        },{
+          path: '/authority/admin',
+          name: 'admin',
+          component: admin
         }
       ]
     }
@@ -154,9 +169,30 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   //console.log(to.hash)
 
+  let menu = localStorage.getItem('menu'),
+      admin_role = localStorage.getItem('admin_role'),
+      pureMenu = JSON.parse(menu),
+      urlArr = [];
+
+  if(menu){
+    pureMenu.forEach(val=>{
+      val.children.forEach(vval=>{
+        urlArr.push(val.path+vval.path);
+      })
+    });
+  }
+
   if (!localStorage.getItem('token') && to.path != '/login') {
     router.push('/login')
   }
+
+  if(admin_role != '1' && urlArr.indexOf(to.path) == -1 && to.path != '/home' && to.path != '/login'){
+    router.push('/home');
+    console.log(111);
+    return;
+  }
+
+
 
   localStorage.setItem('cur_path', to.path)
   store.commit('SET_CUR_PATH', to.path)
