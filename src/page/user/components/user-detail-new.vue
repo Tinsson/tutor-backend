@@ -263,9 +263,9 @@
                         <p class="content-txt" v-else>暂无</p>
                         <!--<Input type="textarea" style="width: 260px;" v-model="remark" v-if="remark_status" />-->
                         <div class="remark-btn">
-                          <Button type="primary" v-if="!remark_status" @click="remarkEdit">修改</Button>
-                          <Button type="success" v-if="remark_status" @click="remarkSave">保存</Button>
-                          <Button type="error" v-if="remark_status" @click="remarkCancel">取消</Button>
+                          <Button type="primary" @click="remarkEdit">修改</Button>
+                          <!--<Button type="success" v-if="remark_status" @click="remarkSave">保存</Button>
+                          <Button type="error" v-if="remark_status" @click="remarkCancel">取消</Button>-->
                         </div>
                       </div>
                     </div>
@@ -298,6 +298,7 @@
           <Button type="info" v-show="!IsEdit" @click="editStart">修改</Button>
           <Button type="warning" v-show="IsEdit" @click="editCancel">取消</Button>
           <Button type="primary" v-show="IsEdit" @click="editSave">保存</Button>
+          <Button type="success" @click="openUserList">查看能见用户</Button>
         </div>
         <div class="right-box">
           <!--<Button type="success" @click="transRole">切换身份</Button>-->
@@ -822,6 +823,9 @@ export default {
     },
     remarkCancel(){
       this.remark_status = false;
+    },
+    openUserList(){
+      window.open('#/user/parent-list?front_uid='+this.my_search.uid);
     },
     copyTxt(e){
       let clip = new ClipBoard(`.${e.target.classList[1]}`);

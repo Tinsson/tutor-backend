@@ -6,7 +6,7 @@
     </div>
     <div class="user-panel">
       <div class="pull-left">
-        <p class="text">Tinsson</p>
+        <p class="text">家教汪</p>
         <p class="state"><i class="icon-state"></i>online</p>
       </div>
     </div>

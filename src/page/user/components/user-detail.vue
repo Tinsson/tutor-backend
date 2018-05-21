@@ -360,7 +360,7 @@ export default {
     right_loading: false,
     circles_loading: false,
     circles:[],
-    cardData:{},
+    cardData:[],
     cardColumns: [
       {
         title: '秘币余额',

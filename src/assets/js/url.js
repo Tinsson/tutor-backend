@@ -9,6 +9,7 @@ const urlList = {
   //用户管理
   'get-resource': '/backend/user/resource-list', //获取渠道列表
   'user-list': '/backend/user/user-list',  //混合列表
+  'front-list': '/backend/user/front-list', //前台列表
   'parent-list': '/backend/user/learn-list', //家长列表
   'parent-panel': '/backend/user/learn-panel', //家长面板
   'tutor-list': '/backend/user/tutor-list', //家教面板

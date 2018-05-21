@@ -28,7 +28,7 @@ export default {
       type: Array
     },
     data: {
-      type: Object
+      type: Array
     },
     iconsize: {
       type: [String,Number],
@@ -45,10 +45,10 @@ export default {
     }
   },
   watch: {
-    data(cur) {
-      this.choseIndex = 0;
-      this.$emit('change',this.columns[0].type)
-    }
+    // data(cur) {
+    //   this.choseIndex = 0;
+    //   this.$emit('change',this.columns[0].type)
+    // }
 
   }
 }
@@ -81,7 +81,7 @@ export default {
         padding:5px 0;
         font-size:18px;
         .num{
-          font-size:40px;
+          font-size:30px;
         }
       }
     }

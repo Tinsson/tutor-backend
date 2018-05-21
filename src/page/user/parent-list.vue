@@ -2,6 +2,7 @@
 <div id="user">
   <title-bar title="用户列表" has_refresh="1" @refresh="refresh">
   </title-bar>
+  <table-card v-if="is_front" :columns="cardColumns" :data="cardData" card_style="width:35%;" container_style="justify-content: between;" @change="cardChange"></table-card>
   <search-group ref="search-box" :searchList="searchList" @search="search">
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
@@ -26,12 +27,30 @@ export default {
   name: "user",
   data (){
     return {
+      is_front: false,
+      front_uid: '',
       select_arr: [], //选择的用户列表
       // 高级筛选
       senior_search: false,  //高级检索模态框是否显示
       tableLoading: false, //表格是否加载
       user_role: 1,
       // user_detail_show: false,
+      cardColumns: [
+        {
+          title: '匹配用户',
+          unit: '',
+          key: '0',
+          type: 1,
+          icon:'checkmark-circled'
+        },{
+          title: '非匹配用户',
+          unit: '',
+          key: '1',
+          type: 0,
+          icon: 'close-circled'
+        }
+      ],
+      cardData: ['0','0'],
 
       columns: [
         {
@@ -268,9 +287,11 @@ export default {
         page: 1,
         size: 10
       },
-      searchForm: {}, //搜索框属性
+      searchForm: {
+      }, //搜索框属性
       my_search: {
-        resource_id: ''
+        resource_id: '',
+        is_match: 1
       } //固定搜索用户
     }
   },
@@ -280,11 +301,18 @@ export default {
     }
   },
   watch:{
-    searchData:function () {
+    searchData:function (val) {
+      console.log(val);
       this.getData()
     }
   },
   methods: {
+    cardChange(type) {
+      console.log(type);
+      this.fy.page = 1;
+      this.fy.size = 10;
+      this.my_search.is_match = type;
+    },
     select(selection) {
       this.select_arr = selection
     },
@@ -316,13 +344,22 @@ export default {
     },
     getData () {
       this.tableLoading = true;
-      this.axios.get(`user-list`,{
-        params: this.searchData
+      let params = this.$copyObj(this.searchData),
+          url = this.is_front?'front-list':'user-list';
+      if(this.is_front){
+        params.front_uid = this.front_uid;
+      }
+      this.axios.get(url,{
+        params
       }).then(res => {
         this.tableLoading = false;
         if(res) {
           this.myData = res.data.list;
           this.pageprops.total = res.data.total;
+          if(this.is_front){
+            let info = res.data;
+            this.cardData = [`${info.total1}/${info.total_all}`,`${info.total2}/${info.total_all}`];
+          }
         }
       })
     },
@@ -353,6 +390,13 @@ export default {
           this.resourceArr = d.data.list;
         }
       })
+    }
+  },
+  created(){
+    let query = this.$route.query;
+    if('front_uid' in query){
+      this.front_uid = query.front_uid;
+      this.is_front = true;
     }
   },
   mounted() {

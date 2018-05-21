@@ -51,7 +51,7 @@ export default {
           icon: 'checkmark-circled'
         }
       ],
-      cardData: {},
+      cardData: [],
 
       columns: [
         {

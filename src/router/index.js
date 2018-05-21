@@ -182,6 +182,8 @@ router.beforeEach((to, from, next) => {
     });
   }
 
+
+
   if(!admin_role && to.path != '/login'){
     router.push('/login');
     return;
