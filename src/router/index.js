@@ -182,8 +182,14 @@ router.beforeEach((to, from, next) => {
     });
   }
 
+  if(!admin_role && to.path != '/login'){
+    router.push('/login');
+    return;
+  }
+
   if (!localStorage.getItem('token') && to.path != '/login') {
-    router.push('/login')
+    router.push('/login');
+    return;
   }
 
   if(admin_role != '1' && urlArr.indexOf(to.path) == -1 && to.path != '/home' && to.path != '/login'){
