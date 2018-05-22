@@ -1,7 +1,10 @@
 <template>
   <div id="authority">
-    <title-bar title="权限列表" @refresh="refresh"></title-bar>
+    <title-bar title="权限列表"></title-bar>
     <table-container>
+      <div slot="btn">
+        <Button type="info" @click="addRootNode">添加根节点</Button>
+      </div>
       <Tree :data="myData" :render="renderTree"></Tree>
     </table-container>
 
@@ -9,16 +12,19 @@
     <Modal v-model="modal_show" title="添加/修改子节点" @on-visible-change="changeModal">
       <div class="">
         <Form ref="form" :model="form" :rules="rules" :label-width="80">
+          <FormItem label="父节点">
+            <Input v-model="form.pid" disabled />
+          </FormItem>
           <FormItem label="节点名称" prop="display_name">
-            <Input v-model="form.display_name"></Input>
+            <Input v-model="form.display_name" />
           </FormItem>
           <FormItem label="节点key" prop="name">
-            <Input v-model="form.name"></Input>
+            <Input v-model="form.name" />
           </FormItem>
         </Form>
       </div>
       <div slot="footer">
-        <Button>取消</Button>
+        <Button type="ghost" @click="cancelModal">取消</Button>
         <Button type="primary" @click="submit">确定</Button>
       </div>
     </Modal>
@@ -51,11 +57,53 @@ export default {
         }
       ]
     },
-    myData: [],
+    myData: [{
+      pid: 0,
+      id: 1,
+      level: 1,
+      name: 'authority',
+      display_name: '权限管理',
+      description: '一级目录',
+      children: [{
+        pid: 1,
+        id: 2,
+        level: 2,
+        name: 'role',
+        display_name: '角色列表',
+        description: '二级目录'
+      },{
+        pid: 1,
+        id: 3,
+        level: 2,
+        name: 'auth',
+        display_name: '权限列表',
+        description: '二级目录'
+      },{
+        pid: 1,
+        id: 4,
+        level: 2,
+        name: 'admin',
+        display_name: '账户列表',
+        description: '二级目录'
+      }]
+    }],
 
     modal_show: false
   }),
   methods: {
+    cancelModal(){
+      this.modal_show = false;
+    },
+    addRootNode(){
+      this.nodeLevel = 1;
+      this.form = {
+        display_name: '',
+        name: '',
+        pid: 0,
+        id: '',
+      };
+      this.modal_show = true;
+    },
     changeModal(show){
       if(!show) {
         this.form = {
@@ -79,9 +127,6 @@ export default {
         }
       })
     },
-    refresh() {
-      this.$refs.playgroud.show([123,123,123])
-    },
     getData() {
       this.axios.get('permission-list').then(res=>{
         if(res){
@@ -103,7 +148,7 @@ export default {
               marginLeft:'5px'
             }
           },data.display_name),
-          (data.level != 3&& h('Button',{
+          (data.level != 2&& h('Button',{
             props:{
               type:'primary',
               size:'small'
@@ -124,7 +169,7 @@ export default {
               size:'small'
             },
             style: {
-              marginLeft: data.level!=3?'10px':'30px'
+              marginLeft: data.level!=2?'10px':'30px'
             },
             on: {
               click: ()=>{
@@ -141,7 +186,7 @@ export default {
     }
   },
   mounted() {
-    this.getData()
+    //this.getData()
   }
 }
 </script>

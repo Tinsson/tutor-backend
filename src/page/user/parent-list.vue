@@ -186,19 +186,7 @@ export default {
 
       myData: [], //表格数据
 
-      searchList: [{
-        label: '客户类型',
-        type: 'select',
-        placeholder: '请选择类型',
-        model: 'role',
-        options: [{
-          label: '家长',
-          value: 1
-        },{
-          label: '家教',
-          value: 2
-        }]
-      },{   //搜索列表配置
+      searchBase: [{   //搜索列表配置
         label: '姓名',
         type: 'input',
         placeholder: '输入姓名',
@@ -218,24 +206,6 @@ export default {
         type: 'input',
         placeholder: '请输入筛选城市',
         model: 'city'
-      },{
-        label: '审核状态',
-        type: 'select',
-        placeholder: '请选择',
-        options: [{
-          label: '未认证',
-          value: -1,
-        },{
-          label: '审核中',
-          value: 0
-        },{
-          label: '认证失败',
-          value: 1
-        },{
-          label: '认证成功',
-          value: 2
-        }],
-        model: 'certime'
       },{
         label: '是否预约',
         type: 'select',
@@ -276,6 +246,37 @@ export default {
         }],
         model: 'level'
       }],
+      searchMore: [{
+        label: '客户类型',
+        type: 'select',
+        placeholder: '请选择类型',
+        model: 'role',
+        options: [{
+          label: '家长',
+          value: 1
+        },{
+          label: '家教',
+          value: 2
+        }]
+      },{
+        label: '审核状态',
+        type: 'select',
+        placeholder: '请选择',
+        options: [{
+          label: '未认证',
+          value: -1,
+        },{
+          label: '审核中',
+          value: 0
+        },{
+          label: '认证失败',
+          value: 1
+        },{
+          label: '认证成功',
+          value: 2
+        }],
+        model: 'certime'
+      }],
 
       resourceArr: [],
 
@@ -298,6 +299,13 @@ export default {
   computed: {
     searchData () {
       return Object.assign(this.fy,this.searchForm,this.my_search);
+    },
+    searchList(){
+      if(this.is_front){
+        return this.searchBase;
+      }else{
+        return [...this.searchBase, ...this.searchMore];
+      }
     }
   },
   watch:{

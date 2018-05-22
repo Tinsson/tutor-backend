@@ -47,6 +47,11 @@ function copyObj(obj,emptyObj={}) {
   return emptyObj;
 }
 
+//利用JSON化进行简单深拷贝
+function simpleCopy(source){
+  return JSON.parse(JSON.stringify(source));
+}
+
 function uploadPic(file, type){
   let that = this;
   return new Promise((resolve)=>{
@@ -69,5 +74,6 @@ function uploadPic(file, type){
 export {
   compareObject,
   copyObj,
-  uploadPic
+  uploadPic,
+  simpleCopy
 }

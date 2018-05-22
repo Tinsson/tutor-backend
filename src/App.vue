@@ -11,4 +11,8 @@ export default {
 </script>
 
 <style>
+  .all-modal .ivu-select-dropdown{
+    position: absolute!important;
+    top: 65px!important;
+  }
 </style>

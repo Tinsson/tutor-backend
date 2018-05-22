@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="user-detail">
-    <Modal v-model="if_show" @on-cancel="hidePanel" :title="`用户面板（${myData.nickname}）`" width="1200" cancel-text>
+    <Modal class="all-modal" v-model="if_show" @on-cancel="hidePanel" :title="`用户面板（${myData.nickname}）`" width="1200" cancel-text>
       <Row :gutter='5'>
         <Col span="16">
           <div class="info-area">
@@ -32,7 +32,7 @@
                     <p class="label">客户类型</p>
                     <p class="value">
                       <span v-show="!IsEdit">{{myData.role === 1?'家长':'家教'}}</span>
-                      <Select v-show="IsEdit" v-model="EditData.role" :style="{width: IptWidth}" @on-change="RoleChange">
+                      <Select v-show="IsEdit" :transfer="true" v-model="EditData.role" :style="{width: IptWidth}" @on-change="RoleChange">
                         <Option :value="1">家长</Option>
                         <Option :value="2">家教</Option>
                       </Select>

@@ -1,6 +1,6 @@
 <template>
   <div id="defaultPage">
-    <h1 @click="show">欢迎使用小程序（家教汪）后台管理系统12</h1>
+    <h1 @click="show">欢迎使用小程序（家教汪）后台管理系统</h1>
   </div>
 </template>
 <script>

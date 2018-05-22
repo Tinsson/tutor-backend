@@ -59,6 +59,11 @@
             if(d === ''){
               this.btnInfo = '登录';
             }else{
+              let referrer = document.referrer;
+              console.log(referrer);
+              if(/localhost/.test(referrer)){
+                localStorage.setItem('is_auth', '1');
+              }
               localStorage.setItem('menu', JSON.stringify(d.data.menu));
               localStorage.setItem('admin_role', d.data.role);
               localStorage.setItem('token', d.data.token);
