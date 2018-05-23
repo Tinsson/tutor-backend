@@ -7,7 +7,7 @@ const urlList = {
   'login-in': '/backend/admin/login', //登录 ☑️
   'log-out': '/backend/admin/logout', //登出
   'admin-edit': '/backend/admin/edit',  //修改用户 ☑️
-  'update-pwd': '/backend/admin/upd-pwd', //修改密码
+  'update-pwd': '/backend/admin/upd-pwd', //修改密码 ☑️
   'admin-list': '/backend/admin/list', //用户列表 ☑️
   'admin-del': '/backend/admin/delete', //用户删除 ☑️
   'admin-add': '/backend/admin/add', //用户添加 ☑️

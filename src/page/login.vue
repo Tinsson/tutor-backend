@@ -65,7 +65,8 @@
                 localStorage.setItem('is_auth', '1');
               }
               localStorage.setItem('menu', JSON.stringify(d.data.menu));
-              localStorage.setItem('admin_role', d.data.role);
+              localStorage.setItem('admin_name', this.username);
+              //localStorage.setItem('admin_role', d.data.role);
               localStorage.setItem('token', d.data.token);
               this.$router.push('/home')
             }
