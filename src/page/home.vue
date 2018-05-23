@@ -68,6 +68,7 @@ export default {
     },
     LogOut(){
       this.axios.post('log-out').then(d=>{
+
         localStorage.clear();
         this.$router.push('/login')
       })
