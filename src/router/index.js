@@ -164,7 +164,7 @@ const router = new Router({
       ]
     }
   ]
-})
+});
 
 router.beforeEach((to, from, next) => {
   //console.log(to.hash)
@@ -183,23 +183,16 @@ router.beforeEach((to, from, next) => {
   }
 
 
-
-  if(!admin_role && to.path != '/login'){
-    router.push('/login');
-    return;
-  }
-
   if (!localStorage.getItem('token') && to.path != '/login') {
     router.push('/login');
     return;
   }
 
-  if(admin_role != '1' && urlArr.indexOf(to.path) == -1 && to.path != '/home' && to.path != '/login'){
+  if(urlArr.indexOf(to.path) == -1 && to.path != '/home' && to.path != '/login'){
     router.push('/home');
     console.log(111);
     return;
   }
-
 
 
   localStorage.setItem('cur_path', to.path)

@@ -13,9 +13,9 @@
     <Submenu v-for="(group,pindex) in arr" :name="group.path" :key="pindex">
       <template slot="title">
           <Icon type="ios-paper"></Icon>
-          {{group.name}}
+          {{group.display_name}}
       </template>
-      <MenuItem v-for="(item,index) in group.children" :name="group.path+item.path" :key="index">{{item.name}}</MenuItem>
+      <MenuItem v-for="(item,index) in group.children" :name="group.path+item.path" :key="index">{{item.display_name}}</MenuItem>
     </Submenu>
   </Menu>
 </div>
@@ -26,118 +26,102 @@ export default {
   data: () => ({
     arr: [{
       id: '1',
-      name: '用户管理',
+      display_name: '用户管理',
       path: '/user',
       children: [{
         id: '2',
-        name: '用户列表',
+        display_name: '用户列表',
         path: '/parent-list'
       }]
     },{
       id: '3',
-      name: '审核管理',
+      display_name: '审核管理',
       path: '/verify',
       children: [{
         id: '4',
-        name: '微信审核列表',
+        display_name: '微信审核列表',
         path: '/wechat-list'
       },{
         id: '5',
-        name: '二维码审核列表',
+        display_name: '二维码审核列表',
         path: '/qrcode-list'
       },{
         id:'11',
-        name: '学历审核列表',
+        display_name: '学历审核列表',
         path:'/edu-list'
       }]
     },{
       id:'20',
-      name:'配置管理',
+      display_name:'配置管理',
       path:'/config',
       children:[{
         id:'23',
-        name:'基本配置',
+        display_name:'基本配置',
         path:'/base-config'
       },{
         id: '24',
-        name: '渠道配置',
+        display_name: '渠道配置',
         path: '/resource-config'
       },{
         id: '25',
-        name: '标签配置',
+        display_name: '标签配置',
         path: '/tag-config'
       }]
     },{
       id: '12',
-      name: '交易记录',
+      display_name: '交易记录',
       path: '/trade',
       children: [{
         id: '12',
-        name: '解锁记录',
+        display_name: '解锁记录',
         path: '/contact-list'
-      }/*,{
-        id: '13',
-        name: '认证支付流水',
-        path: '/audit-list'
-      },{
-        id: '14',
-        name: '认证退款流水',
-        path: '/ref-list'
-      },{
-        id: '15',
-        name: '购买联系方式流水',
-        path: '/buy-list'
-      },{
-        id: '16',
-        name: '退款记录',
-        path: '/buy-refund'
-      }*/]
+      }]
     },{
       id: '9',
-      name: '投诉管理',
+      display_name: '投诉管理',
       path: '/complain',
       children: [{
         id: '10',
-        name: '投诉列表',
+        display_name: '投诉列表',
         path: '/complain-list'
       }]
     },{
       id: '10',
-      name: '助教管理',
+      display_name: '助教管理',
       path: '/assistant',
       children: [{
         id: '11',
-        name: '助教列表',
+        display_name: '助教列表',
         path: '/assis-list'
       }]
     },{
       id: '12',
-      name: '统计管理',
+      display_name: '统计管理',
       path: '/statis',
       children: [{
         id: '13',
-        name: '统计首页',
+        display_name: '统计首页',
         path: '/index'
       },{
         id: '14',
-        name: '统计详情',
+        display_name: '统计详情',
         path: '/detail'
       }]
     },{
       id: '13',
-      name: '权限管理',
+      display_name: '权限管理',
       path: '/authority',
       children: [{
         id: '14',
-        name: '权限列表',
+        display_name: '权限列表',
         path: '/auth'
       },{
         id: '15',
-        name: '账号列表',
+        display_name: '账号列表',
         path: '/admin'
       },{
         id: '16',
-        name: '角色列表',
+        display_name: '角色列表',
         path: '/role'
       }]
     }]
@@ -158,14 +142,22 @@ export default {
     initMenu(){
       let admin_role = localStorage.getItem('admin_role'),
           menu = localStorage.getItem('menu');
-      if(admin_role != 1){
+
+      if(menu){
+        menu = JSON.parse(menu);
+        this.arr = menu;
+      }else{
+        this.arr = [];
+      }
+
+      /*if(admin_role != 1){
         if(menu){
           menu = JSON.parse(menu);
           this.arr = menu;
         }else{
           this.arr = [];
         }
-      }
+      }*/
     },
     addAuth(){
       let is_auth = localStorage.getItem('is_auth');
