@@ -70,13 +70,20 @@ export default {
           key: 'role',
           align: 'center',
           render: (h, params)=>{
-            let text = '';
+            let text = '',
+                color = '';
             if(params.row.role === 1){
               text = '家长';
+              color = '#ff5722';
             }else if(params.row.role === 2){
-              text = '家教'
+              text = '家教';
+              color = '#009688';
             }
-            return h('span', text);
+            return h('span',{
+              style: {
+                color
+              }
+            }, text);
           }
         },{
           title: '城市',
