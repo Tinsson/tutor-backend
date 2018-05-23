@@ -99,7 +99,7 @@ export default {
       children: [{
         id: '10',
         name: '投诉列表',
-        path: '/complain'
+        path: '/complain-list'
       }]
     },{
       id: '10',
@@ -123,6 +123,23 @@ export default {
         name: '统计详情',
         path: '/detail'
       }]
+    },{
+      id: '13',
+      name: '权限管理',
+      path: '/authority',
+      children: [{
+        id: '14',
+        name: '权限列表',
+        path: '/auth'
+      },{
+        id: '15',
+        name: '账号列表',
+        path: '/admin'
+      },{
+        id: '16',
+        name: '角色列表',
+        path: '/role'
+      }]
     }]
   }),
   computed: {
@@ -135,7 +152,7 @@ export default {
   },
   created(){
     this.initMenu();
-    this.addAuth();
+    //this.addAuth();
   },
   methods: {
     initMenu(){

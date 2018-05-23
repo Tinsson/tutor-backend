@@ -3,8 +3,37 @@ const urlList = {
   //图片上传
   'upload-img': '/backend/user/upload-pic',
 
-  //账户登陆
-  'login-in': '/backend/admin/login',
+  //系统接口
+  'login-in': '/backend/admin/login', //登录 ☑️
+  'log-out': '/backend/admin/logout', //登出
+  'admin-edit': '/backend/admin/edit',  //修改用户 ☑️
+  'update-pwd': '/backend/admin/upd-pwd', //修改密码
+  'admin-list': '/backend/admin/list', //用户列表 ☑️
+  'admin-del': '/backend/admin/delete', //用户删除 ☑️
+  'admin-add': '/backend/admin/add', //用户添加 ☑️
+  'admin-add-html': '/backend/admin/add-html', //添加页面
+  'admin-detail': '/backend/admin/detail', //用户详情
+  'admin-role-all': '/backend/admin/role-all', //所有角色 ☑️
+  'admin-status': '/backend/admin/set-status', //禁用用户 ☑️
+  'admin-role-add': '/backend/admin/admin-role-add', //账户角色添加 ☑️
+
+
+
+  //权限管理
+  'auth-list': '/backend/permission/list', //权限列表
+  'auth-add': '/backend/permission/add', //权限添加
+  'auth-detail': '/backend/permission/detail', //权限详情
+  'auth-edit': '/backend/permission/edit', //权限编辑
+
+  //角色管理
+  'role-edit': '/backend/role/edit', //权限编辑 ☑️
+  'auth-role-all': '/backend/role/permission-all', //权限所有 ☑️
+  'auth-role-add': '/backend/role/permission-add', //角色权限添加 ☑️
+  'role-html': '/backend/role/html', //角色权限的详情 ☑️
+  'role-list': '/backend/role/list', //角色列表 ☑️
+  'role-del': '/backend/role/delete', //角色删除 ☑️
+  'role-add': '/backend/role/add', //角色添加 ☑️
+  'role-detail': '/backend/role/detail', //角色详情
 
   //用户管理
   'get-resource': '/backend/user/resource-list', //获取渠道列表

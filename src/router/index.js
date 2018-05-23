@@ -101,7 +101,7 @@ const router = new Router({
           name: 'verifyEdu',
           component: verifyEdu
         },{
-          path: '/complain/complain',
+          path: '/complain/complain-list',
           name: 'complain',
           component: complain
         },{

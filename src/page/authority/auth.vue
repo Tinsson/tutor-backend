@@ -57,36 +57,7 @@ export default {
         }
       ]
     },
-    myData: [{
-      pid: 0,
-      id: 1,
-      level: 1,
-      name: 'authority',
-      display_name: '权限管理',
-      description: '一级目录',
-      children: [{
-        pid: 1,
-        id: 2,
-        level: 2,
-        name: 'role',
-        display_name: '角色列表',
-        description: '二级目录'
-      },{
-        pid: 1,
-        id: 3,
-        level: 2,
-        name: 'auth',
-        display_name: '权限列表',
-        description: '二级目录'
-      },{
-        pid: 1,
-        id: 4,
-        level: 2,
-        name: 'admin',
-        display_name: '账户列表',
-        description: '二级目录'
-      }]
-    }],
+    myData: [],
 
     modal_show: false
   }),
@@ -117,7 +88,7 @@ export default {
     submit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.axios.post(this.form.id?'permission-edit':'permission-add',this.form).then(res=>{
+          this.axios.post(this.form.id?'auth-edit':'auth-add',this.form).then(res=>{
             if(res){
               this.modal_show = false;
               this.getData();
@@ -128,15 +99,14 @@ export default {
       })
     },
     getData() {
-      this.axios.get('permission-list').then(res=>{
+      this.axios.get('auth-list').then(res=>{
         if(res){
-          // console.log(res);
-          this.myData = res.data.permission
-          this.$set(this.myData[0],'expand',true)
+          this.myData = res.data.permission;
+          //this.$set(this.myData[0],'expand',true)
         }
       })
     },
-    renderTree(h,{root,node,data}) {
+    renderTree(h,{data}) {
       return h('div',{
         style: {
           display:'inline-block',
@@ -186,7 +156,7 @@ export default {
     }
   },
   mounted() {
-    //this.getData()
+    this.getData()
   }
 }
 </script>

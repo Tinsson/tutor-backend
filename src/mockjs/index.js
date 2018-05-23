@@ -1,83 +1,110 @@
 import Mock from 'mockjs';
 
-Mock.mock(/\/user-card-table/,(options)=>{
+Mock.mock('/role-all', 'get', (options)=>{
+  return {
+    code: 1,
+    status: 1,
+    data: {
+      all: [{
+        id: 1,
+        display_name: '超管'
+      },{
+        id: 2,
+        display_name: '管理员'
+      },{
+        id: 3,
+        display_name: '助教'
+      }]
+    },
+    msg: '请求成功'
+  }
+})
+
+Mock.mock('/admin-list', 'get', (options)=>{
+  return {
+    code: 1,
+    status: 1,
+    data: {
+      list: [{
+        admin_id: 1,
+        admin_name: 'admin',
+        admin_mobile: '13336988388',
+        is_super: 1,
+        status: 1,
+        created_at: '222',
+        remark: '111',
+        login_ip: '11.14.6.44',
+        login_at: '232',
+        adminRole: [1,2]
+      }]
+    },
+    msg: '请求成功'
+  }
+});
+
+Mock.mock('/role-list','get',(options)=>{
   let res = {
     code: 1,
     status: 1,
     data: {
-      count: 1,
-      field:[
-        {
-          title: '类型',
-          key: 'type'
-        },{
-          title: '秘币变化',
-          key: 'change'
-        },{
-          title: '时间',
-          key: 'time'
-        },{
-          title: '秘币余额',
-          key: 'balance'
-        }
-      ],
-      list: [
-        {
-          type: '消费',
-          change: '-30秘币',
-          time: '2017-15-15 12:30:30',
-          balance: '332.5秘币'
-        }
-      ]
+      list: [{
+        id: 2,
+        name: 'admin',
+        display_name: '管理员',
+        description: 'test',
+        status: 1,
+        created_at: 'test',
+        updated_at: 'test'
+      }]
     },
     msg: '请求成功'
-  }
+  };
   return res;
-})
+});
 
-Mock.mock(/\/user-get-card/,(options)=>{
+Mock.mock('auth-list', 'get', (options)=>{
   let res = {
     code: 1,
     status: 1,
     data: {
-      cardList: [
-        {
-          title: '秘币余额',
-          value: '100',
-          unit: ' ',
-          icon: 'ios-book',
-          model: 'a'
-        },
-        {
-          title: '秘币余额',
-          value: '100',
-          unit: ' ',
-          icon: 'ios-book',
-          model: 'b'
-        },
-        {
-          title: '秘币余额',
-          value: '100',
-          unit: ' ',
-          icon: 'ios-book',
-          model: 'c'
-        },
-        {
-          title: '秘币余额',
-          value: '100',
-          unit: ' ',
-          icon: 'ios-book',
-          model: 'd'
-        },
-      ]
+      list: [{
+        pid: 0,
+        id: 1,
+        level: 1,
+        name: 'authority',
+        display_name: '权限管理',
+        description: '一级目录',
+        children: [{
+          pid: 1,
+          id: 2,
+          level: 2,
+          name: 'role',
+          display_name: '角色列表',
+          description: '二级目录'
+        },{
+          pid: 1,
+          id: 3,
+          level: 2,
+          name: 'auth',
+          display_name: '权限列表',
+          description: '二级目录'
+        },{
+          pid: 1,
+          id: 4,
+          level: 2,
+          name: 'admin',
+          display_name: '账户列表',
+          description: '二级目录'
+        }]
+      }]
     },
     msg: '请求成功'
-  }
+  };
   return res;
-})
+});
 
 
 
-Mock.setup({
-    timeout: 5000
-})
+// Mock.setup({
+//     timeout: 2000
+// });

@@ -110,11 +110,7 @@ export default {
         }
       }, {
         title: '创建时间',
-        key: 'created_at',
-        align: 'center'
-      }, {
-        title: '修改时间',
-        key: 'updated_at',
+        key: 'create_at',
         align: 'center'
       }, {
         title: '操作',
@@ -186,7 +182,8 @@ export default {
         }
         arr = arr.concat(this.check_authority_list[i].children);
       }
-      this.axios.post('role-permission-add', {
+
+      this.axios.post('auth-role-add', {
         permission_id: arr.join(','),
         id: this.role_id
       }).then(res => {
@@ -197,14 +194,20 @@ export default {
       })
     },
     del(id) {
-      this.axios.post('role-delete', {
-        id: id
-      }).then(res => {
-        if (res) {
-          this.$Message.success('删除成功');
-          this.getData();
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确认删除该角色吗</p>',
+        onOk: ()=>{
+          this.axios.post('role-del', {
+            id: id
+          }).then(res => {
+            if (res) {
+              this.$Message.success('删除成功');
+              this.getData();
+            }
+          })
         }
-      })
+      });
     },
 
     modalChange(show) {
@@ -218,11 +221,9 @@ export default {
     },
     roleModalChange(show) {
       if(!show) {
-        this.form = {
-          name: '',
-          display_name: '',
-          status: 1,
-          id:''
+        this.$refs['form'].resetFields();
+        for(let key in this.form) {
+          this.form[key] = '';
         }
       }
     },
@@ -250,9 +251,8 @@ export default {
       this.getData()
     },
     getData() {
-      this.axios.get(`role-list?page=1&size=100`).then(res => {
+      this.axios.get(`role-list`).then(res => {
         if (res) {
-          console.log(res);
           this.myData = res.data.list
         }
       })
@@ -260,7 +260,7 @@ export default {
     getAuthority(id) {
       this.checked_list = [];
       this.axios.get(`role-html?id=${id}`).then(res => {
-        this.checked_list = res.data.rolePermission;
+        this.checked_list = res.data.list;
         for (let i = 0; i < this.authority_list.length; i++) {
           for (let k = 0; k < this.authority_list[i].children.length; k++) {
             if (this.checked_list.indexOf(this.authority_list[i].children[k].id) !== -1) {
@@ -276,9 +276,9 @@ export default {
       })
     },
     getAuthorityList() {
-      this.axios.get('role-permission-all').then(res => {
-        console.log(res);
-        this.authority_list = res.data.permissionAll[0].children;
+      this.axios.get('auth-role-all').then(res => {
+
+        this.authority_list = res.data.list;
         this.check_authority_list = [];
         for (let i = 0; i < this.authority_list.length; i++) {
           this.$set(this.check_authority_list, i, {

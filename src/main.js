@@ -15,7 +15,7 @@ import VueAxios from 'vue-axios'
 import axios from '@/assets/js/axios'
 import { uploadPic, copyObj, simpleCopy } from '@/utils/common.js'
 
-// import '@/mockjs'
+import '@/mockjs'
 
 Vue.use(VueAxios, axios)
 

@@ -12,13 +12,13 @@
       <div class="">
         <Form ref="user_form" :model="user_form" :rules="user_rules" :label-width="120">
           <FormItem label="用户名" prop="admin_name">
-            <Input v-model="user_form.admin_name" :disabled="user_form.admin_id!=''"></Input>
+            <Input v-model="user_form.admin_name" :disabled="user_form.admin_id!=''" />
           </FormItem>
           <FormItem label="用户密码" prop="admin_password" v-if="!user_form.admin_id">
-            <Input v-model="user_form.admin_password"></Input>
+            <Input v-model="user_form.admin_password" />
           </FormItem>
           <FormItem label="手机号码" prop="admin_mobile">
-            <Input v-model="user_form.admin_mobile"></Input>
+            <Input v-model="user_form.admin_mobile" />
           </FormItem>
           <FormItem label="是否超级管理员" prop="is_super">
             <RadioGroup v-model="user_form.is_super">
@@ -27,7 +27,7 @@
             </RadioGroup>
           </FormItem>
           <FormItem label="描述">
-            <Input v-model="user_form.remark"></Input>
+            <Input v-model="user_form.remark" />
           </FormItem>
         </Form>
       </div>
@@ -42,7 +42,7 @@
         <Form ref="role_form" :model="role_form" :label-width="80">
           <FormItem label="选择角色">
             <CheckboxGroup v-model="role_form.role_id">
-                <Checkbox v-for="item in role_list" :label="item.id" :key="item.id">{{item.display_name}}</Checkbox>
+                <Checkbox v-for="item in role_list" :label="item.id" :key="item.id">{{item.name}}</Checkbox>
             </CheckboxGroup>
           </FormItem>
         </Form>
@@ -115,6 +115,9 @@ export default {
           align: 'center',
           width:230,
           render: (h, params) => {
+            /*if(params.row.is_super == 1){
+              return h('span', '超级管理员，无法操作')
+            }*/
             return h('div', [
               h('Button', {
                 props: {
@@ -147,10 +150,20 @@ export default {
                 },
                 on: {
                   click: ()=>{
-                    this.del(params.row)
+                    this.switch(params.row)
                   }
                 }
-              }, params.row.status==1?'禁用':'恢复')
+              }, params.row.status==1?'禁用':'恢复'),
+              h('Button', {
+                props: {
+                  type: 'text'
+                },
+                on: {
+                  click: ()=>{
+                    this.DelOpt(params.row)
+                  }
+                }
+              }, '删除')
             ])
           }
         }
@@ -171,7 +184,7 @@ export default {
   },
   methods: {
     role_submit() {
-      this.axios.post('admin-admin-role-add',{
+      this.axios.post('admin-role-add',{
         admin_id:this.role_form.id,
         role_id:this.role_form.role_id.join(',')
       }).then(res=>{
@@ -191,8 +204,24 @@ export default {
         }
       })
     },
-    del(user) {
-      this.axios.post('admin-set-status',{
+    DelOpt(row){
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确认删除该账号吗？</p>',
+        onOk: ()=>{
+          this.axios.post('admin-del',{
+            admin_id: row.admin_id
+          }).then(res=>{
+            if(res){
+              this.getData();
+              this.$Message.success('删除成功');
+            }
+          })
+        }
+      })
+    },
+    switch(user) {
+      this.axios.post('admin-status',{
         admin_id:user.admin_id,
         status:user.status == 1?2:1
       }).then(res=>{
@@ -205,20 +234,16 @@ export default {
     },
     userModalChange(show) {
       if(!show) {
-        this.user_form = {
-          admin_name:'',
-          admin_password: '',
-          admin_mobile:'',
-          is_super: '0',
-          remark: '',
-          admin_id:'',
+        this.$refs['user_form'].resetFields();
+        for(let key in this.user_form) {
+          this.user_form[key] = '';
         }
       }
     },
     getRole() {
       this.axios.get('admin-role-all').then(res=>{
         if(res){
-          this.role_list = res.data.all
+          this.role_list = res.data.list
         }
       })
     },
@@ -235,9 +260,7 @@ export default {
       this.getData();
     },
     getData() {
-      this.axios.get('admin-list',{
-        params: this.fy
-      }).then(res=>{
+      this.axios.get('admin-list').then(res=>{
         if(res){
           this.myData = res.data.list
         }
