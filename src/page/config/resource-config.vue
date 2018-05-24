@@ -10,6 +10,7 @@
     </table-container>
 
     <resourceModal ref="infoModal" @close="initData"></resourceModal>
+    <big-pic ref="bigPic" :maxWidth="400"></big-pic>
   </div>
 </template>
 
@@ -63,6 +64,23 @@
                   break;
               }
               return h('span', txt);
+            }
+          },{
+            title: '推广二维码',
+            key: 'qrcode',
+            align: 'center',
+            render: (h, params)=>{
+              return h('span',{
+                style: {
+                  cursor: 'pointer',
+                  color: '#2db7f5',
+                },
+                on: {
+                  click: ()=>{
+                    this.$refs['bigPic'].show(params.row.qrcode);
+                  }
+                }
+              }, '查看')
             }
           },{
             title: '创建时间',
