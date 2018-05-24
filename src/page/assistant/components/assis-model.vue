@@ -1,11 +1,11 @@
 <template lang="html">
   <div class="user-detail">
     <Modal v-model="if_show" @on-cancel="hidePanel" :title="modelTitle" width="550" cancel-text>
-      <Form :model="infoForm" :label-width="100">
-        <FormItem label="姓名：">
+      <Form ref="info_form" :model="infoForm" :rules="info_rule" :label-width="100">
+        <FormItem label="姓名：" prop="name">
           <Input :style="{width: iptWidth}" v-model="infoForm.name" />
         </FormItem>
-        <FormItem label="手机号：">
+        <FormItem label="手机号：" prop="phone">
           <Input :style="{width: iptWidth}" v-model="infoForm.phone" />
         </FormItem>
         <FormItem label="是否全国：">
@@ -37,19 +37,19 @@
             </Cascader>
           </div>
         </FormItem>
-        <FormItem label="在职状态：">
+        <FormItem label="在职状态：" prop="status">
           <Select :style="{width: iptWidth}" v-model="infoForm.status">
             <Option :value="1">启用</Option>
             <Option :value="0">禁用</Option>
           </Select>
         </FormItem>
-        <FormItem label="二维码：">
+        <FormItem label="二维码：" prop="qrcode">
           <img v-if="is_edit || img_show" class="qrcode-pic" :src="infoForm.long_qrcode" alt="">
           <Upload class="upload-btn" :before-upload="HandleQrcode" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
             <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
           </Upload>
         </FormItem>
-        <FormItem label="头像: ">
+        <FormItem label="头像: " prop="assistant">
           <img v-if="is_edit || assis_show" class="qrcode-pic" :src="infoForm.long_assistant" alt="">
           <Upload class="upload-btn" :before-upload="HandleAssistant" action="http://tutor.pgyxwd.com/backend/Auth/adminUserUppwd">
             <Button type="ghost" size="large" icon="ios-cloud-upload-outline">上传图片</Button>
@@ -92,6 +92,13 @@
         assistant: '',
         long_assistant: ''
       },
+      info_rule: {
+        name: [{required:true,message:'请输入姓名'}],
+        phone: [{required:true,message:'请输入手机号'}],
+        status: [{required:true,message:'请输入在职状态'}],
+        qrcode: [{required:true,message:'请上传二维码'}],
+        assistant: [{required:true,message:'请上传头像'}]
+      },
       cityVal: [],
       cityData: [],
       province: [],
@@ -106,7 +113,11 @@
   },
 
   watch: {
-
+    if_show(val){
+      if(!val){
+        this.$refs['info_form'].resetFields();
+      }
+    }
   },
 
   computed: {
@@ -167,6 +178,12 @@
       }else{
         url = 'assis-add';
       }
+
+      this.$refs['info_form'].validate(valid=>{
+        if(valid){
+          return;
+        }
+      });
       //params.city = params.city.join(',');
       if(params.name === ''){
         error_msg = '姓名不能为空！';
@@ -194,8 +211,6 @@
       });
       params.province = p_arr.join(',');
       params.city = c_arr.join(',');
-
-      console.log(params);
 
       this.axios.post(url, params).then(d=>{
         if(d.status === 1){

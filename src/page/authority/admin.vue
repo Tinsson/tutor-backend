@@ -8,7 +8,7 @@
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
 
-    <Modal v-model="user_modal" title="添加用户" @on-visible-change="userModalChange">
+    <Modal v-model="user_modal" title="账户信息" @on-visible-change="userModalChange">
       <div class="">
         <Form ref="user_form" :model="user_form" :rules="user_rules" :label-width="120">
           <FormItem label="用户名" prop="admin_name">
@@ -26,7 +26,10 @@
               <Radio label="0">否</Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="描述">
+          <FormItem label="城市">
+            <Input v-model="user_form.city" placeholder="区域管理员填写"/>
+          </FormItem>
+          <FormItem label="备注">
             <Input v-model="user_form.remark" />
           </FormItem>
         </Form>
@@ -67,6 +70,7 @@ export default {
         is_super: '0',
         remark: '',
         admin_id:'',
+        city: ''
       },
       user_rules: {
         admin_name: [{required:true,message:'请输入用户名'}],

@@ -85,7 +85,7 @@ export default {
         {
           label: '投诉项',
           type: 'select',
-          placeholder: '输入关键词',
+          placeholder: '选择关键词',
           options: [],
           model: 'type'
         },{
@@ -141,7 +141,17 @@ export default {
       })
     },
     getCates(){
-
+      this.axios.get('get-comlt').then(d=>{
+        if(d){
+          this.searchList[0].options = [];
+          d.data.forEach(val=>{
+            this.searchList[0].options.push({
+              label: val.namecn,
+              value: val.id
+            })
+          })
+        }
+      })
     },
     getData() {
       this.tableLoading = true;

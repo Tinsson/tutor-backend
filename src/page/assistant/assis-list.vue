@@ -105,6 +105,11 @@
           placeholder: '输入姓名',
           model: 'name'
         },{
+          label: '省/直辖市',
+          type: 'input',
+          placeholder: '请输入省/直辖市',
+          model: 'province'
+        },{
           label: '城市',
           type: 'input',
           placeholder: '请输入城市名',
@@ -154,6 +159,7 @@
         this.getData();
       },
       refresh() {
+        console.log(1111);
         this.getData();
       },
       pageChange(page) {

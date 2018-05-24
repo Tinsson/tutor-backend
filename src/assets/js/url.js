@@ -65,6 +65,7 @@ const urlList = {
   'get-conf-list': '/backend/config/getlist',  //获取配置列表
   'set-conf-amount': '/backend/config/setamount', //设置金额
   'set-complain': '/backend/config/setcompl',   //设置投诉项
+  'get-comlt': '/backend/config/getcomlt', //获取投诉项列表
   'del-complain': '/backend/config/del-config',   //删除投诉项
   'get-resource-list': '/backend/resource/resource-list', //来源渠道列表
   'add-resource': '/backend/resource/create-resource', //创建来源渠道
