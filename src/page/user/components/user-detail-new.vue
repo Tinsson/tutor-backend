@@ -308,7 +308,7 @@
           <Button type="primary" v-show="role == 2" @click="addNewOrder">新增订单</Button>
         </div>
         <div class="right-box">
-          <!--<Button type="ghost" @click="show">刷新</Button>-->
+          <Button type="ghost" @click="refresh">刷新</Button>
           <!--<Button type="success" @click="transRole">切换身份</Button>-->
         </div>
       </div>
@@ -586,7 +586,6 @@ export default {
 
   computed: {
     searchData() {
-      console.log(this.my_search.uid);
       return {
         type: this.type,
         uid: this.my_search.uid,
@@ -792,7 +791,9 @@ export default {
       this.end_time = '';
     },
     refresh() {
-      this.show();
+      this.show().then(d=>{
+        this.$Message.success('刷新成功！');
+      });
     },
     pageChange(page) {
       this.fy.page = page;
@@ -902,7 +903,8 @@ export default {
       })
     },
     show(row, city, role) {
-      if (row) {
+
+      if (row && city) {
         this.my_search.uid = row;
         this.buyType = 1;
         this.city = city;
@@ -915,25 +917,30 @@ export default {
         }
       }
 
-      this.tableLoading = true;
-      this.axios.get(this.url, {
-        params: this.searchData
-      }).then(res => {
-        if (res.status == 1) {
-          let info = res.data.list;
-          this.long_qrcode = info.long_qrcode;
 
-          this.tableLoading = false;
-          this.myData = info;
-          this.orderData = info.server;
-          //this.contact = info.contact.list;
-          this.address = info.address;
-          //this.followData = info.favorite;
-          this.if_show = true;
-          this.edu_pic = this.myData.xl_url;
-          this.role = info.role;
-        }
+      this.tableLoading = true;
+      return new Promise( resolve=>{
+        this.axios.get(this.url, {
+          params: this.searchData
+        }).then(res => {
+          if (res.status == 1) {
+            let info = res.data.list;
+            this.long_qrcode = info.long_qrcode;
+
+            this.tableLoading = false;
+            this.myData = info;
+            this.orderData = info.server;
+            //this.contact = info.contact.list;
+            this.address = info.address;
+            //this.followData = info.favorite;
+            this.if_show = true;
+            this.edu_pic = this.myData.xl_url;
+            this.role = info.role;
+            resolve();
+          }
+        })
       })
+
     },
   }
 }

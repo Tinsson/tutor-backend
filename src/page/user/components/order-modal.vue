@@ -10,7 +10,7 @@
         </FormItem>
         <FormItem label="家长姓名：">
           <Select class="ipt-box" placeholder="请输入家长手机号码" v-model="order_form.learn_id" filterable remote :remote-method="searchPhone" >
-            <Option v-for="item in phoneList" :key="item" :value="item.id">{{item.name}}</Option>
+            <Option v-for="item in phoneList" :key="item.id" :value="item.id">{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem label="服务费：">
