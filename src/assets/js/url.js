@@ -16,7 +16,8 @@ const urlList = {
   'admin-role-all': '/backend/admin/role-all', //所有角色 ☑️
   'admin-status': '/backend/admin/set-status', //禁用用户 ☑️
   'admin-role-add': '/backend/admin/admin-role-add', //账户角色添加 ☑️
-
+  'get-learn-phone': '/backend/user/search-userinfo',  //获取家长信息
+  'add-order': '/backend/server/add-order', //添加服务订单
 
 
   //权限管理
@@ -81,6 +82,7 @@ const urlList = {
   'buy-list': '/backend/trad/buylist',  //获取购买联系方式
   'buy-refund': '/backend/trad/refund-log', //购买退款流水
   'contact-list': '/backend/trad/contact-list', //解锁记录
+  'order-list': '/backend/server/order-list', //服务订单列表
 
   //投诉记录
   'complain-list': '/backend/user/complain-list', //投诉列表
@@ -93,6 +95,9 @@ const urlList = {
   'assis-edit': '/backend/assistant/edit', //编辑助教
   'assis-del': '/backend/assistant/del', //删除助教
 
+  //操作记录
+  'operation-list': '/backend/op/list', //操作列表
+  'operation-edit': '/backend/op/edit', //编辑状态
 }
 
 export default urlList;

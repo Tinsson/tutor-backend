@@ -36,6 +36,10 @@
             key: 'name',
             align: 'center'
           },{
+            title: '助教微信',
+            key: 'wechat',
+            align: 'center'
+          },{
             title: '助教手机',
             key: 'phone',
             align: 'center'

@@ -34,6 +34,7 @@ import auditList from '@/page/trade/audit-list'
 import refList from '@/page/trade/refund-list'
 import buyList from '@/page/trade/buy-list'
 import buyRefund from '@/page/trade/buy-refund'
+import orderList from '@/page/trade/order-list'
 
 //助教管理
 import assisList from '@/page/assistant/assis-list'
@@ -46,6 +47,9 @@ import statsDetail from '@/page/statis/detail'
 import auth from '@/page/authority/auth'
 import role from '@/page/authority/role'
 import admin from '@/page/authority/admin'
+
+//用户操作记录
+import consult from '@/page/operation/consult'
 
 const router = new Router({
   // mode: 'history',
@@ -137,6 +141,10 @@ const router = new Router({
           name: 'buyRefund',
           component: buyRefund
         },{
+          path: '/trade/order-list',
+          name: 'orderList',
+          component: orderList
+        },{
           path: '/assistant/assis-list',
           name: 'assisList',
           component: assisList
@@ -160,6 +168,10 @@ const router = new Router({
           path: '/authority/admin',
           name: 'admin',
           component: admin
+        },{
+          path: '/operation/consult',
+          name: 'consult',
+          component: consult
         }
       ]
     }

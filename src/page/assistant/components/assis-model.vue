@@ -5,6 +5,9 @@
         <FormItem label="姓名：" prop="name">
           <Input :style="{width: iptWidth}" v-model="infoForm.name" />
         </FormItem>
+        <FormItem label="微信" prop="wechat">
+          <Input :style="{width: iptWidth}" v-model="infoForm.wechat" />
+        </FormItem>
         <FormItem label="手机号：" prop="phone">
           <Input :style="{width: iptWidth}" v-model="infoForm.phone" />
         </FormItem>
@@ -83,6 +86,7 @@
       edit_id: '',
       infoForm: {
         name: '',
+        wechat: '',
         phone: '',
         isAll: false,
         city: [],
@@ -94,6 +98,7 @@
       },
       info_rule: {
         name: [{required:true,message:'请输入姓名'}],
+        wechat: [{required:true,message:'请输入微信号'}],
         phone: [{required:true,message:'请输入手机号'}],
         status: [{required:true,message:'请输入在职状态'}],
         qrcode: [{required:true,message:'请上传二维码'}],

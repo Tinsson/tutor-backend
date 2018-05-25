@@ -271,7 +271,13 @@
                     </div>
                   </div>
                 </TabPane>
-                <TabPane label="联系记录" name="name2">
+                <TabPane label="备注管理" name="name2">
+                  <Table :columns="remarkCol" :data="remarkData" border></Table>
+                </TabPane>
+                <TabPane v-show="role == 2" label="订单列表" name="name3">
+                  <Table :columns="orderCol" :data="orderData" border></Table>
+                </TabPane>
+                <!--<TabPane label="联系记录" name="name2">
                   <div class="tab-box record">
                     <div class="record-box">
                       <Table :columns="columns1" :data="contact" border></Table>
@@ -284,8 +290,8 @@
                       <Table :columns="followCol" :data="followData" border></Table>
                     </div>
                   </div>
-                </TabPane>
-                <TabPane label="地址管理" name="name3">
+                </TabPane>-->
+                <TabPane label="地址管理" name="name4">
                   <Table :columns="columns2" :data="address" border></Table>
                 </TabPane>
               </Tabs>
@@ -299,33 +305,38 @@
           <Button type="warning" v-show="IsEdit" @click="editCancel">取消</Button>
           <Button type="primary" v-show="IsEdit" @click="editSave">保存</Button>
           <Button type="success" @click="openUserList">查看能见用户</Button>
+          <Button type="primary" v-show="role == 2" @click="addNewOrder">新增订单</Button>
         </div>
         <div class="right-box">
+          <!--<Button type="ghost" @click="show">刷新</Button>-->
           <!--<Button type="success" @click="transRole">切换身份</Button>-->
         </div>
       </div>
     </Modal>
     <remark-modal ref="remark_modal" @subOver="show"></remark-modal>
     <big-pic ref="bigPic" :maxWidth="500"></big-pic>
+    <order-modal ref="order_modal" @subOver="show"></order-modal>
   </div>
 </template>
 
 <script>
+  import orderModal from './order-modal'
   import {copyObj} from '@/utils/common'
   import ClipBoard from 'clipboard'
 
 export default {
   name: 'user-detail',
+  components: {
+    orderModal
+  },
   props: {
     isParent: {
       type: Boolean,
       default: ()=> true
-    },
-    role: {
-      type: Number
     }
   },
   data(){return {
+    role: 1,
     city: '',
     IsEdit: false,
     buyType: 1,
@@ -462,6 +473,47 @@ export default {
       key: 'create_at',
       align: 'center'
     }],
+    remarkCol: [{
+      title: '信息'
+    }],
+    remarkData: [],
+    orderCol: [{
+      title: '金额',
+      key: 'amount',
+      align: 'center'
+    },{
+      title: '家长姓名',
+      key: 'learn_name',
+      align: 'center'
+    },{
+      title: '支付状态',
+      key: 'status',
+      align: 'center',
+      render: (h, params)=>{
+        let txt = '';
+        switch (params.row.status){
+          case 0:
+            txt = '待支付';
+            break;
+          case 1:
+            txt = '已支付';
+            break;
+          case 2:
+            txt = '支付失败';
+            break;
+          case 3:
+            txt = '退款';
+            break;
+        }
+        return h('span', txt);
+      }
+    },{
+      title: '创建时间',
+      key: 'create_at',
+      align: 'center',
+      width: 100
+    }],
+    orderData: [],
     followCol: [{
       title: '姓名',
       key: 'to_name',
@@ -534,6 +586,7 @@ export default {
 
   computed: {
     searchData() {
+      console.log(this.my_search.uid);
       return {
         type: this.type,
         uid: this.my_search.uid,
@@ -689,6 +742,7 @@ export default {
     },
 
     RoleChange(type){
+      console.log(type);
       this.role = type;
     },
 
@@ -827,6 +881,9 @@ export default {
     openUserList(){
       window.open('#/user/parent-list?front_uid='+this.my_search.uid);
     },
+    addNewOrder(){
+      this.$refs['order_modal'].show(this.myData);
+    },
     copyTxt(e){
       let clip = new ClipBoard(`.${e.target.classList[1]}`);
       let word = this.$copyWords;
@@ -857,6 +914,7 @@ export default {
           this.url = 'tutor-panel'
         }
       }
+
       this.tableLoading = true;
       this.axios.get(this.url, {
         params: this.searchData
@@ -867,9 +925,10 @@ export default {
 
           this.tableLoading = false;
           this.myData = info;
-          this.contact = info.contact.list;
+          this.orderData = info.server;
+          //this.contact = info.contact.list;
           this.address = info.address;
-          this.followData = info.favorite;
+          //this.followData = info.favorite;
           this.if_show = true;
           this.edu_pic = this.myData.xl_url;
           this.role = info.role;
