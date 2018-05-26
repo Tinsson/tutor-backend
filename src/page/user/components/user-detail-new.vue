@@ -904,10 +904,10 @@ export default {
     },
     show(row, city, role) {
 
-      if (row && city) {
+      if (row && role) {
         this.my_search.uid = row;
         this.buyType = 1;
-        this.city = city;
+        //this.city = city;
         this.type = 1;
         this.clear();
         if(role === 1){

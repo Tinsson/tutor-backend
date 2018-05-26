@@ -93,7 +93,7 @@ export default {
                   click: () => {
                     //this.user_role = params.row.role;
                     this.user_role = 2;
-                    this.$refs.userDetail.show(params.row.uid, params.row.city, this.user_role)
+                    this.$refs.userDetail.show(params.row.uid, params.row.city, 2)
                   }
                 }
               }, '查看')
