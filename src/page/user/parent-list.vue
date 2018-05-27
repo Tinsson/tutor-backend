@@ -288,6 +288,7 @@ export default {
       resourceArr: [],
 
       pageprops: { //分页配置
+        current: 1,
         showSizer:true,
         total:0,
       },
@@ -333,6 +334,9 @@ export default {
     },
     search(data) {
       this.searchForm = data;
+      this.fy.page = 1;
+      this.fy.size = 10;
+      this.$set(this.pageprops, 'current' , 1);
       this.getData();
     },
     refresh() {
@@ -341,7 +345,9 @@ export default {
       //console.log('刷新');
     },
     pageChange(page) {
+      this.$set(this.pageprops, 'current' , page);
       this.fy.page = page;
+      console.log(this.pageprops);
       this.getData();
     },
     pageSizeChange(size) {

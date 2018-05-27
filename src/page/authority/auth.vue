@@ -21,6 +21,12 @@
           <FormItem label="节点key" prop="name">
             <Input v-model="form.name" />
           </FormItem>
+          <FormItem label="是否显示" prop="show">
+            <Select v-model="form.show" >
+              <Option :value="0">否</Option>
+              <Option :value="1">是</Option>
+            </Select>
+          </FormItem>
         </Form>
       </div>
       <div slot="footer">
@@ -38,6 +44,7 @@ export default {
     form: {
       display_name: '',
       name: '',
+      show: 1,
       pid: '',
       id: '',
     },
@@ -54,6 +61,12 @@ export default {
           required: true,
           message: '请填写节点key',
           trigger: 'blur'
+        }
+      ],
+      show: [
+        {
+          required: true,
+          message: '请选择显示状态'
         }
       ]
     },
@@ -146,6 +159,7 @@ export default {
                 this.modal_show = true;
                 // this.form.pid = data.pid;
                 // this.form.id = data.id;
+                console.log(data);
                 for(let key in this.form){
                   this.form[key] = data[key];
                 }
