@@ -17,7 +17,7 @@
                   <Col span="6">
                     <p class="label">身份证</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{myData.idcard}}</span>
+                      <span v-show="!IsEdit">{{myData.show_idcard}}</span>
                       <Input v-show="IsEdit" v-model="EditData.idcard" :style="{width: IptWidth}"/>
                     </p>
                   </Col>

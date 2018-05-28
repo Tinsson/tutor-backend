@@ -63,6 +63,7 @@ export default {
   data() {
     return {
       user_modal: false,
+      cityData: [],
       user_form: {
         admin_name:'',
         admin_password: '',
@@ -270,8 +271,14 @@ export default {
         }
       })
     },
+    getCity(){
+      this.axios.get('city-list').then(d=>{
+        this.cityData = d.data.list;
+      })
+    }
   },
   mounted() {
+    this.getCity();
     this.getData();
     this.getRole();
   }

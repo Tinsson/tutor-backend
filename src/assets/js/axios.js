@@ -35,8 +35,9 @@ axios.interceptors.request.use(config => {
 // http response 拦截
 axios.interceptors.response.use(response => {
   if (response.data.status == 0 && response.data.code == 20004) {
-    myvue.$Message.error('登录失效')
-    router.push('/login')
+    myvue.$Message.error(response.data.message);
+    localStorage.clear();
+    router.push('/login');
     //清空session信息
     return ''
   } else if (response.data.status == 0 && catchCode.indexOf(response.data.code) == -1) {

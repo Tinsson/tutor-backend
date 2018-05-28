@@ -11,7 +11,7 @@
         <FormItem label="手机号：" prop="phone">
           <Input :style="{width: iptWidth}" v-model="infoForm.phone" />
         </FormItem>
-        <FormItem label="是否全国：">
+        <FormItem label="是否全国：" v-if="is_area == 0">
           <div>
             <i-switch v-model="infoForm.isAll">
               <span slot="open">是</span>
@@ -77,6 +77,7 @@
   },
   data(){
     return {
+      is_area: 0,
       iptWidth: '250px',
       modelTitle: '新增助教',
       img_show: false,
@@ -114,6 +115,8 @@
   created(){
     this.axios.get('city-list').then(d=>{
       this.cityData = d.data.list;
+      this.$emit('check', d.data.is_area);
+      this.is_area = d.data.is_area;
     })
   },
 

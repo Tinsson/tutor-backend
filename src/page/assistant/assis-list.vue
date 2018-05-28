@@ -3,7 +3,7 @@
     <title-bar title="助教列表" @refresh="refresh">
 
     </title-bar>
-    <search-group :searchList="searchList" @search="search">
+    <search-group :searchList="searchListFinal" @search="search">
     </search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
       <div slot="btn">
@@ -12,7 +12,7 @@
       <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
     </table-container>
     <big-pic ref="bigPic" :maxWidth="500"></big-pic>
-    <assis-model ref="assisModel" @optOver="refresh"></assis-model>
+    <assis-model ref="assisModel" @optOver="refresh" @check="setIsArea"></assis-model>
 
   </div>
 </template>
@@ -23,6 +23,7 @@
     name: "user",
     data (){
       return {
+        is_area: 0,
         select_arr: [], //选择的用户列表
         // 高级筛选
         senior_search: false,  //高级检索模态框是否显示
@@ -147,6 +148,17 @@
     computed: {
       searchData () {
         return Object.assign(this.fy,this.searchForm,this.my_search);
+      },
+      searchListFinal(){
+        let newArr = [];
+        this.searchList.forEach(val=>{
+          if((this.is_area == 1 && val.model == "province") || (this.is_area == 1 && val.model == "city")){
+            //判断区域管理员
+          }else{
+            newArr.push(val);
+          }
+        });
+        return newArr;
       }
     },
     watch:{
@@ -155,6 +167,9 @@
       }
     },
     methods: {
+      setIsArea(sign){
+        this.is_area = sign;
+      },
       select(selection) {
         this.select_arr = selection
       },
