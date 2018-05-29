@@ -6,11 +6,17 @@
         <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
     <big-pic ref="bigPic" :maxWidth="500"></big-pic>
+    <user-detail ref="userDetail" @save-over="getData"></user-detail>
   </div>
 </template>
 <script>
+  import userDetail from '../user/components/user-detail-new.vue'
+
 export default {
   name: "consult",
+  components: {
+    userDetail
+  },
   data() {
     return {
       all_price: '',
@@ -37,14 +43,40 @@ export default {
           key: 'phone',
           align: 'center',
           render: (h, params)=>{
-            return h('span', `${params.row.phone} / ${params.row.nickname}`);
+            return h('span',{
+              style: {
+                color: '#2db7f5',
+                cursor: 'pointer'
+              },
+              on: {
+                click: ()=>{
+                  this.$refs.userDetail.show(params.row.uid, params.row.lcity, params.row.role)
+                }
+              }
+            }, `${params.row.phone} / ${params.row.nickname}`);
           }
         },{
           title: '被操作人手机/昵称',
           key: 'to_phone',
           align: 'center',
           render: (h, params)=>{
-            return h('span', `${params.row.to_phone} / ${params.row.to_nickname}`);
+            return h('span',{
+              style: {
+                color: '#f44336',
+                cursor: 'pointer'
+              },
+              on: {
+                click: ()=>{
+                  let role = params.row.role;
+                  if(role == 1){
+                    role = 2
+                  }else{
+                    role = 1;
+                  }
+                  this.$refs.userDetail.show(params.row.to_uid, params.row.lcity, role);
+                }
+              }
+            }, `${params.row.to_phone} / ${params.row.to_nickname}`);
           }
         },{
           title: '操作时间',

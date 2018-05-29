@@ -10,24 +10,42 @@
 
     <Modal v-model="user_modal" title="账户信息" @on-visible-change="userModalChange">
       <div class="">
-        <Form ref="user_form" :model="user_form" :rules="user_rules" :label-width="120">
-          <FormItem label="用户名" prop="admin_name">
+        <Form ref="user_form1" :model="user_form" :rules="user_rules" :label-width="120">
+          <FormItem label="用户名">
             <Input v-model="user_form.admin_name" :disabled="user_form.admin_id!=''" />
           </FormItem>
-          <FormItem label="用户密码" prop="admin_password" v-if="!user_form.admin_id">
+          <FormItem label="用户密码" v-if="!user_form.admin_id">
             <Input v-model="user_form.admin_password" />
           </FormItem>
-          <FormItem label="手机号码" prop="admin_mobile">
+          <FormItem label="手机号码">
             <Input v-model="user_form.admin_mobile" />
           </FormItem>
           <FormItem label="是否超级管理员" prop="is_super">
             <RadioGroup v-model="user_form.is_super">
-              <Radio label="1">是</Radio>
-              <Radio label="0">否</Radio>
+              <Radio :label="1">是</Radio>
+              <Radio :label="0">否</Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="城市">
-            <Input v-model="user_form.city" placeholder="区域管理员填写"/>
+          <FormItem label="省/直辖市：" v-if="user_form.is_super === 0">
+            <div class="city-box">
+              <div>
+                <Tag v-for="(item, index) in provinceTags" type="dot" :key="index" :name="item.name" :color="item.color" closable @on-close="rmProvince">{{item.name}}</Tag>
+              </div>
+              <Select style="width: 80px" v-model="provinceSelect" @on-change="getProvince">
+                <Option v-for="item in cityData" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </div>
+            <p>若小标点为红色表示包括全部省/直辖市</p>
+          </FormItem>
+          <FormItem label="城市：" v-if="provinceTags.length > 0 && user_form.is_super === 0">
+            <div class="city-box">
+              <div>
+                <Tag v-for="(item, index) in cityVal" :key="index" :name="item" color="green" closable @on-close="rmCity">{{item}}</Tag>
+              </div>
+              <Cascader style="width: 120px" :data="cityArr" v-model="cityChoseArr" @on-change="getCity">
+                <Button icon="ios-plus-empty" type="dashed" size="small">添加城市</Button>
+              </Cascader>
+            </div>
           </FormItem>
           <FormItem label="备注">
             <Input v-model="user_form.remark" />
@@ -62,20 +80,27 @@ export default {
   name: "base-template",
   data() {
     return {
+      cityVal: [],
+      cityData: [],
+      cityChoseArr: [],
+      province: [],
+      provinceTags: [],
+      provinceSelect: '',
       user_modal: false,
       cityData: [],
       user_form: {
         admin_name:'',
         admin_password: '',
         admin_mobile:'',
-        is_super: '0',
+        is_super: 0,
         remark: '',
-        admin_id:'',
-        city: ''
+        admin_id:''
       },
       user_rules: {
         admin_name: [{required:true,message:'请输入用户名'}],
-        admin_password: [{required:true,message: '请输入用户密码'}]
+        admin_password: [{required:true,message: '请输入用户密码'}],
+        admin_mobile: [{required:true,message: '请输入'}],
+        is_super: [{required:true,message: '请选择是否管理员'}],
       },
 
       role_list: [],
@@ -130,10 +155,44 @@ export default {
                 },
                 on: {
                   click: () => {
+                    let row = params.row;
                     this.user_modal = true;
                     for(let key in this.user_form) {
-                      this.user_form[key] = params.row[key];
+                      this.user_form[key] = row[key];
                     }
+
+                    if(row.province !== ''){
+                      this.provinceTags = [];
+                      this.province = [];
+                      row.province.split(',').forEach(val=>{
+                        this.provinceTags.push({
+                          color: 'red',
+                          name: val
+                        });
+                        this.province.push(val);
+                      })
+                    }
+
+                    if(row.city !== ''){
+                      this.cityVal = [];
+                      row.city.split(',').forEach(val=>{
+                        this.cityData.forEach(pVal=>{
+                          pVal.children.forEach(cVal=>{
+                            if(val == cVal.value){
+                              this.cityVal.push(`${pVal.value}/${val}`);
+                              if(this.province.indexOf(pVal.value) == -1){
+                                this.province.push(pVal.value);
+                                this.provinceTags.push({
+                                  color: 'blue',
+                                  name: pVal.value
+                                })
+                              }
+                            }
+                          })
+                        })
+                      })
+                    }
+
                   }
                 }
               }, '编辑'),
@@ -186,6 +245,15 @@ export default {
     }
   },
   computed: {
+    cityArr(){
+      let newArr = [];
+      this.cityData.forEach(val=>{
+        if(this.province.indexOf(val.value) > -1){
+          newArr.push(val);
+        }
+      });
+      return newArr;
+    }
   },
   methods: {
     role_submit() {
@@ -201,7 +269,24 @@ export default {
       })
     },
     submit() {
-      this.axios.post(this.user_form.admin_id?'admin-edit':'admin-add',this.user_form).then(res=>{
+      let params = this.$copyObj(this.user_form);
+      let p_arr = [],
+        c_arr = [];
+      this.provinceTags.forEach(val=>{
+        if(val.color == 'red'){
+          p_arr.push(val.name)
+        }
+      });
+      this.cityVal.forEach(val=>{
+        c_arr.push(val.split('/')[1]);
+      });
+      if(params.is_super == 0){
+        params.province = p_arr.join(',');
+        params.city = c_arr.join(',');
+      }
+
+
+      this.axios.post(this.user_form.admin_id?'admin-edit':'admin-add',params).then(res=>{
         if(res){
           this.user_modal = false;
           this.getData();
@@ -239,10 +324,14 @@ export default {
     },
     userModalChange(show) {
       if(!show) {
-        this.$refs['user_form'].resetFields();
+        //this.$refs['user_form1'].resetFields();
         for(let key in this.user_form) {
           this.user_form[key] = '';
         }
+        this.cityChoseArr = [];
+        this.cityVal = [];
+        this.province = [];
+        this.provinceTags = [];
       }
     },
     getRole() {
@@ -271,18 +360,81 @@ export default {
         }
       })
     },
-    getCity(){
+    getCityData(){
       this.axios.get('city-list').then(d=>{
         this.cityData = d.data.list;
       })
+    },
+
+    getProvince(val){
+      if(val == ""){
+        return;
+      }
+      this.provinceTags.push({
+        color: 'red',
+        name: val
+      });
+      this.province.push(val);
+
+    },
+
+    rmProvince(e, name){
+      let tagIndex = '';
+      this.provinceTags.forEach((val, index)=>{
+        if(val.name == name){
+          tagIndex = index
+        }
+      });
+      const index = this.province.indexOf(name);
+      this.province.splice(index, 1);
+      this.provinceTags.splice(tagIndex, 1);
+    },
+
+    getCity(val){
+      if(this.cityVal.indexOf(val.join('/')) > -1){
+        return;
+      }
+      this.provinceTags.map((vval, index)=>{
+        if(vval.name == val[0]){
+          vval.color = 'blue'
+        }
+        return vval;
+      });
+      this.cityVal.push(val.join('/'));
+      this.cityChoseArr = [];
+    },
+
+    rmCity(e, name){
+      const index = this.cityVal.indexOf(name);
+      this.cityVal.splice(index, 1);
+      let province = name.split('/')[0],
+        p_status = true;
+      this.cityVal.forEach(val=>{
+        if(val.indexOf(province) > -1){
+          p_status = false
+        }
+      });
+      if(p_status){
+        this.provinceTags.map((val, index)=>{
+          if(val.name == province){
+            val.color = 'red'
+          }
+          return val;
+        });
+      }
     }
   },
   mounted() {
-    this.getCity();
+    this.getCityData();
     this.getData();
     this.getRole();
   }
 }
 </script>
 <style lang="scss" scoped>
+  .city-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 </style>
