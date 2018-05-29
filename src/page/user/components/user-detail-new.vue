@@ -124,7 +124,12 @@
                   </Col>
                   <Col span="6">
                     <p class="label">所属助教</p>
-                    <p class="value">{{myData.assistant}}</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.assistant_name}}</span>
+                      <Select v-show="IsEdit" v-model="EditData.assistant" :style="{width: IptWidth}">
+                        <Option v-for="(item, index) in myData.ass_list" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                      </Select>
+                    </p>
                   </Col>
                   <!--<Col span="6">
                     <p class="label">教学特点</p>
@@ -346,6 +351,7 @@ export default {
       label: ''
     }],
     EditData: {
+      assistant: '',
       body_name: '',
       idcard: '',
       phone: '',
