@@ -279,7 +279,7 @@
                 <TabPane label="备注管理" name="name2">
                   <Table :columns="remarkCol" :data="remarkData" border></Table>
                 </TabPane>
-                <TabPane v-show="role == 2" label="订单列表" name="name3">
+                <TabPane v-if="role == 2" label="订单列表" name="name3">
                   <Table :columns="orderCol" :data="orderData" border></Table>
                 </TabPane>
                 <!--<TabPane label="联系记录" name="name2">
@@ -296,9 +296,9 @@
                     </div>
                   </div>
                 </TabPane>-->
-                <TabPane label="地址管理" name="name4">
+                <!--<TabPane label="地址管理" name="name4">
                   <Table :columns="columns2" :data="address" border></Table>
-                </TabPane>
+                </TabPane>-->
               </Tabs>
             </div>
           </Card>

@@ -13,7 +13,7 @@
         <Option v-for="item in resourceArr" :value="item.id" :key="item.id">{{ item.name }}</Option>
       </Select>
     </div>
-    <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
+    <Table :columns="columnsFilter" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
 
   <user-detail ref="userDetail" @save-over="getData" :role="user_role"></user-detail>
@@ -313,6 +313,20 @@ export default {
         return this.searchBase;
       }else{
         return [...this.searchBase, ...this.searchMore];
+      }
+    },
+    columnsFilter(){
+      if(this.is_front){
+        let newCol = this.columns;
+
+        newCol.splice(9, 0, {
+          title: '距离',
+          key: 'distance',
+          align: 'center'
+        });
+        return newCol;
+      }else{
+        return this.columns;
       }
     }
   },
