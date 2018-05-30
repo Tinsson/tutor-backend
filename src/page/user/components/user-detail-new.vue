@@ -316,7 +316,7 @@
           <Button type="warning" v-show="IsEdit" @click="editCancel">取消</Button>
           <Button type="primary" v-show="IsEdit" @click="editSave">保存</Button>
           <Button type="success" @click="openUserList">查看能见用户</Button>
-          <Button type="primary" v-show="role == 2" @click="addNewOrder">新增订单</Button>
+          <Button type="primary" @click="addNewOrder">新增订单</Button>
         </div>
         <div class="right-box">
           <Button type="ghost" @click="refresh">刷新</Button>
@@ -895,7 +895,7 @@ export default {
       window.open('#/user/parent-list?front_uid='+this.my_search.uid);
     },
     addNewOrder(){
-      this.$refs['order_modal'].show(this.myData);
+      this.$refs['order_modal'].show(this.myData, this.role);
     },
     copyTxt(e){
       let clip = new ClipBoard(`.${e.target.classList[1]}`);
