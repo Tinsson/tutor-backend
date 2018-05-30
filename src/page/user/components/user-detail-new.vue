@@ -53,6 +53,15 @@
                       </Select>
                     </p>
                   </Col>
+                  <Col span="6">
+                    <p class="label">所属助教</p>
+                    <p class="value">
+                      <span v-show="!IsEdit">{{myData.assistant_name}}</span>
+                      <Select v-show="IsEdit" v-model="EditData.assistant" :style="{width: IptWidth}">
+                        <Option v-for="(item, index) in myData.ass_list" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                      </Select>
+                    </p>
+                  </Col>
                 </Row>
               </li>
               <li class="single-line" v-if="role === 2">
@@ -123,12 +132,9 @@
                     <p class="value">{{myData.resource}}</p>
                   </Col>
                   <Col span="6">
-                    <p class="label">所属助教</p>
+                    <p class="label">城市</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{myData.assistant_name}}</span>
-                      <Select v-show="IsEdit" v-model="EditData.assistant" :style="{width: IptWidth}">
-                        <Option v-for="(item, index) in myData.ass_list" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                      </Select>
+                      <span>{{myData.city}}</span>
                     </p>
                   </Col>
                   <!--<Col span="6">
@@ -170,9 +176,9 @@
                     </p>
                   </Col>
                   <Col span="6">
-                    <p class="label">城市</p>
+                    <p class="label">地址</p>
                     <p class="value">
-                      <span>{{myData.city}}</span>
+                      <span>{{myData.geo_name}}</span>
                     </p>
                   </Col>
                 </Row>
@@ -279,7 +285,7 @@
                 <TabPane label="备注管理" name="name2">
                   <Table :columns="remarkCol" :data="remarkData" border></Table>
                 </TabPane>
-                <TabPane v-if="role == 2" label="订单列表" name="name3">
+                <TabPane label="订单列表" name="name3">
                   <Table :columns="orderCol" :data="orderData" border></Table>
                 </TabPane>
                 <!--<TabPane label="联系记录" name="name2">
@@ -937,7 +943,7 @@ export default {
             this.myData = info;
             this.orderData = info.server;
             //this.contact = info.contact.list;
-            this.address = info.address;
+            //this.address = info.address;
             //this.followData = info.favorite;
             this.if_show = true;
             this.edu_pic = this.myData.xl_url;
