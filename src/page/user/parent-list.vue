@@ -57,11 +57,39 @@ export default {
         {
           title: '姓名',
           key: 'body_name',
-          align: 'center'
+          align: 'center',
+          render: (h, params)=>{
+            return h('div',{
+              'class': {
+                clipBtn : true
+              },
+              style:{
+                cursor: 'pointer',
+                color: '#0f76c7'
+              },
+              attrs:{
+                src: params.row.body_name
+              }
+            }, params.row.body_name);
+          }
         },{
           title: '手机',
           key: 'phone',
-          align: 'center'
+          align: 'center',
+          render: (h, params)=>{
+            return h('div',{
+              'class': {
+                clipBtn : true
+              },
+              style:{
+                cursor: 'pointer',
+                color: '#0f76c7'
+              },
+              attrs:{
+                src: params.row.phone
+              }
+            }, params.row.phone);
+          }
         },{
           title: '微信昵称',
           key: 'nickname',
