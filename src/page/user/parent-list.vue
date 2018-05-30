@@ -22,6 +22,7 @@
 </template>
 <script>
 import userDetail from './components/user-detail-new.vue'
+import Clipboard from 'clipboard'
 
 export default {
   name: "user",
@@ -64,7 +65,21 @@ export default {
         },{
           title: '微信昵称',
           key: 'nickname',
-          align: 'center'
+          align: 'center',
+          render: (h, params)=>{
+            return h('div',{
+              'class': {
+                clipBtn : true
+              },
+              style:{
+                cursor: 'pointer',
+                color: '#0f76c7'
+              },
+              attrs:{
+                src: params.row.nickname
+              }
+            }, params.row.nickname);
+          }
         },{
           title: '客户类型',
           key: 'role',
@@ -437,6 +452,20 @@ export default {
   mounted() {
     //this.getNeedConf();
     this.getData();
+
+    //剪切板功能
+    this.ClipBoard = new Clipboard('.clipBtn',{
+      text: function(elm){
+        return elm.getAttribute('src');
+      }
+    });
+    this.ClipBoard.on('success',(e)=>{
+      //e.trigger.style.color = '#F00';
+      this.$Message.success('复制成功！！！');
+    });
+  },
+  destroyed() {
+    this.ClipBoard.destroy();
   },
   components: {
     userDetail
