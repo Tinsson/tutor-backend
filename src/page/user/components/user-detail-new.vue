@@ -497,7 +497,15 @@ export default {
     },{
       title: '家长姓名',
       key: 'learn_name',
-      align: 'center'
+      align: 'center',
+      renderHeader: (h, params)=>{
+        let txt = '家长姓名',
+            role = this.role;
+        if(role == 1){
+          txt = '家教姓名'
+        }
+        return h('span', txt);
+      }
     },{
       title: '支付状态',
       key: 'status',
