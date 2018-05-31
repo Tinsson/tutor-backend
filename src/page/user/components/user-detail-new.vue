@@ -956,10 +956,9 @@ export default {
         //this.city = city;
         this.type = 1;
         this.clear();
+        this.url = 'tutor-panel'
         if(role === 1){
           this.url = 'parent-panel'
-        }else{
-          this.url = 'tutor-panel'
         }
       }
 
