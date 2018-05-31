@@ -11,12 +11,12 @@ axios.interceptors.request.use(config => {
   if(config.headers['Content-Type'] != 'multipart/form-data'){
     config.data = qs.stringify(config.data);
   }
-  let url = config.url.split('?')[0];
+  let url = config.url;
   let token = localStorage.getItem('token');
   let path = localStorage.getItem('cur_path');
-  let params = config.url.split('?')[1]?config.url.split('?')[1]:'';
+
   if(urlList[url]) {
-    config.url = params == '' ? urlList[url]: urlList[url] + '?' + params
+    config.url = urlList[url];
   }
   if (token) {
     config.headers['token'] = token;
@@ -48,6 +48,7 @@ axios.interceptors.response.use(response => {
   }
 
 }, error => {
+
   myvue.$Message.error('网络错误');
   return Promise.reject(error);
 
