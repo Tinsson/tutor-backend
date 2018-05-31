@@ -18,6 +18,7 @@ const urlList = {
   'admin-role-add': '/backend/admin/admin-role-add', //账户角色添加 ☑️
   'get-learn-phone': '/backend/user/search-userinfo',  //获取家长信息
   'add-order': '/backend/server/add-order', //添加服务订单
+  'edit-level': '/backend/user/edit-level', //修改客户等级
 
 
   //权限管理

@@ -28,6 +28,7 @@ export default {
   name: "user",
   data (){
     return {
+      level_status: false, //等级编辑
       is_front: false,
       front_uid: '',
       select_arr: [], //选择的用户列表
@@ -156,7 +157,67 @@ export default {
         },{
           title: '客户等级',
           key: 'level',
-          align: 'center'
+          align: 'center',
+          width: 120,
+          renderHeader: (h, params)=>{
+            return h('span',{
+              style: {
+                color: '#ff5722',
+                cursor: 'pointer'
+              },
+              on: {
+                click: ()=>{
+                  this.level_status = !this.level_status;
+                  if(!this.level_status){
+                    this.getData();
+                  }
+                }
+              }
+            }, ['客户等级 ', h('Icon',{
+              style: {
+                fontSize: '16px'
+              },
+              props: {
+                type: 'compose'
+              }
+            })])
+          },
+          render:(h, params)=>{
+            if(this.level_status){
+              let level = params.row.level;
+              return h('Select', {
+                style: {
+                  width: '80px'
+                },
+                props: {
+                  value: level
+                },
+                on: {
+                  input: (val)=>{
+                    this.editLevel(val, params.row.id);
+                  }
+                }
+              },[h('Option', {
+                props: {
+                  value: 'A'
+                }
+              },'A'),h('Option', {
+                props: {
+                  value: 'B'
+                }
+              },'B'),h('Option', {
+                props: {
+                  value: 'C'
+                }
+              },'C'),h('Option', {
+                props: {
+                  value: 'D'
+                }
+              },'D')]);
+            }else{
+              return h('span', params.row.level);
+            }
+          }
         },{
           title: '备注',
           key: 'remark',
@@ -293,6 +354,9 @@ export default {
         },{
           label: 'C',
           value: 'C'
+        },{
+          label: 'D',
+          value: 'D'
         }],
         model: 'level'
       }],
@@ -466,6 +530,17 @@ export default {
       }).then(d=>{
         if(d.status == 1){
           this.resourceArr = d.data.list;
+        }
+      })
+    },
+    editLevel(level, uid){
+      //编辑客户等级
+      this.axios.post('edit-level',{
+        level,
+        uid
+      }).then(d=>{
+        if(d){
+          this.$Message.success(d.message);
         }
       })
     }

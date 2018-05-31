@@ -50,6 +50,7 @@
                         <Option value="A">A</Option>
                         <Option value="B">B</Option>
                         <Option value="C">C</Option>
+                        <Option value="D">D</Option>
                       </Select>
                     </p>
                   </Col>
