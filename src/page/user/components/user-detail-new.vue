@@ -505,6 +505,14 @@ export default {
           txt = '家教姓名'
         }
         return h('span', txt);
+      },
+      render: (h, params)=>{
+        let role = this.role;
+        if(role == 1){
+          return h("span", params.row.tutor_name);
+        }else{
+          return h("span", params.row.learn_name);
+        }
       }
     },{
       title: '支付状态',
