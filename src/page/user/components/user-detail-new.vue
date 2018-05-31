@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="user-detail">
-    <Modal class="all-modal" v-model="if_show" @on-cancel="hidePanel" :title="`用户面板（${myData.nickname}）`" width="1200" cancel-text>
+    <Modal class="all-modal" v-model="if_show" @on-cancel="hidePanel" :title="`用户面板（${myData.nickname}）`" width="1300" cancel-text>
       <Row :gutter='5'>
         <Col span="16">
           <div class="info-area">
@@ -517,6 +517,15 @@ export default {
           case 3:
             txt = '退款';
             break;
+          case 4:
+            txt = '家教已支付';
+            break;
+          case 5:
+            txt = '家长已支付';
+            break;
+          case 6:
+            txt = '作废';
+            break;
         }
         return h('span', txt);
       }
@@ -525,6 +534,27 @@ export default {
       key: 'create_at',
       align: 'center',
       width: 100
+    },{
+      title: '操作',
+      key: 'operation',
+      align: 'center',
+      width: 100,
+      render: (h, params)=>{
+        if(params.row.status == 0){
+          return h('Button', {
+            props: {
+              type: 'warning'
+            },
+            on: {
+              click: ()=>{
+                this.delOrder(params.row.order_sn);
+              }
+            }
+          },'作废')
+        }else{
+          return h('span', '无')
+        }
+      }
     }],
     orderData: [],
     followCol: [{
@@ -776,18 +806,21 @@ export default {
       });
     },
 
-    forbidUser(a){
-      this.axios.post('forbid',{
-        openid:this.my_search.key,
-        status:a
-      }).then((res)=>{
-        if (res.status == 1) {
-          if (a) {
-            this.$Message.info('封号成功')
-          }else {
-            this.$Message.info('解封成功')
-          }
-          this.show()
+    //作废订单
+    delOrder(order_sn){
+      console.log(order_sn);
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确认作废此订单吗？</p>',
+        onOk: ()=>{
+          this.axios.post('del-order',{
+            order_sn
+          }).then(d=>{
+            if(d){
+              this.$Message.success(d.message);
+              this.show();
+            }
+          })
         }
       })
     },

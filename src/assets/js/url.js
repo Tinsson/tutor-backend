@@ -16,8 +16,10 @@ const urlList = {
   'admin-role-all': '/backend/admin/role-all', //所有角色 ☑️
   'admin-status': '/backend/admin/set-status', //禁用用户 ☑️
   'admin-role-add': '/backend/admin/admin-role-add', //账户角色添加 ☑️
+  'log-list': '/backend/admin/log-list',  //操作日志列表
   'get-learn-phone': '/backend/user/search-userinfo',  //获取家长信息
   'add-order': '/backend/server/add-order', //添加服务订单
+  'del-order': '/backend/server/del-order', //作废订单
   'edit-level': '/backend/user/edit-level', //修改客户等级
 
 

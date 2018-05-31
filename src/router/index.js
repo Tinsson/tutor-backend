@@ -47,6 +47,7 @@ import statsDetail from '@/page/statis/detail'
 import auth from '@/page/authority/auth'
 import role from '@/page/authority/role'
 import admin from '@/page/authority/admin'
+import logInfo from '@/page/authority/logInfo'
 
 //用户操作记录
 import consult from '@/page/operation/consult'
@@ -168,6 +169,10 @@ const router = new Router({
           path: '/authority/admin',
           name: 'admin',
           component: admin
+        },{
+          path: '/authority/logInfo',
+          name: 'logInfo',
+          component: logInfo
         },{
           path: '/operation/consult',
           name: 'consult',

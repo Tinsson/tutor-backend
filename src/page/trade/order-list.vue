@@ -43,6 +43,15 @@ export default {
               case 3:
                 txt = '退款';
                 break;
+              case 4:
+                txt = '家教已支付';
+                break;
+              case 5:
+                txt = '家长已支付';
+                break;
+              case 6:
+                txt = '作废';
+                break;
             }
             return h('span', txt);
           }
@@ -70,6 +79,27 @@ export default {
           title: '家长姓名',
           key: 'learn_name',
           align: 'center',
+        },{
+          title: '操作',
+          key: 'operation',
+          align: 'center',
+          width: 100,
+          render: (h, params)=>{
+            if(params.row.status == 0){
+              return h('Button', {
+                props: {
+                  type: 'warning'
+                },
+                on: {
+                  click: ()=>{
+                    this.delOrder(params.row.order_sn);
+                  }
+                }
+              },'作废')
+            }else{
+              return h('span', '无')
+            }
+          }
         }
       ],
       myData: [],
@@ -117,6 +147,24 @@ export default {
     }
   },
   methods: {
+    //作废订单
+    delOrder(order_sn){
+      console.log(order_sn);
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确认作废此订单吗？</p>',
+        onOk: ()=>{
+          this.axios.post('del-order',{
+            order_sn
+          }).then(d=>{
+            if(d){
+              this.$Message.success(d.message);
+              this.getData();
+            }
+          })
+        }
+      })
+    },
     refresh() {
       this.getData();
     },
