@@ -29,7 +29,7 @@
                     </p>
                   </Col>
                   <Col span="6">
-                    <p class="label">客户类型</p>
+                    <p class="label">客户角色</p>
                     <p class="value">
                       <span v-show="!IsEdit">{{myData.role === 1?'家长':'家教'}}</span>
                       <Select v-show="IsEdit" :transfer="true" v-model="EditData.role" :style="{width: IptWidth}" @on-change="RoleChange">

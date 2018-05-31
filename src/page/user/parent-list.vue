@@ -110,7 +110,7 @@ export default {
             }, params.row.nickname);
           }
         },{
-          title: '客户类型',
+          title: '客户角色',
           key: 'role',
           align: 'center',
           render: (h, params)=>{
@@ -155,7 +155,7 @@ export default {
           key: 'resource',
           align: 'center'
         },{
-          title: '客户等级',
+          title: '客户类型',
           key: 'level',
           align: 'center',
           width: 120,
@@ -173,7 +173,7 @@ export default {
                   }
                 }
               }
-            }, ['客户等级 ', h('Icon',{
+            }, ['客户类型 ', h('Icon',{
               style: {
                 fontSize: '16px'
               },
@@ -342,7 +342,7 @@ export default {
         }],
         model: 'is_remark'
       },{
-        label: '客户等级',
+        label: '客户类型',
         type: 'select',
         placeholder: '请选择',
         options: [{
@@ -361,7 +361,7 @@ export default {
         model: 'level'
       }],
       searchMore: [{
-        label: '客户类型',
+        label: '客户角色',
         type: 'select',
         placeholder: '请选择类型',
         model: 'role',
