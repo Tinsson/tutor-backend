@@ -48,8 +48,15 @@ axios.interceptors.response.use(response => {
   }
 
 }, error => {
-  myvue.$Message.error('网络错误')
-  return Promise.reject(error)
+  if(error.data.status === 0 && error.data.code === 20004){
+    myvue.$Message.error(error.data.message);
+    localStorage.clear();
+    router.push('/login');
+    return;
+  }else{
+    myvue.$Message.error('网络错误');
+    return Promise.reject(error)
+  }
 })
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
