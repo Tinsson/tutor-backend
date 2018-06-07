@@ -52,6 +52,9 @@ import logInfo from '@/page/authority/logInfo'
 //用户操作记录
 import consult from '@/page/operation/consult'
 
+//课程安排
+import firstClass from '@/page/course/first-class'
+
 const router = new Router({
   // mode: 'history',
   routes: [
@@ -177,6 +180,10 @@ const router = new Router({
           path: '/operation/consult',
           name: 'consult',
           component: consult
+        },{
+          path: '/course/firstClass',
+          name: 'firstClass',
+          component: firstClass
         }
       ]
     }

@@ -210,7 +210,7 @@
                 </div>
               </div>
             </Col>
-            <Col span="8">
+            <!--<Col span="8">
               <div class="wx-qrcode" v-if="role == 2">
                 <p class="label">学历认证图</p>
                 <div class="pic-box">
@@ -223,7 +223,7 @@
                   </Upload>
                 </div>
               </div>
-            </Col>
+            </Col>-->
           </Row>
         </Col>
         <Col span="8">
