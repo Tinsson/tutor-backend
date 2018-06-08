@@ -81,7 +81,8 @@ const urlList = {
 
   //交易记录
   'audit-list': '/backend/trad/audlist', //获取认证支付流水
-  'ref-list': '/backend/trad/reflist',  //获取认证退款流水
+  'ref-list': '/backend/refund/refund-list',  //获取认证退款流水
+  'ref-btn': '/backend/refund/refund', //退款按钮
   'buy-list': '/backend/trad/buylist',  //获取购买联系方式
   'buy-refund': '/backend/trad/refund-log', //购买退款流水
   'contact-list': '/backend/trad/contact-list', //解锁记录

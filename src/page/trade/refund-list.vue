@@ -15,8 +15,8 @@ export default {
       all_price: '',
       columns: [
         {
-          title: '微信订单流水号',
-          key: 'wx_order_sn',
+          title: '订单号',
+          key: 'order_sn',
           align: 'center'
         },{
           title: '姓名',
@@ -27,21 +27,77 @@ export default {
           key: 'phone',
           align: 'center'
         },{
-          title: '金额',
-          key: 'amount',
+          title: '角色',
+          key: 'role',
+          align: 'center',
+          render: (h, params)=>{
+            let txt = '';
+            switch(params.row.role){
+              case 0:
+                txt = '未知';
+                break;
+              case 1:
+                txt = '家长';
+                break;
+              case 2:
+                txt = '家教';
+                break;
+            }
+            return h('span', txt);
+          }
+        },{
+          title: '订单总金额',
+          key: 'total_fee',
           align: 'center'
         },{
-          title: '支付状态',
+          title: '退款状态',
           key: 'status',
+          align: 'center',
+          render: (h, params)=>{
+            let txt = '';
+            switch(params.row.status){
+              case 0:
+                txt = '待退款';
+                break;
+              case 1:
+                txt = '退款成功';
+                break;
+              case 2:
+                txt = '退款失败';
+                break;
+            }
+            return h('span', txt);
+          }
+        },{
+          title: '操作人',
+          key: 'editor',
           align: 'center'
         },{
-          title: '认证状态',
-          key: 'rz_status',
+          title: '退款单号',
+          key: 'refund_sn',
           align: 'center'
         },{
-          title: '时间',
-          key: 'addtime',
+          title: '退款申请时间',
+          key: 'create_at',
           align: 'center'
+        },{
+          title: '操作',
+          key: 'operate',
+          align: 'center',
+          render: (h, params)=>{
+            if(params.row.status == 0){
+              return h('div',[h('Button',{
+                props: {
+                  type: 'info'
+                },
+                on: {
+                  click: ()=>{
+                    this.RefundOpt(params.row);
+                  }
+                }
+              }, '退款')])
+            }
+          }
         }
       ],
       myData: [],
@@ -53,17 +109,17 @@ export default {
           placeholder: '输入手机号',
           model: 'phone'
         },{
-          label: '支付状态',
+          label: '退款状态',
           type: 'select',
           placeholder: '请选择',
           options: [{
-            label: '取消',
-            value: -1
+            label: '待退款',
+            value: 0
           },{
-            label: '成功',
+            label: '退款成功',
             value: 1
           },{
-            label: '失败',
+            label: '退款失败',
             value: 2
           }],
           model: 'status'
@@ -116,11 +172,27 @@ export default {
       }).then(res=>{
         if(res){
           this.tableLoading = false;
-          this.myData = res.data.list;
+          this.myData = res.data.lists;
           this.pageprops.total = res.data.total;
         }
       })
     },
+    RefundOpt(row){
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确认对该订单进行退款？</p>',
+        onOk: ()=>{
+          this.axios.post('ref-btn',{
+            order_sn: row.order_sn
+          }).then(res=>{
+            if(res){
+              this.$Message.success(res.message);
+              this.getData();
+            }
+          })
+        }
+      })
+    }
   },
   mounted() {
     this.getData();
