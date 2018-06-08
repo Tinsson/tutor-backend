@@ -63,6 +63,12 @@
                       </Select>
                     </p>
                   </Col>
+                  <Col span="6">
+                    <p class="label">是否会员</p>
+                    <p class="value">
+                      <span>{{myData.is_vip == 1?'是':'否'}}</span>
+                    </p>
+                  </Col>
                 </Row>
               </li>
               <li class="single-line" v-if="role === 2">
@@ -187,7 +193,7 @@
             </ul>
           </div>
           <Row>
-            <Col span="8">
+            <!--<Col span="8">
               <div class="wx-qrcode">
                 <p class="label">微信二维码</p>
                 <div class="pic-box">
@@ -210,7 +216,7 @@
                 </div>
               </div>
             </Col>
-            <!--<Col span="8">
+            <Col span="8">
               <div class="wx-qrcode" v-if="role == 2">
                 <p class="label">学历认证图</p>
                 <div class="pic-box">

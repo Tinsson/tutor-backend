@@ -130,6 +130,23 @@ export default {
             }, text);
           }
         },{
+          title: '是否会员',
+          key: 'is_vip',
+          align: 'center',
+          render: (h, params)=>{
+            let is_vip = params.row.is_vip,
+                txt = '';
+            switch (is_vip){
+              case 0:
+                txt = '否';
+                break;
+              case 1:
+                txt = '是';
+                break;
+            }
+            return h('span', txt);
+          }
+        },{
           title: '城市',
           key: 'city',
           align: 'center'
