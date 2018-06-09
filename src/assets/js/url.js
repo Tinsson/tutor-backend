@@ -53,6 +53,7 @@ const urlList = {
   'edit-user': '/backend/user/edit-user', //编辑基本信息
   'user-remark': '/backend/remark/user', //获取用户备注
   'edit-remark': '/backend/user/edit-remark', //保存备注
+  'contacts-list': '/backend/contacts/list', //联系人列表
 
 
   //审核列表

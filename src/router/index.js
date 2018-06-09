@@ -29,12 +29,12 @@ import resourceConfig from '@/page/config/resource-config' //渠道配置
 import tagConfig from '@/page/config/tag-config' //标签配置
 
 // 交易记录
-import contactList from '@/page/trade/contact-list'
 import auditList from '@/page/trade/audit-list'
 import refList from '@/page/trade/refund-list'
 import buyList from '@/page/trade/buy-list'
 import buyRefund from '@/page/trade/buy-refund'
 import orderList from '@/page/trade/order-list'
+import contactList from '@/page/trade/contact-list'
 
 //助教管理
 import assisList from '@/page/assistant/assis-list'
@@ -51,6 +51,7 @@ import logInfo from '@/page/authority/logInfo'
 
 //用户操作记录
 import consult from '@/page/operation/consult'
+import contacts from '@/page/operation/contact-list'
 
 //课程安排
 import firstClass from '@/page/course/first-class'
@@ -125,10 +126,6 @@ const router = new Router({
           name: 'tagConfig',
           component: tagConfig
         },{
-          path: '/trade/contact-list',
-          name: 'contactList',
-          component: contactList
-        },{
           path: '/trade/audit-list',
           name: 'auditList',
           component: auditList
@@ -148,6 +145,10 @@ const router = new Router({
           path: '/trade/order-list',
           name: 'orderList',
           component: orderList
+        },{
+          path: '/operation/contact-list',
+          name: 'contactList',
+          component: contactList
         },{
           path: '/assistant/assis-list',
           name: 'assisList',
@@ -180,6 +181,10 @@ const router = new Router({
           path: '/operation/consult',
           name: 'consult',
           component: consult
+        },{
+          path: '/operation/contacts',
+          name: 'contacts',
+          component: contacts
         },{
           path: '/course/firstClass',
           name: 'firstClass',
