@@ -172,7 +172,7 @@ export default {
           key: 'resource',
           align: 'center'
         },{
-          title: '客户类型',
+          title: '客户状态',
           key: 'level',
           align: 'center',
           width: 120,
@@ -190,7 +190,7 @@ export default {
                   }
                 }
               }
-            }, ['客户类型 ', h('Icon',{
+            }, ['客户状态 ', h('Icon',{
               style: {
                 fontSize: '16px'
               },
@@ -218,21 +218,29 @@ export default {
                 props: {
                   value: 'A'
                 }
-              },'A'),h('Option', {
+              },'授课中'),h('Option', {
                 props: {
                   value: 'B'
                 }
-              },'B'),h('Option', {
-                props: {
-                  value: 'C'
-                }
-              },'C'),h('Option', {
+              },'暂不需要'),h('Option', {
                 props: {
                   value: 'D'
                 }
-              },'D')]);
+              },'寻找中')]);
             }else{
-              return h('span', params.row.level);
+              let txt = '';
+              switch (params.row.level){
+                case "A":
+                  txt = '授课中';
+                  break;
+                case "B":
+                  txt = '暂不需要';
+                  break;
+                case "D":
+                  txt = '寻找中';
+                  break;
+              }
+              return h('span', txt);
             }
           }
         },{
@@ -359,20 +367,17 @@ export default {
         }],
         model: 'is_remark'
       },{
-        label: '客户类型',
+        label: '客户状态',
         type: 'select',
         placeholder: '请选择',
         options: [{
-          label: 'A',
+          label: '授课中',
           value: 'A'
         },{
-          label: 'B',
+          label: '暂不需要',
           value: 'B'
         },{
-          label: 'C',
-          value: 'C'
-        },{
-          label: 'D',
+          label: '寻找中',
           value: 'D'
         }],
         model: 'level'

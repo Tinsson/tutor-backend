@@ -43,14 +43,13 @@
               <li class="single-line">
                 <Row>
                   <Col span="6">
-                    <p class="label">客户等级</p>
+                    <p class="label">客户状态</p>
                     <p class="value">
                       <span v-show="!IsEdit">{{myData.level}}</span>
                       <Select v-show="IsEdit" v-model="EditData.level" :style="{width: IptWidth}">
-                        <Option value="A">A</Option>
-                        <Option value="B">B</Option>
-                        <Option value="C">C</Option>
-                        <Option value="D">D</Option>
+                        <Option value="A">授课中</Option>
+                        <Option value="B">暂不需要</Option>
+                        <Option value="D">寻找中</Option>
                       </Select>
                     </p>
                   </Col>

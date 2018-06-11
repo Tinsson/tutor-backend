@@ -1,28 +1,54 @@
 <template>
   <div id="income-detail">
-    <title-bar title="订单列表" @refresh="refresh"></title-bar>
+    <title-bar title="会员充值订单列表" @refresh="refresh"></title-bar>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
         <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
     <big-pic ref="bigPic" :maxWidth="500"></big-pic>
+    <user-detail ref="userDetail" @save-over="getData" :role="1"></user-detail>
   </div>
 </template>
 <script>
+  import userDetail from '../user/components/user-detail-new.vue'
+
 export default {
   name: "income-detail",
+  components: {
+    userDetail
+  },
   data() {
     return {
       all_price: '',
       img_src: '',
       columns: [
         {
-          title: '服务费',
-          key: 'amount',
+          title: '用户姓名',
+          key: 'body_name',
           align: 'center'
         },{
-          title: '订单号',
-          key: 'order_sn',
+          title: '手机号',
+          key: 'phone',
+          align: 'center'
+        },{
+          title: '角色',
+          key: 'role',
+          align: 'center',
+          render: (h, params)=>{
+            let txt = '';
+            switch (params.row.role){
+              case 1:
+                txt = "家长";
+                break;
+              case 2:
+                txt = '家教';
+                break;
+            }
+            return h('span', txt);
+          }
+        },{
+          title: '充值金额',
+          key: 'amount',
           align: 'center'
         },{
           title: '支付状态',
@@ -44,61 +70,40 @@ export default {
                 txt = '退款';
                 break;
               case 4:
-                txt = '家教已支付';
-                break;
-              case 5:
-                txt = '家长已支付';
-                break;
-              case 6:
-                txt = '作废';
+                txt = '已退款';
                 break;
             }
             return h('span', txt);
           }
         },{
-          title: '家教手机号',
-          key: 'tutor_phone',
-          align: 'center'
-        },{
-          title: '家长手机号',
-          key: 'learn_phone',
-          align: 'center'
-        },{
-          title: '订单生成时间',
+          title: '生成时间',
           key: 'create_at',
           align: 'center'
         },{
-          title: '订单完成时间',
+          title: '充值完成时间',
           key: 'finish_at',
           align: 'center'
-        },{
-          title: '家教姓名',
-          key: 'tutor_name',
-          align: 'center'
-        },{
-          title: '家长姓名',
-          key: 'learn_name',
-          align: 'center',
         },{
           title: '操作',
           key: 'operation',
           align: 'center',
           width: 100,
           render: (h, params)=>{
-            if(params.row.status == 0){
-              return h('Button', {
+            return h('div', [
+              h('Button', {
                 props: {
-                  type: 'warning'
+                  type: 'info'
+                },
+                style: {
+                  'marginRight': '5px'
                 },
                 on: {
-                  click: ()=>{
-                    this.delOrder(params.row.order_sn);
+                  click: () => {
+                    this.$refs.userDetail.show(params.row.uid, '', params.row.role)
                   }
                 }
-              },'作废')
-            }else{
-              return h('span', '无')
-            }
+              }, '查看')
+            ])
           }
         }
       ],
@@ -106,15 +111,10 @@ export default {
       tableLoading: false,
       searchList: [
         {
-          label: '家长姓名',
+          label: '姓名',
           type: 'input',
-          placeholder: '请输入家长姓名',
-          model: 'learn'
-        },{
-          label: '家教姓名',
-          type: 'input',
-          placeholder: '请输入家教姓名',
-          model: 'tutor'
+          placeholder: '请输入姓名',
+          model: 'body_name'
         },{
           label: '手机号',
           type: 'input',
@@ -205,19 +205,19 @@ export default {
     },
     getData() {
       this.tableLoading = true;
-      this.axios.get('order-list',{
+      this.axios.get('recharge-list',{
         params:this.searchData
       }).then(res=>{
         if(res){
           this.tableLoading = false;
-          this.myData = res.data.order_list;
+          this.myData = res.data.lists;
           this.pageprops.total = res.data.total;
         }
       })
     },
   },
   mounted() {
-    this.getCates();
+    //this.getCates();
     this.getData();
   }
 }
