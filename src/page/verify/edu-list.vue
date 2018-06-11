@@ -62,7 +62,7 @@ export default {
           title: '手机号',
           key: 'phone',
           align: 'center'
-        }, {
+        }/*, {
           title: '学历信息',
           key: 'edu',
           align: 'center',
@@ -79,7 +79,7 @@ export default {
               }
             },'查看')
           }
-        },{
+        }*/,{
           title: '用户信息',
           align: 'center',
           render: (h, params)=>{
