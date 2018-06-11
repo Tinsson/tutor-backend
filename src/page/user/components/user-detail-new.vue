@@ -253,13 +253,13 @@
                         <h2 class="tab-title">通过时间:</h2>
                         <p class="tab-info">{{myData.identity_time}}</p>
                       </div>
-                      <div class="half-box">
-                        <h2 class="tab-title">微信审核:</h2>
-                        <p class="tab-info">{{myData.wechat_auth}}</p>
+                      <div class="half-box" v-if="role == 2">
+                        <h2 class="tab-title">学历认证:</h2>
+                        <p class="tab-info">{{myData.education}}</p>
                       </div>
-                      <div class="half-box">
+                      <div class="half-box" v-if="role == 2">
                         <h2 class="tab-title">通过时间:</h2>
-                        <p class="tab-info">{{myData.wechat_auth_time}}</p>
+                        <p class="tab-info">{{myData.education_time}}</p>
                       </div>
                       <div class="half-box">
                         <h2 class="tab-title">设备:</h2>
