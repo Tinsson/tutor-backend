@@ -13,7 +13,7 @@ module.exports = {
 
     proxyTable: {
       '/': {
-               target: 'https://tutor.pgyxwd.com',
+               target: 'https://tutortest.pgyxwd.com',
                // target: 'http://localhost:8081',
                changeOrigin: true,
            }

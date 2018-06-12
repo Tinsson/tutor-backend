@@ -256,7 +256,7 @@
                   <div class="tab-box half">
                     <div class="inner-wrap">
                       <div class="half-box first">
-                        <img class="user_img" :src="myData.portrait">
+                        <img class="user_img" @click="picDetails(myData.portrait)" :src="myData.portrait">
                       </div>
                       <div class="half-box first">
                         <h2 class="tab-title">注册:</h2>
