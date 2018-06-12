@@ -198,7 +198,7 @@
             </ul>
           </div>
           <Row>
-            <Col span="12" v-if="role == 2">
+            <!--<Col span="12" v-if="role == 2">
               <div class="wx-qrcode">
                 <p class="label">个人照片</p>
                 <div class="pic-box">
@@ -208,7 +208,7 @@
                   </div>
                 </div>
               </div>
-            </Col>
+            </Col>-->
             <!--<Col span="8">
               <div class="wx-qrcode">
                 <p class="label">微信二维码</p>
