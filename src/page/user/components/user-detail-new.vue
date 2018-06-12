@@ -1105,7 +1105,7 @@ export default {
             this.if_show = true;
             this.edu_pic = this.myData.xl_url;
             this.role = info.role;
-            this.initClass();
+            //this.initClass();
             resolve();
           }
         })
