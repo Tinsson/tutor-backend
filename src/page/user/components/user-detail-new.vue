@@ -68,6 +68,12 @@
                       <span>{{myData.is_vip == 1?'是':'否'}}</span>
                     </p>
                   </Col>
+                  <Col span="6">
+                    <p class="label">{{role == 1?'教学要求': '自我介绍'}}</p>
+                    <p class="value">
+                      <span>{{myData.introduce}}</span>
+                    </p>
+                  </Col>
                 </Row>
               </li>
               <li class="single-line" v-if="role === 2">
@@ -192,6 +198,17 @@
             </ul>
           </div>
           <Row>
+            <Col span="12" v-if="role == 2">
+              <div class="wx-qrcode">
+                <p class="label">个人照片</p>
+                <div class="pic-box">
+                  <span v-if="myData.photo_list.length == 0">暂无</span>
+                  <div v-else>
+                    <img v-for="item in myData.photo_list" class="qr-pic" @click="picDetails(item.url)" :src="item.url" alt="">
+                  </div>
+                </div>
+              </div>
+            </Col>
             <!--<Col span="8">
               <div class="wx-qrcode">
                 <p class="label">微信二维码</p>
@@ -269,6 +286,17 @@
                         <h2 class="tab-title">最近登录时间:</h2>
                         <p class="tab-info">{{myData.logintime}}</p>
                       </div>
+                      <div class="half-box" v-if="role == 2">
+                        <h2 class="tab-title">补习价格:</h2>
+                        <p class="tab-info">{{myData.price}}</p>
+                      </div>
+                      <div class="half-box" v-if="role == 2">
+                        <h2 class="tab-title">语音介绍:</h2>
+                        <p class="tab-info">
+                          <span v-if="myData.introduce_voice == ''">暂无</span>
+                          <audio v-else controls :src="myData.introduce_voice"></audio>
+                        </p>
+                      </div>
                     </div>
                     <div class="remark-box">
                       <h2 class="tab-title">备注：</h2>
@@ -293,6 +321,46 @@
                 </TabPane>
                 <TabPane label="订单列表" name="name3">
                   <Table :columns="orderCol" :data="orderData" border></Table>
+                </TabPane>
+                <TabPane label="课程安排" name="name4">
+                  <div class="time-out">
+                    <div class="time-line">
+                      <div class="label1">星期</div>
+                      <div class="part-box">
+                        <div class="part" v-for="item in week" :key="item">{{item}}</div>
+                      </div>
+                    </div>
+                    <div class="time-line">
+                      <div class="label1">上午</div>
+                      <div class="part-box">
+                        <div class="part" :class="[item]" v-for="(item, index) in am" :key="index">
+                          <img class="icon" src="../../../assets/images/time_chose.png" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="time-line">
+                      <div class="label1">下午</div>
+                      <div class="part-box">
+                        <div class="part" :class="[item]" v-for="(item, index) in pm" :key="index">
+                          <img class="icon" src="../../../assets/images/time_chose.png" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="time-line last">
+                      <div class="label1">晚上</div>
+                      <div class="part-box">
+                        <div class="part" :class="[item]" v-for="(item, index) in night" :key="index">
+                          <img class="icon" src="../../../assets/images/time_chose.png" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="time-other">
+                    <div class="other-line">
+                      <div class="label1">时间备注</div>
+                    </div>
+                    <div class="val-ipt">{{myData.time_remark}}</div>
+                  </div>
                 </TabPane>
                 <!--<TabPane label="联系记录" name="name2">
                   <div class="tab-box record">
@@ -353,6 +421,10 @@ export default {
     }
   },
   data(){return {
+    week: ['一', '二', '三', '四', '五', '六', '日'],
+    am: [],
+    pm: [],
+    night: [],
     role: 1,
     city: '',
     IsEdit: false,
@@ -969,6 +1041,37 @@ export default {
         clip.destroy();
       })
     },
+
+    picDetails(img){
+      this.$refs['bigPic'].show(img);
+    },
+
+    initClass(){
+      let class_list = this.myData.class_list,
+          am = this.am,
+          pm = this.pm,
+          night = this.night;
+      if (class_list.length > 0) {
+        class_list.forEach(val => {
+          if (val.am === 1) {
+            this.$set(am, val.day - 1, "cur");
+          } else {
+            this.$set(am, val.day - 1, "");
+          }
+          if (val.pm === 1) {
+            this.$set(pm, val.day - 1, "cur");
+          } else {
+            this.$set(pm, val.day - 1, "");
+          }
+          if (val.night === 1) {
+            this.$set(night, val.day - 1, "cur");
+          } else {
+            this.$set(night, val.day - 1, "");
+          }
+        })
+      }
+    },
+
     show(row, city, role) {
 
       if (row && role) {
@@ -1002,6 +1105,7 @@ export default {
             this.if_show = true;
             this.edu_pic = this.myData.xl_url;
             this.role = info.role;
+            this.initClass();
             resolve();
           }
         })
@@ -1097,7 +1201,8 @@ export default {
     .value{
       font-size: 12px;
       min-height: 45px;
-      line-height: 45px;
+      line-height: 20px;
+      padding: 15px 0;
       .line{
         line-height: 25px;
       }
@@ -1127,7 +1232,8 @@ export default {
     .pic-box{
       padding-top: 10px;
       .qr-pic{
-        width: 180px;
+        width: 150px;
+        margin-right: 10px;
       }
     }
     .btn-box{
@@ -1149,5 +1255,62 @@ export default {
     .content-box{
       width: 300px;
     }
+  }
+
+
+  .time-out{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-size: 14px;
+    border-bottom: 1px solid #e9e9e9;
+  }
+  .time-out .time-line{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px dashed #d3d3d3;
+    display: flex;
+    flex-direction: row;
+  }
+  .time-out .time-line.last{
+    border: none;
+  }
+  .time-out .time-line .label1{
+    width: 50px;
+  }
+  .time-out .time-line .part-box{
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .time-out .time-line .part-box .part{
+    position: relative;
+    width: 42px;
+    height: 50px;
+    color: #6b6b6b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .time-out .part .icon{
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+  }
+  .time-out .part.cur .icon{
+    opacity: 1;
+  }
+  .time-other{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px 0;
+    font-size: 15px;
+  }
+  .time-other .val-ipt{
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
   }
 </style>
