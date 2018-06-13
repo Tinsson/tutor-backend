@@ -45,7 +45,7 @@
                   <Col span="6">
                     <p class="label">客户状态</p>
                     <p class="value">
-                      <span v-show="!IsEdit">{{myData.level}}</span>
+                      <span v-show="!IsEdit">{{levelText}}</span>
                       <Select v-show="IsEdit" v-model="EditData.level" :style="{width: IptWidth}">
                         <Option value="A">授课中</Option>
                         <Option value="B">暂不需要</Option>
@@ -759,6 +759,23 @@ export default {
         tags = this.myData.quick_remark.split(',');
       }
       return tags;
+    },
+
+    levelText(){
+      let level = this.myData.level,
+          txt = '';
+      switch(level){
+        case 'A':
+          txt = '授课中';
+          break;
+        case 'B':
+          txt = '暂不需要';
+          break;
+        case 'D':
+          txt = '寻找中';
+          break;
+      }
+      return txt;
     }
   },
   methods: {
