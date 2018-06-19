@@ -202,7 +202,7 @@
               <div class="wx-qrcode">
                 <p class="label">个人照片</p>
                 <div class="pic-box">
-                  <span v-if="myData.photo_list.length == 0">暂无</span>
+                  <span v-if="('photo_list' in myData) && myData.photo_list.length == 0">暂无</span>
                   <div v-else>
                     <img v-for="item in myData.photo_list" class="qr-pic" @click="picDetails(item.url)" :src="item.url" alt="">
                   </div>
