@@ -860,9 +860,13 @@ export default {
       if(params.role === 1){
         params.range = params.learn_range_id;
         params.subject = params.learn_subject_id;
-      }else if(params.role === 2){
-        params.range = params.teach_range_id.join(',');
-        params.subject = params.teach_subject_id.join(',');
+      }else if(params.role === 2 ){
+        if("teach_range_id" in params && "teach_subject_id" in params){
+          params.range = params.teach_range_id.join(',');
+          params.subject = params.teach_subject_id.join(',');
+        }
+        params.range = '';
+        params.subject = '';
       }
       Object.keys(params).forEach(label=>{
         formData.append(label, params[label]);
