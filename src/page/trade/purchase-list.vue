@@ -1,6 +1,6 @@
 <template>
   <div id="income-detail">
-    <title-bar title="课程充值列表" @refresh="refresh"></title-bar>
+    <title-bar title="会员充值列表" @refresh="refresh"></title-bar>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
         <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
@@ -15,54 +15,27 @@ export default {
       all_price: '',
       columns: [
         {
-          title: '家长',
-          key: 'learn_name',
+          title: '家教',
+          key: 'body_name',
           align: 'center'
         },{
           title: '手机号',
-          key: 'learn_phone',
+          key: 'phone',
           align: 'center'
         },{
-          title: '姓名',
-          key: 'tutor_name',
-          align: 'center'
-        },{
-          title: '课时单价',
-          key: 'price',
-          align: 'center'
-        },{
-          title: '课时数量',
-          key: 'class_hour',
-          align: 'center'
-        },{
-          title: '课时总价',
+          title: '充值金额',
           key: 'amount',
           align: 'center'
         },{
           title: '充值时间',
           key: 'create_at',
-          width: 100,
           align: 'center'
-        }/*,{
-          title: '操作',
-          key: 'operation',
+        },{
+          title: '到期时间',
+          key: 'valid_at',
           align: 'center',
-          render: (h, params)=>{
-            return h('div', [h('Button',{
-              style: {
-                marginRight: '5px'
-              },
-              props: {
-                type: 'success'
-              },
-              on: {
-                click: ()=>{
-                  this.RefundOpt(params.row);
-                }
-              }
-            }, '退款')]);
-          }
-        }*/
+
+        }
       ],
       myData: [],
       tableLoading: false,
@@ -71,7 +44,7 @@ export default {
           label: '姓名',
           type: 'input',
           placeholder: '输入姓名',
-          model: 'name'
+          model: 'body_name'
         },{
           label: '用户手机号',
           type: 'input',
@@ -121,7 +94,7 @@ export default {
     },
     getData() {
       this.tableLoading = true;
-      this.axios.get('order-list',{
+      this.axios.get('recharge-list',{
         params:this.searchData
       }).then(res=>{
         if(res){
@@ -131,9 +104,6 @@ export default {
         }
       })
     },
-    RefundOpt(row){
-
-    }
   },
   mounted() {
     this.getData();

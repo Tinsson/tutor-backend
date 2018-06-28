@@ -35,6 +35,7 @@ import buyList from '@/page/trade/buy-list'
 import buyRefund from '@/page/trade/buy-refund'
 import orderList from '@/page/trade/order-list'
 import contactList from '@/page/trade/contact-list'
+import purchaseList from '@/page/trade/purchase-list'
 
 //助教管理
 import assisList from '@/page/assistant/assis-list'
@@ -145,6 +146,10 @@ const router = new Router({
           path: '/trade/order-list',
           name: 'orderList',
           component: orderList
+        },{
+          path: '/trade/purchase-list',
+          name: 'purchaseList',
+          component: purchaseList
         },{
           path: '/operation/contact-list',
           name: 'contactList',

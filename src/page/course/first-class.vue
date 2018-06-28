@@ -1,6 +1,6 @@
 <template>
   <div id="income-detail">
-    <title-bar title="首课列表" @refresh="refresh"></title-bar>
+    <title-bar title="课程列表" @refresh="refresh"></title-bar>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
       <!--<div slot="btn">-->
@@ -11,6 +11,13 @@
     <big-pic ref="bigPic" :maxWidth="500"></big-pic>
     <user-detail ref="userDetail" @save-over="getData"></user-detail>
     <first-model ref="firstModel" @save-over="getData"></first-model>
+    <Modal v-model="remark_show" title="课程反馈">
+      <div class="content">
+        <div class="info-box">
+          {{remark}}
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -25,31 +32,43 @@
     },
     data() {
       return {
+        remark_show: false,
+        remark: '',
         all_price: '',
         img_src: '',
         columns: [
           {
-            title: '家长姓名',
+            title: '家长',
             key: 'learn_name',
             align: 'center'
           },{
-            title: '家长手机号',
-            key: 'phone',
+            title: '手机号',
+            key: 'learn_phone',
             align: 'center'
           },{
-            title: '家教姓名',
+            title: '姓名',
             key: 'tutor_name',
             align: 'center'
           },{
-            title: '家教手机号',
-            key: 'to_phone',
-            align: 'center'
-          },{
-            title: '首课时间',
+            title: '上课时间',
             key: 'create_at',
+            width: 100,
             align: 'center'
           },{
-            title: '操作',
+            title: '下课时间',
+            key: 'update_at',
+            width: 100,
+            align: 'center'
+          },{
+            title: '课时数量',
+            key: 'class_hour',
+            align: 'center'
+          },{
+            title: '剩余课时',
+            key: 'free_hour',
+            align: 'center'
+          },{
+            title: '课程反馈',
             key: 'operation',
             align: 'center',
             render: (h, params)=>{
@@ -62,10 +81,10 @@
                 },
                 on: {
                   click: ()=>{
-                    this.EditOpt(params.row);
+                    this.CheckOpt(params.row);
                   }
                 }
-              }, '编辑')]);
+              }, '查看')]);
             }
           }
         ],
@@ -73,15 +92,15 @@
         tableLoading: false,
         searchList: [
           {
-            label: '用户姓名',
+            label: '家长姓名',
             type: 'input',
             placeholder: '输入手机号',
-            model: 'name'
+            model: 'learn_name'
           },{
-            label: '用户手机号',
+            label: '家长手机号',
             type: 'input',
             placeholder: '输入手机号',
-            model: 'phone'
+            model: 'learn_phone'
           },{
             label: '上课时间',
             type: 'daterange',
@@ -126,12 +145,12 @@
       },
       getData() {
         this.tableLoading = true;
-        this.axios.get('operation-list',{
+        this.axios.get('class-list',{
           params:this.searchData
         }).then(res=>{
           if(res){
             this.tableLoading = false;
-            this.myData = res.data.list;
+            this.myData = res.data.lists;
             this.pageprops.total = res.data.total;
           }
         })
@@ -139,8 +158,10 @@
       CreateCourse(){
         this.$refs['firstModel'].show();
       },
-      EditOpt(row){
-        console.log(row);
+      CheckOpt(row){
+        this.remark_show = true;
+        this.remark = row.remark;
+        console.log(row.remark);
       }
     },
     mounted() {

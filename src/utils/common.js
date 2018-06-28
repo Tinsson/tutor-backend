@@ -52,6 +52,7 @@ function simpleCopy(source){
   return JSON.parse(JSON.stringify(source));
 }
 
+//通用的上传图片接口
 function uploadPic(file, type){
   let that = this;
   return new Promise((resolve)=>{
@@ -71,9 +72,18 @@ function uploadPic(file, type){
   })
 }
 
+//通用的惰性单例
+function getSingle(fn){
+  let result = null;
+  return function() {
+    return result || (result = fn.call(this, arguments));
+  }
+}
+
 export {
   compareObject,
   copyObj,
   uploadPic,
-  simpleCopy
+  simpleCopy,
+  getSingle
 }

@@ -460,10 +460,10 @@ export default {
     }
   },
   watch:{
-    searchData:function (val) {
-      console.log(val);
-      this.getData()
-    }
+    // searchData:function (val) {
+    //   console.log(val);
+    //   this.getData()
+    // }
   },
   methods: {
     cardChange(type) {

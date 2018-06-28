@@ -162,9 +162,9 @@
       }
     },
     watch:{
-      searchData:function () {
-        this.getData()
-      }
+      // searchData:function () {
+      //   this.getData()
+      // }
     },
     methods: {
       setIsArea(sign){

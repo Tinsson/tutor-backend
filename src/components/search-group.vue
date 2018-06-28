@@ -34,11 +34,13 @@
 </div>
 </template>
 <script>
+
 export default {
   name: "searchGroup",
   props: ['searchList'],
   data: () => ({
-    form: {}
+    form: {},
+    copyList: {}
   }),
   methods: {
     getTime(date, type) {
@@ -55,19 +57,20 @@ export default {
       return time;
     },
     search() {
-      for (let i = 0; i < this.searchList.length; i++) {
-        if (this.searchList[i].type == 'daterange') {
-          this.$set(this.form, this.searchList[i]['start_end'][0], this.getTime(this.form[this.searchList[i].model][0], 0))
-          this.$set(this.form, this.searchList[i]['start_end'][1], this.getTime(this.form[this.searchList[i].model][1], 1))
+      console.log(2222);
+      for (let i = 0; i < this.copyList.length; i++) {
+        if (this.copyList[i].type == 'daterange') {
+          this.$set(this.form, this.copyList[i]['start_end'][0], this.getTime(this.form[this.copyList[i].model][0], 0))
+          this.$set(this.form, this.copyList[i]['start_end'][1], this.getTime(this.form[this.copyList[i].model][1], 1))
         }
       }
       this.$emit('search', this.form)
     },
     clear_date() {
-      for (let i = 0; i < this.searchList.length; i++) {
-        if (this.searchList[i].type == 'daterange') {
-          this.$set(this.form, this.searchList[i]['start_end'][0], '')
-          this.$set(this.form, this.searchList[i]['start_end'][1], '')
+      for (let i = 0; i < this.copyList.length; i++) {
+        if (this.copyList[i].type == 'daterange') {
+          this.$set(this.form, this.copyList[i]['start_end'][0], '')
+          this.$set(this.form, this.copyList[i]['start_end'][1], '')
         }
       }
     },
@@ -78,11 +81,13 @@ export default {
     },
   },
   mounted() {
-    for (let i = 0; i < this.searchList.length; i++) {
-      if (this.searchList[i].type === 'cascader') {
-        this.$set(this.form, this.searchList[i].model, [])
+    this.copyList = this.$copyObj(this.searchList);
+    console.log(this.copyList);
+    for (let i = 0; i < this.copyList.length; i++) {
+      if (this.copyList[i].type === 'cascader') {
+        this.$set(this.form, this.copyList[i].model, [])
       } else
-        this.$set(this.form, this.searchList[i].model, '')
+        this.$set(this.form, this.copyList[i].model, '')
     }
   },
 }

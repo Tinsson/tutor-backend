@@ -53,7 +53,7 @@
           const data = {
               admin_name: this.username,
               admin_password: this.password
-          }
+          };
           this.btnInfo = '登录中...';
           this.axios.post('login-in', data).then(d=>{
             if(d === ''){

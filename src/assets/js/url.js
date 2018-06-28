@@ -87,8 +87,9 @@ const urlList = {
   'buy-list': '/backend/trad/buylist',  //获取购买联系方式
   'buy-refund': '/backend/trad/refund-log', //购买退款流水
   'contact-list': '/backend/trad/contact-list', //解锁记录
-  'order-list': '/backend/server/order-list', //服务订单列表
+  'order-list': '/backend/classlog/order-list', //课程充值
   'recharge-list': '/backend/user/recharge-list', //会员充值列表
+  'class-list': '/backend/classlog/lists', //课程管理
 
   //投诉记录
   'complain-list': '/backend/user/complain-list', //投诉列表

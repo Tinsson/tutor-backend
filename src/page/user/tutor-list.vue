@@ -171,9 +171,9 @@ export default {
     }
   },
   watch:{
-    searchData:function () {
-      this.getData()
-    }
+    // searchData:function () {
+    //   this.getData()
+    // }
   },
   methods: {
     select(selection) {
