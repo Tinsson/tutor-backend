@@ -68,12 +68,12 @@
                       <span>{{myData.is_vip == 1?'是':'否'}}</span>
                     </p>
                   </Col>
-                  <Col span="6">
+                  <!--<Col span="6">
                     <p class="label">{{role == 1?'教学要求': '自我介绍'}}</p>
                     <p class="value">
                       <span>{{myData.introduce}}</span>
                     </p>
-                  </Col>
+                  </Col>-->
                 </Row>
               </li>
               <li class="single-line" v-if="role === 2">
@@ -290,13 +290,13 @@
                         <h2 class="tab-title">补习价格:</h2>
                         <p class="tab-info">{{myData.price}}</p>
                       </div>
-                      <div class="half-box" v-if="role == 2">
+                      <!--<div class="half-box" v-if="role == 2">
                         <h2 class="tab-title">语音介绍:</h2>
                         <p class="tab-info">
                           <span v-if="myData.introduce_voice == ''">暂无</span>
                           <audio v-else controls :src="myData.introduce_voice"></audio>
                         </p>
-                      </div>
+                      </div>-->
                     </div>
                     <div class="remark-box">
                       <h2 class="tab-title">备注：</h2>
@@ -316,10 +316,10 @@
                     </div>
                   </div>
                 </TabPane>
-                <TabPane label="备注管理" name="name2">
+                <!--<TabPane label="备注管理" name="name2">
                   <Table :columns="remarkCol" :data="remarkData" border></Table>
-                </TabPane>
-                <TabPane label="订单列表" name="name3">
+                </TabPane>-->
+                <TabPane :label="orderTitle" name="name3">
                   <Table :columns="orderCol" :data="orderData" border></Table>
                 </TabPane>
                 <TabPane label="课程安排" name="name4">
@@ -357,9 +357,9 @@
                   </div>
                   <div class="time-other">
                     <div class="other-line">
-                      <div class="label1">时间备注</div>
+                      <div class="label1">备注</div>
                     </div>
-                    <div class="val-ipt">{{myData.time_remark}}</div>
+                    <div class="val-ipt" style="height: 120px;overflow: auto">{{myData.time_remark}}</div>
                   </div>
                 </TabPane>
                 <!--<TabPane label="联系记录" name="name2">
@@ -568,10 +568,6 @@ export default {
     }],
     remarkData: [],
     orderCol: [{
-      title: '金额',
-      key: 'amount',
-      align: 'center'
-    },{
       title: '家长姓名',
       key: 'learn_name',
       align: 'center',
@@ -592,6 +588,10 @@ export default {
         }
       }
     },{
+      title: '预付款总课时',
+      key: 'class_hour',
+      align: 'center'
+    },/*{
       title: '支付状态',
       key: 'status',
       align: 'center',
@@ -622,12 +622,12 @@ export default {
         }
         return h('span', txt);
       }
-    },{
-      title: '创建时间',
+    },*/{
+      title: '时间',
       key: 'create_at',
       align: 'center',
       width: 100
-    },{
+    }/*,{
       title: '操作',
       key: 'operation',
       align: 'center',
@@ -648,7 +648,7 @@ export default {
           return h('span', '无')
         }
       }
-    }],
+    }*/],
     orderData: [],
     followCol: [{
       title: '姓名',
@@ -721,6 +721,13 @@ export default {
   },
 
   computed: {
+    orderTitle(){
+      if(this.role == 2){
+        return '预付款记录';
+      }else{
+        return '购买记录';
+      }
+    },
     searchData() {
       return {
         type: this.type,

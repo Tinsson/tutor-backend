@@ -342,7 +342,7 @@ export default {
         type: 'input',
         placeholder: '请输入筛选城市',
         model: 'city'
-      },{
+      }/*,{
         label: '是否预约',
         type: 'select',
         placeholder: '请选择',
@@ -354,7 +354,7 @@ export default {
           value: 1
         }],
         model: 'is_order'
-      },{
+      }*/,{
         label: '是否备注',
         type: 'select',
         placeholder: '请选择',
