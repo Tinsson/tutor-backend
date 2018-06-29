@@ -154,7 +154,7 @@ export default {
           title: '审核状态',
           key: 'certime',
           align: 'center'
-        }, {
+        }, /*{
           title: '是否预约',
           key: 'is_order',
           align: 'center',
@@ -167,7 +167,7 @@ export default {
             }
             return h('span', text);
           }
-        }, {
+        }*/ {
           title: '来源渠道',
           key: 'resource',
           align: 'center'

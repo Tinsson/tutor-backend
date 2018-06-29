@@ -1126,7 +1126,7 @@ export default {
 
             this.tableLoading = false;
             this.myData = info;
-            this.orderData = info.server;
+            this.orderData = info.order_list;
             //this.contact = info.contact.list;
             //this.address = info.address;
             //this.followData = info.favorite;
