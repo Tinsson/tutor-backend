@@ -34,7 +34,34 @@ export default {
           title: '到期时间',
           key: 'valid_at',
           align: 'center',
-
+        },{
+          title: '订单状态',
+          key: 'status',
+          align: 'center',
+          render: (h, params) =>{
+            let status = params.row.status,
+                txt = '';
+            switch(status){
+              case 0:
+                txt = '待支付';
+                break;
+              case 1:
+                txt = '已支付';
+                break;
+              case 2:
+                txt = '支付失败';
+                break;
+              case 3:
+                txt = '退款中';
+                break;
+              case 4:
+                txt = '已退款';
+                break;
+              default:
+                txt = '未知'
+            }
+            return h('span', txt);
+          }
         }
       ],
       myData: [],
