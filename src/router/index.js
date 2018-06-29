@@ -210,9 +210,11 @@ router.beforeEach((to, from, next) => {
 
   if(menu){
     pureMenu.forEach(val=>{
-      val.children.forEach(vval=>{
-        urlArr.push(val.path+vval.path);
-      })
+      if('children' in val){
+        val.children.forEach(vval=>{
+          urlArr.push(val.path+vval.path);
+        })
+      }
     });
   }
 
