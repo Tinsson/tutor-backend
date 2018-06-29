@@ -259,7 +259,11 @@ export default {
     },
     getAuthority(id) {
       this.checked_list = [];
-      this.axios.get(`role-html?id=${id}`).then(res => {
+      this.axios.get(`role-html`,{
+        params: {
+          id: id
+        }
+      }).then(res => {
         this.checked_list = res.data.list;
         for (let i = 0; i < this.authority_list.length; i++) {
           for (let k = 0; k < this.authority_list[i].children.length; k++) {
