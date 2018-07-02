@@ -86,6 +86,31 @@
                 }
               }, '查看')]);
             }
+          },{
+            title: '操作',
+            key: 'operation',
+            align: 'center',
+            render: (h, params)=>{
+              let inner;
+              if(params.row.status === 0){
+                inner = h('Button',{
+                  style: {
+                    marginRight: '5px'
+                  },
+                  props: {
+                    type: 'info'
+                  },
+                  on: {
+                    click: ()=>{
+                      this.openTrans(params.row);
+                    }
+                  }
+                }, '打款')
+              }else{
+                inner = h('span', '已打款')
+              }
+              return h('div', [inner]);
+            }
           }
         ],
         myData: [],
@@ -155,8 +180,8 @@
           }
         })
       },
-      CreateCourse(){
-        this.$refs['firstModel'].show();
+      openTrans(row){
+        this.$refs['firstModel'].show(row);
       },
       CheckOpt(row){
         this.remark_show = true;

@@ -87,6 +87,18 @@ const router = new Router({
           name: 'userParent',
           component: userParent
         },{
+          path: '/user/edu-list',
+          name: 'verifyEdu',
+          component: verifyEdu
+        },{
+          path: '/user/firstClass',
+          name: 'firstClass',
+          component: firstClass
+        },{
+          path: '/user/consult',
+          name: 'consult',
+          component: consult
+        },{
           path: '/user/tutor-list',
           name: 'userTutor',
           component: userTutor
@@ -126,6 +138,14 @@ const router = new Router({
           path: '/config/tag-config',
           name: 'tagConfig',
           component: tagConfig
+        },{
+          path: '/config/assis-list',
+          name: 'assisList',
+          component: assisList
+        },{
+          path: '/config/complain-list',
+          name: 'complain',
+          component: complain
         },{
           path: '/trade/audit-list',
           name: 'auditList',

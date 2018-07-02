@@ -90,6 +90,8 @@ const urlList = {
   'order-list': '/backend/classlog/order-list', //课程充值
   'recharge-list': '/backend/user/recharge-list', //会员充值列表
   'class-list': '/backend/classlog/lists', //课程管理
+  'pay-detail': '/backend/classlog/pay-detail', //课程支付详情
+  'pay-transfer': '/backend/classlog/transfer', //转账
 
   //投诉记录
   'complain-list': '/backend/user/complain-list', //投诉列表
