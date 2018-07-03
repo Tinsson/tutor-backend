@@ -73,10 +73,10 @@ axios.defaults.timeout = 60000
 let baseUrl = '';
 switch(process.env.NODE_ENV){
   case 'production':
-    baseUrl = 'https://tutor.pgyxwd.com';
+    baseUrl = 'https://api.jjwxcx.com';
     break;
   case 'testing':
-    baseUrl = 'https://tutortest.pgyxwd.com';
+    baseUrl = 'https://apitest.jjwxcx.com';
     break;
   case 'development':
     baseUrl = "";
