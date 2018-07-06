@@ -27,6 +27,7 @@ import complain from '@/page/complain/complain'
 import baseConfig from '@/page/config/base-config' //基本配置
 import resourceConfig from '@/page/config/resource-config' //渠道配置
 import tagConfig from '@/page/config/tag-config' //标签配置
+import informList from '@/page/config/inform-list' //通知管理
 
 // 交易记录
 import auditList from '@/page/trade/audit-list'
@@ -146,6 +147,10 @@ const router = new Router({
           path: '/config/complain-list',
           name: 'complain',
           component: complain
+        },{
+          path: '/config/inform-list',
+          name: 'informList',
+          component: informList
         },{
           path: '/trade/audit-list',
           name: 'auditList',

@@ -79,6 +79,7 @@ const urlList = {
   'add-tag': '/backend/remark/add',  //添加标签
   'del-tag': '/backend/remark/del', //删除标签
   'edit-tag': '/backend/remark/edit', //修改标签
+  'infom-list': '/backend/inform/lists', //通知管理
 
   //交易记录
   'audit-list': '/backend/trad/audlist', //获取认证支付流水
@@ -107,6 +108,9 @@ const urlList = {
   //操作记录
   'operation-list': '/backend/op/list', //操作列表
   'operation-edit': '/backend/op/edit', //编辑状态
+
+  //统计管理
+  'stat-info': '/backend/statistic/info', //统计首页
 }
 
 export default urlList;
