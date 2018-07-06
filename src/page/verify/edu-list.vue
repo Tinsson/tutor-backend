@@ -175,9 +175,11 @@ export default {
   methods: {
     cardChange(type) {
       this.searchForm.type = type;
+      this.getData();
     },
     select(selection) {
-      this.select_arr = selection
+      this.select_arr = selection;
+      this.getData();
     },
     search(data) {
       console.log(data);
