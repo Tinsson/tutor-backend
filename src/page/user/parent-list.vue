@@ -129,7 +129,7 @@ export default {
               }
             }, text);
           }
-        },{
+        },/*{
           title: '是否会员',
           key: 'is_vip',
           align: 'center',
@@ -146,7 +146,7 @@ export default {
             }
             return h('span', txt);
           }
-        },{
+        },*/{
           title: '城市',
           key: 'city',
           align: 'center'
@@ -295,6 +295,30 @@ export default {
           title: '所属助教',
           key: 'assistant',
           align: 'center'
+        },{
+          title: '正在联系',
+          key: 'to_uid',
+          align: 'center',
+          render: (h, params) => {
+            if(params.row.to_uid != 0){
+              return h('div', [
+                h('span', {
+                  style: {
+                    'cursor': 'pointer',
+                    'color': '#328cff'
+                  },
+                  on: {
+                    click: () => {
+                      let role = params.row.role == 1?2:1;
+                      this.$refs.userDetail.show(params.row.to_uid, '', role)
+                    }
+                  }
+                }, '查看')
+              ])
+            }else{
+              return h('span', '暂无')
+            }
+          }
         },{
           title: '操作',
           key: 'operation',

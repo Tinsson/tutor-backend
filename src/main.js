@@ -26,7 +26,7 @@ Vue.use(components);
 Vue.prototype.$uploadPic = uploadPic;
 Vue.prototype.$copyObj = copyObj;
 Vue.prototype.$simpleCopy = simpleCopy;
-Vue.prototype.$copyWords = '兄die,给个赞！';
+Vue.prototype.$copyWords = '有内鬼，中止交易';
 
 
 /* eslint-disable no-new */

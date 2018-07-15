@@ -62,13 +62,13 @@
                       </Select>
                     </p>
                   </Col>
-                  <Col span="6">
+                  <!--<Col span="6">
                     <p class="label">是否会员</p>
                     <p class="value">
                       <span>{{myData.is_vip == 1?'是':'否'}}</span>
                     </p>
                   </Col>
-                  <!--<Col span="6">
+                  <Col span="6">
                     <p class="label">{{role == 1?'教学要求': '自我介绍'}}</p>
                     <p class="value">
                       <span>{{myData.introduce}}</span>
@@ -1105,12 +1105,12 @@ export default {
       if (row && role) {
         this.my_search.uid = row;
         this.buyType = 1;
-        //this.city = city;
         this.type = 1;
         this.clear();
-        this.url = 'tutor-panel'
         if(role === 1){
-          this.url = 'parent-panel'
+          this.url = 'parent-panel';
+        }else if(role == 2){
+          this.url = 'tutor-panel';
         }
       }
 
